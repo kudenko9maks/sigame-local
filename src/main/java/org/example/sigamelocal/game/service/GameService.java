@@ -1,27 +1,33 @@
 package org.example.sigamelocal.game.service;
 
+import org.example.sigamelocal.game.model.Game;
+import org.example.sigamelocal.game.model.GameState;
 import org.example.sigamelocal.game.model.Player;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 public class GameService {
-
-    private final List<Player> players = new ArrayList<>();
+    private final Game game;
+    public GameService() {
+        this.game = new Game();
+    }
 
     public Player addPlayer(String name) {
         Player player = new Player(
                 name,
                 UUID.randomUUID().toString()
         );
-
-        players.add(player);
+        game.getPlayers().add(player);
         return player;
     }
-    public List<Player> getPlayers() {
-        return players;
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void startGame() {
+        game.setState(GameState.QUESTION);
     }
 }
