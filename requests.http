@@ -1,0 +1,6 @@
+
+###
+POST http://localhost:8080/api/players?name=asdasdasd
+
+###
+GET http://localhost:8080/api/players
