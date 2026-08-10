@@ -20,7 +20,22 @@ public class GameController {
 
     @GetMapping("/test")
     public String test() {
-        return "Server works";
+        return "Server is working!";
+    }
+
+    @GetMapping("/role")
+    public String getRole() {
+
+        if (gameService.getGame().getHost() == null) {
+            return "HOST";
+        }
+
+        return "PLAYER";
+    }
+
+    @PostMapping("/host")
+    public Host becomeHost(@RequestParam String name) {
+        return gameService.becomeHost(name);
     }
 
     @PostMapping("/players")
@@ -42,10 +57,5 @@ public class GameController {
     public Game startGame() {
         gameService.startGame();
         return gameService.getGame();
-    }
-
-    @PostMapping
-    public Host becomeHost(@RequestParam String name) {
-        return gameService.becomeHost(name);
     }
 }
