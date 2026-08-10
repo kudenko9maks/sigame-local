@@ -14,9 +14,11 @@ public class Game {
     public GameState getState() {
         return state;
     }
+
     public void setState(GameState state) {
         this.state = state;
     }
+
     public List<Player> getPlayers() {
         return players;
     }

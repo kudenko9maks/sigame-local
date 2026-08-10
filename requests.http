@@ -4,3 +4,9 @@ POST http://localhost:8080/api/players?name=asdasdasd
 
 ###
 GET http://localhost:8080/api/players
+
+### Start game
+POST http://localhost:8080/api/game/start
+
+### Get game
+GET http://localhost:8080/api/game
