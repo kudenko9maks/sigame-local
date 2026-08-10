@@ -1,6 +1,7 @@
 package org.example.sigamelocal.controller;
 
 import org.example.sigamelocal.game.model.Game;
+import org.example.sigamelocal.game.model.Host;
 import org.example.sigamelocal.game.model.Player;
 import org.example.sigamelocal.game.service.GameService;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +42,10 @@ public class GameController {
     public Game startGame() {
         gameService.startGame();
         return gameService.getGame();
+    }
+
+    @PostMapping
+    public Host becomeHost(@RequestParam String name) {
+        return gameService.becomeHost(name);
     }
 }

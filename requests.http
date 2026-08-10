@@ -10,3 +10,9 @@ POST http://localhost:8080/api/game/start
 
 ### Get game
 GET http://localhost:8080/api/game
+
+### Become host
+POST http://localhost:8080/api/host?name=Максим
+
+### Get game again
+GET http://localhost:8080/api/game

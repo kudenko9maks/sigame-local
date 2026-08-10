@@ -97,6 +97,10 @@
     <!-- Экран ожидания -->
     <div id="waitingScreen" class="hidden">
 
+        <button onclick="sendTestMessage()">
+            WebSocket test
+        </button>
+
         <h1>Вы в игре</h1>
 
         <p>
@@ -112,6 +116,8 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+
 <script>
 
     const nameInput = document.getElementById("nameInput");
@@ -123,8 +129,43 @@
     const playerName = document.getElementById("playerName");
     const error = document.getElementById("error");
 
+    const socket = new StompJs.Client({
+        brokerURL: `ws://${window.location.host}/ws`,
+
+        onConnect: () => {
+            console.log("WebSocket connected!");
+
+            socket.subscribe("/topic/game", message => {
+
+                const event = JSON.parse(message.body);
+
+                console.log("Game event:", event);
+
+            });
+        },
+
+        onWebSocketError: error => {
+            console.error("WebSocket error:", error);
+        },
+
+        onStompError: frame => {
+            console.error("STOMP error:", frame);
+        }
+    });
+
+    socket.activate();
+
 
     joinButton.addEventListener("click", joinGame);
+
+    function sendTestMessage() {
+
+        socket.publish({
+            destination: "/app/test",
+            body: "Hello"
+        });
+
+    }
 
 
     async function joinGame() {
@@ -167,6 +208,8 @@
 
             console.error(e);
         }
+
+
     }
 
 </script>

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Game {
     private GameState state;
+    private Host host;
     private final List<Player> players;
 
     public Game() {
@@ -21,5 +22,13 @@ public class Game {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public Host getHost() {
+        return host;
+    }
+
+    public void setHost(Host host) {
+        this.host = host;
     }
 }
