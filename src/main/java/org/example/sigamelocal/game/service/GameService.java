@@ -65,4 +65,11 @@ public class GameService {
     public void startGame() {
         game.setState(GameState.QUESTION);
     }
+
+    public Player getPlayerById(String id) {
+        return game.getPlayers().stream()
+                .filter(player -> player.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
 }

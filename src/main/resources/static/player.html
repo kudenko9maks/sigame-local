@@ -67,6 +67,7 @@
 
 <div class="container">
 
+    <!-- Вход игрока -->
     <div id="login">
 
         <h1>SiGame Local</h1>
@@ -89,6 +90,7 @@
     </div>
 
 
+    <!-- Игрок уже вошёл -->
     <div id="waiting" class="hidden">
 
         <h1>Ты в игре!</h1>
@@ -103,7 +105,8 @@
         </p>
 
         <p>
-            Очки: <strong id="score">0</strong>
+            Очки:
+            <strong id="score">0</strong>
         </p>
 
     </div>
@@ -111,8 +114,39 @@
 </div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+
 <script>
 
+    /*
+     * Показываем экран игрока.
+     *
+     * Эта функция находится ВНЕ joinGame(),
+     * чтобы её могла использовать restorePlayer().
+     */
+    function showPlayerScreen(player) {
+
+        document
+            .getElementById("nameDisplay")
+            .textContent = player.name;
+
+        document
+            .getElementById("score")
+            .textContent = player.score;
+
+        document
+            .getElementById("login")
+            .classList.add("hidden");
+
+        document
+            .getElementById("waiting")
+            .classList.remove("hidden");
+    }
+
+
+    /*
+     * Первичное подключение игрока.
+     */
     async function joinGame() {
 
         const name =
@@ -152,21 +186,20 @@
             const player =
                 await response.json();
 
-            document
-                .getElementById("nameDisplay")
-                .textContent = player.name;
 
-            document
-                .getElementById("score")
-                .textContent = player.score;
+            /*
+             * Запоминаем ID игрока.
+             */
+            localStorage.setItem(
+                "playerId",
+                player.id
+            );
 
-            document
-                .getElementById("login")
-                .classList.add("hidden");
 
-            document
-                .getElementById("waiting")
-                .classList.remove("hidden");
+            /*
+             * Показываем экран игрока.
+             */
+            showPlayerScreen(player);
 
         } catch (error) {
 
@@ -177,8 +210,102 @@
                 .textContent =
                 "Ошибка подключения";
         }
-
     }
+
+
+    /*
+     * Восстановление игрока после
+     * обновления страницы.
+     */
+    async function restorePlayer() {
+
+        const playerId =
+            localStorage.getItem("playerId");
+
+        /*
+         * Если ID нет — это новый игрок.
+         */
+        if (!playerId) {
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/players/${playerId}`
+                );
+
+            /*
+             * Игрок больше не существует.
+             * Например, сервер был перезапущен.
+             */
+            if (!response.ok) {
+
+                localStorage.removeItem("playerId");
+
+                return;
+            }
+
+            const player =
+                await response.json();
+
+            /*
+             * Возвращаем игрока в игру.
+             */
+            showPlayerScreen(player);
+
+        } catch (error) {
+
+            console.error(
+                "Failed to restore player:",
+                error
+            );
+        }
+    }
+
+
+    /*
+     * WebSocket.
+     */
+    const socket = new StompJs.Client({
+
+        brokerURL:
+            `ws://${window.location.host}/ws`,
+
+        onConnect: () => {
+
+            console.log(
+                "WebSocket connected"
+            );
+        },
+
+        onWebSocketError: error => {
+
+            console.error(
+                "WebSocket error:",
+                error
+            );
+        },
+
+        onStompError: frame => {
+
+            console.error(
+                "STOMP error:",
+                frame
+            );
+        }
+    });
+
+
+    socket.activate();
+
+
+    /*
+     * При открытии страницы
+     * пытаемся восстановить игрока.
+     */
+    restorePlayer();
 
 </script>
 

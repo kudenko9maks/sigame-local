@@ -1,11 +1,11 @@
 package org.example.sigamelocal.game.model;
 
 public class Player {
-    private final String name;
     private final String id;
+    private final String name;
     private int score;
 
-    public Player (String name, String id) {
+    public Player (String id, String name) {
         this.name = name;
         this.id = id;
         this.score = 0;

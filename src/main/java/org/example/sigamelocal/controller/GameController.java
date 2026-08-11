@@ -58,4 +58,9 @@ public class GameController {
         gameService.startGame();
         return gameService.getGame();
     }
+
+    @GetMapping("/players/{id}")
+    public Player getPlayer(@PathVariable String id) {
+        return gameService.getPlayerById(id);
+    }
 }
