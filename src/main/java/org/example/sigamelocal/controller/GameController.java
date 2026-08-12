@@ -1,8 +1,6 @@
 package org.example.sigamelocal.controller;
 
-import org.example.sigamelocal.game.model.Game;
-import org.example.sigamelocal.game.model.Host;
-import org.example.sigamelocal.game.model.Player;
+import org.example.sigamelocal.game.model.*;
 import org.example.sigamelocal.game.service.GameService;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,5 +60,20 @@ public class GameController {
     @GetMapping("/players/{id}")
     public Player getPlayer(@PathVariable String id) {
         return gameService.getPlayerById(id);
+    }
+
+    @GetMapping("/host")
+    public Host getHost() {
+        return gameService.getGame().getHost();
+    }
+
+    @GetMapping("/game/snapshot")
+    public GameSnapshot getSnapshot() {
+        return gameService.getSnapshot();
+    }
+
+    @GetMapping("/players/{id}/snapshot")
+    public PlayerSnapshot getSnapshot(@PathVariable String id) {
+        return gameService.getPlayerSnapshot(id);
     }
 }

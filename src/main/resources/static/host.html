@@ -64,6 +64,10 @@
             display: none;
         }
 
+        #error {
+            color: red;
+        }
+
     </style>
 
 </head>
@@ -71,6 +75,8 @@
 <body>
 
 <div class="container">
+
+    <!-- Создание ведущего -->
 
     <div id="hostSetup">
 
@@ -96,6 +102,8 @@
     </div>
 
 
+    <!-- Панель ведущего -->
+
     <div id="hostPanel" class="hidden">
 
         <h1>Панель ведущего</h1>
@@ -120,14 +128,40 @@
 
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 
 <script>
 
+    /*
+     * Показываем панель ведущего.
+     */
+    function showHostPanel(host) {
+
+        document
+            .getElementById("hostSetup")
+            .classList.add("hidden");
+
+        document
+            .getElementById("hostPanel")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("hostNameDisplay")
+            .textContent = host.name;
+
+        loadPlayers();
+    }
+
+
+    /*
+     * Создание ведущего.
+     */
     async function becomeHost() {
 
         const name =
-            document.getElementById("hostName")
+            document
+                .getElementById("hostName")
                 .value
                 .trim();
 
@@ -153,7 +187,8 @@
 
             if (!response.ok) {
 
-                const message = await response.text();
+                const message =
+                    await response.text();
 
                 error.textContent =
                     `Ошибка сервера: ${message}`;
@@ -167,96 +202,233 @@
                 return;
             }
 
-            const host = await response.json();
 
-            document
-                .getElementById("hostSetup")
-                .classList.add("hidden");
+            /*
+             * Получаем созданного ведущего.
+             */
+            const host =
+                await response.json();
 
-            document
-                .getElementById("hostPanel")
-                .classList.remove("hidden");
 
-            document
-                .getElementById("hostNameDisplay")
-                .textContent = host.name;
+            /*
+             * Сохраняем ID ведущего.
+             */
+            localStorage.setItem(
+                "hostId",
+                host.id
+            );
 
-            loadPlayers();
+
+            /*
+             * Показываем панель.
+             */
+            showHostPanel(host);
 
         } catch (error) {
 
             console.error(error);
 
+            document
+                .getElementById("error")
+                .textContent =
+                "Ошибка подключения к серверу";
         }
     }
 
-    const socket = new StompJs.Client({
-        brokerURL: `ws://${window.location.host}/ws`,
 
-        onConnect: () => {
+    /*
+     * Восстановление ведущего после F5.
+     */
+    async function restoreHost() {
 
-            console.log("WebSocket connected");
+        const hostId =
+            localStorage.getItem("hostId");
 
-            socket.subscribe("/topic/game", message => {
+        /*
+         * Это новый браузер/новый пользователь.
+         */
+        if (!hostId) {
+            return;
+        }
 
-                const event = JSON.parse(message.body);
+        try {
 
-                console.log("Game event:", event);
+            const response =
+                await fetch("/api/host");
 
-                if (event.type === "PLAYER_JOINED") {
-                    loadPlayers();
-                }
+
+            /*
+             * Сервер не знает такого ведущего.
+             *
+             * Например, Spring Boot был
+             * полностью перезапущен.
+             */
+            if (!response.ok) {
+
+                localStorage.removeItem("hostId");
+
+                return;
+            }
+
+
+            const host =
+                await response.json();
+
+
+            /*
+             * Проверяем, что это именно
+             * наш ведущий.
+             */
+            if (!host || host.id !== hostId) {
+
+                localStorage.removeItem("hostId");
+
+                return;
+            }
+
+
+            /*
+             * Восстанавливаем панель.
+             */
+            showHostPanel(host);
+
+        } catch (error) {
+
+            console.error(
+                "Failed to restore host:",
+                error
+            );
+        }
+    }
+
+
+    /*
+     * Загружаем список игроков.
+     */
+    async function loadPlayers() {
+
+        try {
+
+            const response =
+                await fetch("/api/players");
+
+            if (!response.ok) {
+                return;
+            }
+
+            const players =
+                await response.json();
+
+            const list =
+                document.getElementById("playersList");
+
+            const count =
+                document.getElementById("playerCount");
+
+
+            count.textContent =
+                players.length;
+
+            list.innerHTML = "";
+
+
+            players.forEach(player => {
+
+                const element =
+                    document.createElement("div");
+
+                element.className =
+                    "player";
+
+                element.innerHTML = `
+                    <span>${player.name}</span>
+                    <span>${player.score} очков</span>
+                `;
+
+                list.appendChild(element);
 
             });
-        },
 
-        onWebSocketError: error => {
-            console.error("WebSocket error:", error);
-        },
+        } catch (error) {
 
-        onStompError: frame => {
-            console.error("STOMP error:", frame);
+            console.error(
+                "Failed to load players:",
+                error
+            );
         }
-    });
+    }
+
+
+    /*
+     * WebSocket.
+     */
+    const socket =
+        new StompJs.Client({
+
+            brokerURL:
+                `ws://${window.location.host}/ws`,
+
+            onConnect: () => {
+
+                console.log(
+                    "WebSocket connected"
+                );
+
+
+                socket.subscribe(
+                    "/topic/game",
+                    message => {
+
+                        const event =
+                            JSON.parse(message.body);
+
+                        console.log(
+                            "Game event:",
+                            event
+                        );
+
+
+                        if (
+                            event.type ===
+                            "PLAYER_JOINED"
+                        ) {
+
+                            loadPlayers();
+                        }
+
+                    }
+                );
+
+            },
+
+            onWebSocketError:
+                error => {
+
+                    console.error(
+                        "WebSocket error:",
+                        error
+                    );
+                },
+
+            onStompError:
+                frame => {
+
+                    console.error(
+                        "STOMP error:",
+                        frame
+                    );
+                }
+        });
+
 
     socket.activate();
 
 
-    async function loadPlayers() {
-
-        const response =
-            await fetch("/api/players");
-
-        const players =
-            await response.json();
-
-        const list =
-            document.getElementById("playersList");
-
-        const count =
-            document.getElementById("playerCount");
-
-        count.textContent = players.length;
-
-        list.innerHTML = "";
-
-        players.forEach(player => {
-
-            const element =
-                document.createElement("div");
-
-            element.className = "player";
-
-            element.innerHTML = `
-                <span>${player.name}</span>
-                <span>${player.score} очков</span>
-            `;
-
-            list.appendChild(element);
-
-        });
-
-    }
+    /*
+     * При загрузке страницы
+     * пытаемся восстановить ведущего.
+     */
+    restoreHost();
 
 </script>
 

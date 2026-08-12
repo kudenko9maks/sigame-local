@@ -232,9 +232,10 @@
         try {
 
             const response =
-                await fetch(
-                    `/api/players/${playerId}`
-                );
+                await fetch(`/api/players/${playerId}/snapshot`);
+
+            const snapshot =
+                await response.json();
 
             /*
              * Игрок больше не существует.
@@ -248,7 +249,14 @@
             }
 
             const player =
-                await response.json();
+                snapshot.player;
+
+            showPlayerScreen(player);
+
+            console.log(
+                "Game state:",
+                snapshot.game.state
+            );
 
             /*
              * Возвращаем игрока в игру.

@@ -1,12 +1,8 @@
 package org.example.sigamelocal.game.service;
 
-import org.example.sigamelocal.game.model.Game;
-import org.example.sigamelocal.game.model.GameState;
-import org.example.sigamelocal.game.model.Player;
-import org.example.sigamelocal.game.model.PlayerEvent;
+import org.example.sigamelocal.game.model.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.example.sigamelocal.game.model.Host;
 
 
 import java.util.UUID;
@@ -71,5 +67,31 @@ public class GameService {
                 .filter(player -> player.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Host getHost() {
+        return game.getHost();
+    }
+
+    public GameSnapshot getSnapshot() {
+        return new GameSnapshot(
+                game.getState(),
+                game.getHost(),
+                game.getPlayers().size()
+        );
+    }
+
+    public PlayerSnapshot getPlayerSnapshot(String id) {
+
+        Player player = getPlayerById(id);
+
+        if (player == null) {
+            return null;
+        }
+
+        return new PlayerSnapshot(
+                player,
+                getSnapshot()
+        );
     }
 }
