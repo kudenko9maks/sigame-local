@@ -99,17 +99,23 @@ public class GameService {
         );
     }
 
-    public PlayerSnapshot getPlayerSnapshot(String id) {
+    public PlayerSnapshot getPlayerSnapshot(String playerId) {
 
-        Player player = getPlayerById(id);
+        Player player = getPlayerById(playerId);
 
         if (player == null) {
             return null;
         }
 
+        boolean canBuzz =
+                game.getState() == GameState.ANSWERING
+                        && game.getBuzzedPlayer() == null;
+
         return new PlayerSnapshot(
                 player,
-                getSnapshot()
+                game.getState(),
+                canBuzz,
+                game.getBuzzedPlayer()
         );
     }
 
@@ -129,12 +135,17 @@ public class GameService {
     }
 
     public void startAnswering() {
+
         if (game.getCurrentQuestion() == null) {
-            throw new IllegalStateException("No question currently exists");
+            throw new IllegalStateException(
+                    "No question is currently open"
+            );
         }
+
         game.setState(GameState.ANSWERING);
 
         broadcastGameUpdate("GAME_UPDATED");
+        broadcastPlayerUpdate("GAME_UPDATED");
     }
 
     public synchronized Player buzz(String playerId) {
@@ -147,7 +158,8 @@ public class GameService {
             return game.getBuzzedPlayer();
         }
 
-        Player player = getPlayerById(playerId);
+        Player player =
+                getPlayerById(playerId);
 
         if (player == null) {
             return null;
@@ -156,14 +168,20 @@ public class GameService {
         game.setBuzzedPlayer(player);
 
         broadcastGameUpdate("PLAYER_BUZZED");
+        broadcastPlayerUpdate("PLAYER_BUZZED");
 
         return player;
     }
 
     private void broadcastGameUpdate(String type) {
-        GameEvent event = new GameEvent(type, game);
 
-        messagingTemplate.convertAndSend("/topic/game", event);
+        GameEvent event =
+                new GameEvent(type, game);
+
+        messagingTemplate.convertAndSend(
+                "/topic/host",
+                event
+        );
     }
 
     public Player answerCorrectly() {
@@ -186,18 +204,23 @@ public class GameService {
         );
 
         game.setTurnPlayer(player);
+
         game.setBuzzedPlayer(null);
+
         game.setCurrentQuestion(null);
+
         game.setState(GameState.BOARD);
 
         broadcastGameUpdate("ANSWER_CORRECT");
+        broadcastPlayerUpdate("ANSWER_CORRECT");
 
         return player;
     }
 
     public Player answerIncorrectly() {
 
-        Player player = game.getBuzzedPlayer();
+        Player player =
+                game.getBuzzedPlayer();
 
         if (player == null) {
             throw new IllegalStateException(
@@ -210,6 +233,7 @@ public class GameService {
         game.setState(GameState.ANSWERING);
 
         broadcastGameUpdate("ANSWER_INCORRECT");
+        broadcastPlayerUpdate("ANSWER_INCORRECT");
 
         return player;
     }
@@ -373,5 +397,34 @@ public class GameService {
         broadcastGameUpdate("QUESTION_SELECTED");
 
         return question;
+    }
+
+    private void broadcastPlayerUpdate(String type) {
+
+        for (Player player : game.getPlayers()) {
+
+            boolean canBuzz =
+                    game.getState() == GameState.ANSWERING
+                            && game.getBuzzedPlayer() == null;
+
+            PlayerSnapshot snapshot =
+                    new PlayerSnapshot(
+                            player,
+                            game.getState(),
+                            canBuzz,
+                            game.getBuzzedPlayer()
+                    );
+
+            PlayerGameEvent event =
+                    new PlayerGameEvent(
+                            type,
+                            snapshot
+                    );
+
+            messagingTemplate.convertAndSend(
+                    "/topic/players",
+                    event
+            );
+        }
     }
 }

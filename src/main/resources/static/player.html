@@ -7,10 +7,10 @@
 
     <meta
             name="viewport"
-            content="width=device-width, initial-scale=1.0"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     >
 
-    <title>SiGame Local — Игрок</title>
+    <title>SiGame — Игрок</title>
 
     <style>
 
@@ -18,181 +18,515 @@
             box-sizing: border-box;
         }
 
+
+        html,
         body {
+
+            width: 100%;
+            height: 100%;
+
             margin: 0;
-            min-height: 100vh;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #050b3d;
+
+            color: white;
+
+            overflow: hidden;
+
+            user-select: none;
+
+            -webkit-user-select: none;
+        }
+
+
+        /* =========================
+           LOGIN
+           ========================= */
+
+        #login {
+
+            width: 100%;
+            height: 100%;
+
             display: flex;
+
+            flex-direction: column;
+
             align-items: center;
             justify-content: center;
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
+
+            padding: 25px;
         }
 
-        .container {
-            width: 90%;
+
+        #login h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 40px;
+        }
+
+
+        #name,
+        #joinButton {
+
+            width: 100%;
             max-width: 400px;
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
+        }
+
+
+        #name {
+
+            padding: 18px;
+
+            border: 0;
+
+            border-radius: 12px;
+
+            font-size: 22px;
+
             text-align: center;
+
+            outline: none;
         }
 
-        input {
-            width: 100%;
-            padding: 14px;
-            font-size: 18px;
-            margin: 15px 0;
-        }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            font-size: 18px;
+        #joinButton {
+
+            margin-top: 15px;
+
+            padding: 18px;
+
+            border: 0;
+
+            border-radius: 12px;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
             cursor: pointer;
         }
 
-        .hidden {
-            display: none;
-        }
 
         #error {
-            color: red;
+
+            margin-top: 20px;
+
+            color: #ff8a8a;
+
+            text-align: center;
         }
 
-        #gameArea {
-            margin-top: 30px;
+
+        /* =========================
+           PLAYER SCREEN
+           ========================= */
+
+        #playerScreen {
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+
+            flex-direction: column;
         }
 
-        #questionText {
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        #playerHeader {
+
+            min-height: 100px;
+
+            padding: 15px 20px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            background: #070d52;
+
+            border-bottom: 2px solid #6972c7;
+        }
+
+
+        #playerName {
+
             font-size: 24px;
-            margin: 25px 0;
+
+            font-weight: bold;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
         }
+
+
+        #scoreContainer {
+
+            text-align: right;
+        }
+
+
+        #score {
+
+            font-size: 32px;
+
+            font-weight: bold;
+        }
+
+
+        #scoreLabel {
+
+            font-size: 14px;
+
+            opacity: 0.7;
+        }
+
+
+        /* =========================
+           MAIN
+           ========================= */
+
+        #playerMain {
+
+            flex: 1;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+
+        #gameStatus {
+
+            margin: 0 0 30px;
+
+            text-align: center;
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           BUZZ BUTTON
+           ========================= */
 
         #buzzButton {
-            width: 100%;
-            min-height: 150px;
-            font-size: 32px;
-            font-weight: bold;
-            border-radius: 20px;
+
+            width: min(80vw, 420px);
+
+            height: min(80vw, 420px);
+
+            max-height: 55vh;
+
+            border-radius: 50%;
+
+            border: 8px solid #8992ff;
+
+            background: #101a7a;
+
+            color: white;
+
+            font-size: clamp(
+                    32px,
+                    8vw,
+                    64px
+            );
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+            box-shadow:
+                    0 0 30px
+                    rgba(
+                            100,
+                            110,
+                            255,
+                            0.3
+                    );
+
+            transition:
+                    transform 0.08s;
         }
 
+
+        #buzzButton:active {
+
+            transform: scale(
+                    0.94
+            );
+        }
+
+
         #buzzButton:disabled {
+
+            opacity: 0.35;
+
+            cursor: default;
+
+            transform: none;
+        }
+
+
+        /* =========================
+           WAITING
+           ========================= */
+
+        #waitingMessage {
+
+            text-align: center;
+
+            font-size: 22px;
+
+            opacity: 0.8;
+        }
+
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        #playerFooter {
+
+            min-height: 50px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 14px;
+
             opacity: 0.5;
-            cursor: not-allowed;
+        }
+
+
+        .hidden {
+
+            display: none !important;
         }
 
     </style>
 
 </head>
 
+
 <body>
 
-<div class="container">
 
-    <!-- Вход игрока -->
-    <div id="login">
+<!-- =========================
+     LOGIN
+     ========================= -->
 
-        <h1>SiGame Local</h1>
+<div id="login">
 
-        <p>Введите своё имя</p>
-
-        <input
-                id="playerName"
-                type="text"
-                placeholder="Например, Андрей"
-                maxlength="20"
-        >
-
-        <button onclick="joinGame()">
-            Войти в игру
-        </button>
-
-        <p id="error"></p>
-
-    </div>
+    <h1>SiGame</h1>
 
 
-    <!-- Игрок уже вошёл -->
-    <div id="waiting" class="hidden">
+    <input
+            id="name"
+            type="text"
+            placeholder="Введите имя"
+            maxlength="20"
+            autocomplete="off"
+    >
 
-        <h1>Ты в игре!</h1>
 
-        <p>
-            Игрок:
-            <strong id="nameDisplay"></strong>
-        </p>
+    <button
+            id="joinButton"
+            onclick="joinGame()"
+    >
+        Войти в игру
+    </button>
 
-        <p>
-            Ждём начала игры...
-        </p>
 
-        <p>
-            Очки:
-            <strong id="score">0</strong>
-        </p>
+    <div id="error"></div>
 
-        <div id="gameArea">
+</div>
 
-            <p id="gameStatus">
-                Ждём начала игры...
-            </p>
 
-            <h2 id="questionText"></h2>
+<!-- =========================
+     PLAYER
+     ========================= -->
 
-            <button
-                    id="buzzButton"
-                    class="hidden"
-                    onclick="buzz()"
-            >
-                Я ЗНАЮ!
-            </button>
+<div
+        id="playerScreen"
+        class="hidden"
+>
+
+    <header id="playerHeader">
+
+        <div id="playerName">
+            Игрок
+        </div>
+
+
+        <div id="scoreContainer">
+
+            <div id="score">
+                0
+            </div>
+
+
+            <div id="scoreLabel">
+                очков
+            </div>
 
         </div>
 
-    </div>
+    </header>
+
+
+    <main id="playerMain">
+
+        <p id="gameStatus">
+            Ждём начала игры...
+        </p>
+
+
+        <button
+                id="buzzButton"
+                class="hidden"
+                onclick="buzz()"
+        >
+            Я ЗНАЮ!
+        </button>
+
+
+        <div
+                id="waitingMessage"
+                class="hidden"
+        >
+            Ждём следующего вопроса...
+        </div>
+
+    </main>
+
+
+    <footer id="playerFooter">
+
+        SiGame Local
+
+    </footer>
 
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 
+
 <script>
 
     let currentPlayer = null;
-    let currentGame = null
+
+
+    /*
+     * Этот флаг означает:
+     *
+     * "Я уже нажимал кнопку в текущем вопросе".
+     *
+     * Он НЕ сбрасывается после неправильного ответа.
+     *
+     * Сбрасывается только после окончания вопроса.
+     */
+
+    let answeredThisQuestion =
+        sessionStorage.getItem(
+            "sigameAnsweredThisQuestion"
+        ) === "true";
+
+
+    let lastState = null;
+
+
+    /* =========================
+       SHOW PLAYER
+       ========================= */
 
     function showPlayerScreen(player) {
 
-        currentPlayer = player;
+        currentPlayer =
+            player;
+
 
         document
-            .getElementById("nameDisplay")
-            .textContent = player.name;
+            .getElementById(
+                "playerName"
+            )
+            .textContent =
+            player.name;
+
 
         document
-            .getElementById("score")
-            .textContent = player.score;
+            .getElementById(
+                "score"
+            )
+            .textContent =
+            player.score;
+
 
         document
-            .getElementById("login")
-            .classList.add("hidden");
+            .getElementById(
+                "login"
+            )
+            .classList.add(
+            "hidden"
+        );
+
 
         document
-            .getElementById("waiting")
-            .classList.remove("hidden");
+            .getElementById(
+                "playerScreen"
+            )
+            .classList.remove(
+            "hidden"
+        );
     }
 
+
+    /* =========================
+       JOIN
+       ========================= */
 
     async function joinGame() {
 
         const name =
             document
-                .getElementById("playerName")
+                .getElementById(
+                    "name"
+                )
                 .value
                 .trim();
 
+
         const error =
-            document.getElementById("error");
+            document
+                .getElementById(
+                    "error"
+                );
+
 
         if (!name) {
 
@@ -202,22 +536,26 @@
             return;
         }
 
+
         try {
 
-            const response = await fetch(
-                `/api/players?name=${encodeURIComponent(name)}`,
-                {
-                    method: "POST"
-                }
-            );
+            const response =
+                await fetch(
+                    `/api/players?name=${encodeURIComponent(name)}`,
+                    {
+                        method: "POST"
+                    }
+                );
+
 
             if (!response.ok) {
 
                 error.textContent =
-                    "Не удалось войти в игру";
+                    await response.text();
 
                 return;
             }
+
 
             const player =
                 await response.json();
@@ -228,36 +566,66 @@
                 player.id
             );
 
-            showPlayerScreen(player);
 
-        } catch (error) {
+            /*
+             * Новый игрок / новый вход.
+             */
 
-            console.error(error);
+            sessionStorage.removeItem(
+                "sigameAnsweredThisQuestion"
+            );
 
-            document
-                .getElementById("error")
-                .textContent =
+
+            answeredThisQuestion =
+                false;
+
+
+            showPlayerScreen(
+                player
+            );
+
+
+            await restorePlayer();
+
+
+        } catch (e) {
+
+            console.error(e);
+
+            error.textContent =
                 "Ошибка подключения";
         }
     }
 
 
+    /* =========================
+       RESTORE
+       ========================= */
 
     async function restorePlayer() {
 
         const playerId =
-            localStorage.getItem("playerId");
+            localStorage.getItem(
+                "playerId"
+            );
+
 
         if (!playerId) {
+
             return;
         }
+
 
         try {
 
             const response =
                 await fetch(
-                    `/api/players/${playerId}/snapshot`
+                    `/api/players/${playerId}/snapshot`,
+                    {
+                        cache: "no-store"
+                    }
                 );
+
 
             if (!response.ok) {
 
@@ -265,20 +633,33 @@
                     "playerId"
                 );
 
+
+                sessionStorage.removeItem(
+                    "sigameAnsweredThisQuestion"
+                );
+
+
+                answeredThisQuestion =
+                    false;
+
+
                 return;
             }
+
 
             const snapshot =
                 await response.json();
 
-            const player =
-                snapshot.player;
 
-            showPlayerScreen(player);
-
-            updateGameState(
-                snapshot.game
+            showPlayerScreen(
+                snapshot.player
             );
+
+
+            updatePlayerState(
+                snapshot
+            );
+
 
         } catch (error) {
 
@@ -289,143 +670,392 @@
         }
     }
 
-    function updateGameState(game) {
 
-        currentGame = game;
+    /* =========================
+       PLAYER STATE
+       ========================= */
+
+    function updatePlayerState(
+        snapshot
+    ) {
+
+        currentPlayer =
+            snapshot.player;
+
+
+        document
+            .getElementById(
+                "score"
+            )
+            .textContent =
+            currentPlayer.score;
+
 
         const status =
-            document.getElementById("gameStatus");
+            document.getElementById(
+                "gameStatus"
+            );
 
-        const question =
-            document.getElementById("questionText");
 
         const button =
-            document.getElementById("buzzButton");
+            document.getElementById(
+                "buzzButton"
+            );
 
 
+        const waiting =
+            document.getElementById(
+                "waitingMessage"
+            );
 
-        if (game.state === "WAITING") {
+
+        /*
+         * =========================
+         * BOARD / LOBBY
+         * =========================
+         *
+         * Вопрос закончился.
+         * Снимаем блокировку.
+         */
+
+        if (
+            snapshot.state === "BOARD" ||
+            snapshot.state === "LOBBY" ||
+            snapshot.state === "WAITING"
+        ) {
+
+            answeredThisQuestion =
+                false;
+
+
+            sessionStorage.removeItem(
+                "sigameAnsweredThisQuestion"
+            );
+
+
+            lastState =
+                snapshot.state;
+
+
+            button.classList.add(
+                "hidden"
+            );
+
+
+            button.disabled =
+                false;
+
+
+            waiting.classList.toggle(
+                "hidden",
+                snapshot.state !== "BOARD"
+            );
+
 
             status.textContent =
-                "Ждём начала игры...";
+                snapshot.state === "BOARD"
+                    ? "Ждём следующий вопрос..."
+                    : "Ждём начала игры...";
 
-            question.textContent = "";
-
-            button.classList.add("hidden");
 
             return;
         }
 
 
-        if (game.state === "QUESTION") {
+        /*
+         * =========================
+         * QUESTION
+         * =========================
+         */
+
+        if (
+            snapshot.state === "QUESTION"
+        ) {
+
+            /*
+             * Если это переход
+             * к новому вопросу —
+             * сбрасываем предыдущую блокировку.
+             */
+
+            if (
+                lastState !== "QUESTION" &&
+                lastState !== "ANSWERING"
+            ) {
+
+                answeredThisQuestion =
+                    false;
+
+
+                sessionStorage.removeItem(
+                    "sigameAnsweredThisQuestion"
+                );
+            }
+
+
+            lastState =
+                snapshot.state;
+
 
             status.textContent =
-                "Вопрос";
+                "Ведущий открыл вопрос";
 
-            question.textContent =
-                game.currentQuestion.text;
 
-            button.classList.add("hidden");
+            button.classList.add(
+                "hidden"
+            );
+
+
+            button.disabled =
+                false;
+
+
+            waiting.classList.add(
+                "hidden"
+            );
+
 
             return;
         }
 
 
-        if (game.state === "ANSWERING") {
+        /*
+         * =========================
+         * ANSWERING
+         * =========================
+         */
 
-            question.textContent =
-                game.currentQuestion.text;
+        if (
+            snapshot.state === "ANSWERING"
+        ) {
 
-            if (game.buzzedPlayer) {
+            lastState =
+                snapshot.state;
 
-                button.classList.remove("hidden");
-                button.disabled = true;
+
+            waiting.classList.add(
+                "hidden"
+            );
+
+
+            /*
+             * Я уже отвечал.
+             *
+             * Даже если ведущий нажал
+             * "Неправильно", кнопку
+             * НЕ возвращаем.
+             */
+
+            if (
+                answeredThisQuestion
+            ) {
+
+                button.classList.remove(
+                    "hidden"
+                );
+
+
+                button.disabled =
+                    true;
+
 
                 if (
-                    game.buzzedPlayer.id ===
+                    snapshot.buzzedPlayer &&
+                    snapshot.buzzedPlayer.id ===
                     currentPlayer.id
                 ) {
 
                     status.textContent =
-                        "Вы первый! Отвечайте!";
+                        "ВЫ ПЕРВЫЙ!";
 
                 } else {
 
                     status.textContent =
-                        `${game.buzzedPlayer.name} отвечает`;
-
+                        "Вы уже отвечали";
                 }
 
-            } else {
-
-                status.textContent =
-                    "Нажмите кнопку, если знаете ответ";
-
-                button.classList.remove("hidden");
-                button.disabled = false;
-            }
-
-            return;
-        }
-
-
-        if (game.state === "FINISHED") {
-
-            status.textContent =
-                "Игра закончена";
-
-            button.classList.add("hidden");
-        }
-    }
-
-    async function buzz() {
-
-        if (!currentPlayer) {
-            return;
-        }
-
-        if (!currentGame) {
-            return;
-        }
-
-        if (currentGame.state !== "ANSWERING") {
-            return;
-        }
-
-        const button =
-            document.getElementById("buzzButton");
-
-
-        button.disabled = true;
-
-        try {
-
-            const response = await fetch(
-                `/api/game/buzz/${currentPlayer.id}`,
-                {
-                    method: "POST"
-                }
-            );
-
-            if (!response.ok) {
-
-                button.disabled = false;
-
-                console.error(
-                    "Buzz failed:",
-                    response.status
-                );
 
                 return;
             }
 
+
+            /*
+             * Кто-то сейчас отвечает.
+             */
+
+            if (
+                snapshot.buzzedPlayer
+            ) {
+
+                button.classList.remove(
+                    "hidden"
+                );
+
+
+                button.disabled =
+                    true;
+
+
+                if (
+                    snapshot.buzzedPlayer.id ===
+                    currentPlayer.id
+                ) {
+
+                    answeredThisQuestion =
+                        true;
+
+
+                    sessionStorage.setItem(
+                        "sigameAnsweredThisQuestion",
+                        "true"
+                    );
+
+
+                    status.textContent =
+                        "ВЫ ПЕРВЫЙ!";
+
+                } else {
+
+                    status.textContent =
+                        `${snapshot.buzzedPlayer.name} отвечает`;
+                }
+
+
+                return;
+            }
+
+
+            /*
+             * Никто не отвечает.
+             */
+
+            status.textContent =
+                "ЖМИ!";
+
+
+            button.classList.remove(
+                "hidden"
+            );
+
+
+            button.disabled =
+                !snapshot.canBuzz;
+
+
+            return;
+        }
+
+
+        /*
+         * =========================
+         * FINISHED
+         * =========================
+         */
+
+        if (
+            snapshot.state ===
+            "FINISHED"
+        ) {
+
+            lastState =
+                snapshot.state;
+
+
+            status.textContent =
+                "Игра закончена";
+
+
+            button.classList.add(
+                "hidden"
+            );
+
+
+            waiting.classList.add(
+                "hidden"
+            );
+        }
+    }
+
+
+    /* =========================
+       BUZZ
+       ========================= */
+
+    async function buzz() {
+
+        if (
+            !currentPlayer ||
+            answeredThisQuestion
+        ) {
+
+            return;
+        }
+
+
+        const button =
+            document.getElementById(
+                "buzzButton"
+            );
+
+
+        /*
+         * Сразу фиксируем,
+         * что игрок уже нажал.
+         */
+
+        answeredThisQuestion =
+            true;
+
+
+        sessionStorage.setItem(
+            "sigameAnsweredThisQuestion",
+            "true"
+        );
+
+
+        button.disabled =
+            true;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/game/buzz/${currentPlayer.id}`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                console.error(
+                    "Buzz failed:",
+                    await response.text()
+                );
+
+
+                /*
+                 * Специально НЕ разблокируем.
+                 *
+                 * Серверное состояние
+                 * будет источником истины.
+                 */
+
+                return;
+            }
+
+
             const player =
                 await response.json();
+
 
             console.log(
                 "Buzz result:",
                 player
             );
+
 
         } catch (error) {
 
@@ -433,73 +1063,137 @@
                 "Buzz error:",
                 error
             );
-
-            button.disabled = false;
         }
     }
 
 
-    const socket = new StompJs.Client({
+    /* =========================
+       WEBSOCKET
+       ========================= */
 
-        brokerURL:
-            `ws://${window.location.host}/ws`,
+    const socket =
+        new StompJs.Client({
 
-        onConnect: () => {
+            brokerURL:
+                `${
+                    location.protocol === "https:"
+                        ? "wss"
+                        : "ws"
+                }://${window.location.host}/ws`,
 
-            console.log("WebSocket connected");
 
-            socket.subscribe(
-                "/topic/game",
-                message => {
+            reconnectDelay: 2000,
 
-                    const event =
-                        JSON.parse(message.body);
 
-                    console.log(
-                        "Game event:",
-                        event
-                    );
+            heartbeatIncoming: 10000,
 
-                    handleGameEvent(event);
-                }
-            );
 
-        },
+            heartbeatOutgoing: 10000,
 
-        onWebSocketError: error => {
 
-            console.error(
-                "WebSocket error:",
-                error
-            );
-        },
+            onConnect: () => {
 
-        onStompError: frame => {
+                console.log(
+                    "Player WebSocket connected"
+                );
 
-            console.error(
-                "STOMP error:",
-                frame
-            );
-        }
-    });
 
-    function handleGameEvent(event) {
+                socket.subscribe(
+                    "/topic/players",
+                    message => {
 
-        if (
-            event.type === "GAME_UPDATED" ||
-            event.type === "PLAYER_BUZZED"
-        ) {
+                        try {
 
-            updateGameState(
-                event.game
-            );
-        }
+                            const event =
+                                JSON.parse(
+                                    message.body
+                                );
 
-    }
+
+                            if (
+                                event.snapshot
+                            ) {
+
+                                updatePlayerState(
+                                    event.snapshot
+                                );
+                            }
+
+
+                        } catch (e) {
+
+                            console.error(
+                                "Player WS message error:",
+                                e
+                            );
+                        }
+                    }
+                );
+
+
+                restorePlayer();
+            },
+
+
+            onDisconnect: () => {
+
+                console.log(
+                    "Player WebSocket disconnected"
+                );
+            },
+
+
+            onWebSocketClose: () => {
+
+                console.log(
+                    "Player WebSocket closed"
+                );
+            },
+
+
+            onWebSocketError: error => {
+
+                console.error(
+                    "Player WebSocket error:",
+                    error
+                );
+            },
+
+
+            onStompError: frame => {
+
+                console.error(
+                    "Player STOMP error:",
+                    frame
+                );
+            }
+
+        });
 
 
     socket.activate();
 
+
+    /*
+     * Дополнительная синхронизация.
+     *
+     * В норме WebSocket обновляет
+     * состояние мгновенно.
+     *
+     * Если WebSocket временно
+     * отвалится — REST восстановит
+     * состояние автоматически.
+     */
+
+    setInterval(
+        restorePlayer,
+        1000
+    );
+
+
+    /* =========================
+       START
+       ========================= */
 
     restorePlayer();
 

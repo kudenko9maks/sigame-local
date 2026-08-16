@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0"
     >
 
-    <title>SiGame Local</title>
+    <title>SiGame Local — Ведущий</title>
 
     <style>
 
@@ -43,6 +43,7 @@
             height: 100%;
 
             display: flex;
+
             flex-direction: column;
 
             align-items: center;
@@ -50,6 +51,7 @@
 
             gap: 20px;
         }
+
 
         #hostSetup input {
 
@@ -59,6 +61,7 @@
 
             font-size: 20px;
         }
+
 
         #hostSetup button {
 
@@ -72,6 +75,9 @@
         }
 
 
+        /* =========================
+           GAME
+           ========================= */
 
         #gameScreen {
 
@@ -79,9 +85,9 @@
             height: 100%;
 
             display: flex;
+
             flex-direction: column;
         }
-
 
 
         .game-header {
@@ -94,6 +100,7 @@
             justify-content: center;
 
             font-size: 32px;
+
             font-weight: bold;
 
             background: #070d52;
@@ -144,6 +151,7 @@
             padding: 10px;
 
             font-size: 24px;
+
             font-weight: bold;
 
             background: #080f66;
@@ -164,6 +172,7 @@
             justify-content: center;
 
             font-size: 32px;
+
             font-weight: bold;
 
             color: #f5f5ff;
@@ -218,6 +227,7 @@
             justify-content: center;
 
             font-size: 26px;
+
             font-weight: bold;
 
             background: #070d52;
@@ -282,6 +292,9 @@
         }
 
 
+        /* =========================
+           QUESTION
+           ========================= */
 
         #questionScreen {
 
@@ -300,25 +313,17 @@
 
             text-align: center;
 
-            padding: 60px;
+            padding: 40px;
 
             background: #050b3d;
         }
 
 
-        #questionCategory {
+        #questionPrice {
 
             font-size: 30px;
 
-            margin-bottom: 20px;
-        }
-
-
-        #questionPrice {
-
-            font-size: 28px;
-
-            margin-bottom: 40px;
+            margin-bottom: 25px;
         }
 
 
@@ -332,9 +337,39 @@
         }
 
 
+        /* =========================
+           ANSWER
+           ========================= */
+
+        #answerBox {
+
+            margin-top: 25px;
+
+            padding: 15px 25px;
+
+            background: #e8f5e9;
+
+            color: #1b5e20;
+
+            border-radius: 10px;
+
+            font-size: 24px;
+        }
+
+
+        #answerText {
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           STATUS
+           ========================= */
+
         #answeringStatus {
 
-            margin-top: 50px;
+            margin-top: 25px;
 
             font-size: 30px;
 
@@ -342,9 +377,13 @@
         }
 
 
+        /* =========================
+           CONTROLS
+           ========================= */
+
         #questionControls {
 
-            margin-top: 40px;
+            margin-top: 30px;
         }
 
 
@@ -361,6 +400,7 @@
 
 
         .hidden {
+
             display: none !important;
         }
 
@@ -371,6 +411,10 @@
 
 <body>
 
+
+<!-- =========================
+     HOST SETUP
+     ========================= -->
 
 <div id="hostSetup">
 
@@ -394,14 +438,15 @@
 </div>
 
 
+<!-- =========================
+     GAME
+     ========================= -->
 
 <div id="gameScreen" class="hidden">
 
     <div class="game-header">
 
-        <span id="gameTitle">
-            SiGame
-        </span>
+        SiGame
 
     </div>
 
@@ -421,15 +466,30 @@
 </div>
 
 
-<div id="questionScreen">
+<!-- =========================
+     QUESTION
+     ========================= -->
 
-    <div id="questionCategory"></div>
+<div id="questionScreen">
 
     <div id="questionPrice"></div>
 
     <div id="questionText"></div>
 
+
+    <div id="answerBox">
+
+        <strong>
+            Правильный ответ:
+        </strong>
+
+        <span id="answerText"></span>
+
+    </div>
+
+
     <div id="answeringStatus"></div>
+
 
     <div id="questionControls">
 
@@ -440,11 +500,13 @@
             Разрешить отвечать
         </button>
 
+
         <button
                 onclick="answerCorrect()"
         >
             ✓ Правильно
         </button>
+
 
         <button
                 onclick="answerIncorrect()"
@@ -465,17 +527,26 @@
     let currentGame = null;
 
 
+    /* =========================
+       SHOW GAME
+       ========================= */
+
     function showGameScreen() {
 
         document
             .getElementById("hostSetup")
             .classList.add("hidden");
 
+
         document
             .getElementById("gameScreen")
             .classList.remove("hidden");
     }
 
+
+    /* =========================
+       BECOME HOST
+       ========================= */
 
     async function becomeHost() {
 
@@ -485,8 +556,11 @@
                 .value
                 .trim();
 
+
         const error =
-            document.getElementById("error");
+            document
+                .getElementById("error");
+
 
         if (!name) {
 
@@ -495,6 +569,7 @@
 
             return;
         }
+
 
         try {
 
@@ -506,6 +581,7 @@
                     }
                 );
 
+
             if (!response.ok) {
 
                 error.textContent =
@@ -514,21 +590,25 @@
                 return;
             }
 
+
             const host =
                 await response.json();
+
 
             localStorage.setItem(
                 "hostId",
                 host.id
             );
 
+
             showGameScreen();
 
             loadGame();
 
-        } catch (error) {
 
-            console.error(error);
+        } catch (e) {
+
+            console.error(e);
 
             error.textContent =
                 "Ошибка подключения";
@@ -536,19 +616,33 @@
     }
 
 
+    /* =========================
+       RESTORE HOST
+       ========================= */
+
     async function restoreHost() {
 
         const hostId =
-            localStorage.getItem("hostId");
+            localStorage.getItem(
+                "hostId"
+            );
+
 
         if (!hostId) {
             return;
         }
 
+
         try {
 
             const response =
-                await fetch("/api/host");
+                await fetch(
+                    "/api/host",
+                    {
+                        cache: "no-store"
+                    }
+                );
+
 
             if (!response.ok) {
 
@@ -559,8 +653,10 @@
                 return;
             }
 
+
             const host =
                 await response.json();
+
 
             if (
                 !host ||
@@ -574,65 +670,93 @@
                 return;
             }
 
+
             showGameScreen();
 
             loadGame();
 
-        } catch (error) {
+
+        } catch (e) {
 
             console.error(
                 "Failed to restore host:",
-                error
+                e
             );
         }
     }
 
 
+    /* =========================
+       LOAD GAME
+       ========================= */
 
     async function loadGame() {
 
         try {
 
             const response =
-                await fetch("/api/game");
+                await fetch(
+                    "/api/game",
+                    {
+                        cache: "no-store"
+                    }
+                );
+
 
             if (!response.ok) {
                 return;
             }
 
+
             const game =
                 await response.json();
 
+
             updateGame(game);
 
-        } catch (error) {
+
+        } catch (e) {
 
             console.error(
                 "Failed to load game:",
-                error
+                e
             );
         }
     }
 
 
+    /* =========================
+       UPDATE GAME
+       ========================= */
 
     function updateGame(game) {
 
         currentGame = game;
 
-        if (game.state === "LOBBY") {
+
+        if (
+            game.state === "LOBBY"
+        ) {
+
+            hideQuestion();
 
             renderLobby(game);
 
             return;
         }
 
-        if (game.state === "BOARD") {
+
+        if (
+            game.state === "BOARD"
+        ) {
+
+            hideQuestion();
 
             renderBoard(game);
 
             return;
         }
+
 
         if (
             game.state === "QUESTION" ||
@@ -644,6 +768,16 @@
             showQuestion(game);
 
             return;
+        }
+
+
+        if (
+            game.state === "FINISHED"
+        ) {
+
+            hideQuestion();
+
+            renderBoard(game);
         }
     }
 
@@ -657,89 +791,129 @@
         document
             .getElementById("turnInfo")
             .textContent =
-            `Игроков подключено: ${game.players.length}`;
+            `Игроков подключено: ${(game.players || []).length}`;
+
 
         renderPlayers(game);
-
     }
 
 
-
+    /* =========================
+       BOARD
+       ========================= */
 
     function renderBoard(game) {
 
         const board =
-            document.getElementById("board");
+            document.getElementById(
+                "board"
+            );
+
 
         board.innerHTML = "";
 
+
         const categories =
             game.categories || [];
+
+
+        if (
+            categories.length === 0
+        ) {
+
+            return;
+        }
+
 
         board.style.gridTemplateColumns =
             `repeat(${categories.length}, 1fr)`;
 
 
-        categories.forEach(category => {
+        categories.forEach(
+            category => {
 
-            const column =
-                document.createElement("div");
-
-            column.className =
-                "category";
-
-
-            const title =
-                document.createElement("div");
-
-            title.className =
-                "category-name";
-
-            title.textContent =
-                category.name;
-
-            column.appendChild(title);
-
-
-            category.questions.forEach(question => {
-
-                const cell =
-                    document.createElement("div");
-
-                cell.className =
-                    "question-cell";
-
-
-                if (question.used) {
-
-                    cell.classList.add(
-                        "used"
+                const column =
+                    document.createElement(
+                        "div"
                     );
 
-                } else {
 
-                    cell.textContent =
-                        question.price;
+                column.className =
+                    "category";
 
-                    cell.onclick = () => {
 
-                        selectQuestion(
-                            category.name,
-                            question.price
+                const title =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                title.className =
+                    "category-name";
+
+
+                title.textContent =
+                    category.name;
+
+
+                column.appendChild(
+                    title
+                );
+
+
+                (
+                    category.questions || []
+                ).forEach(
+                    question => {
+
+                        const cell =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        cell.className =
+                            "question-cell";
+
+
+                        if (
+                            question.used
+                        ) {
+
+                            cell.classList.add(
+                                "used"
+                            );
+
+                        } else {
+
+                            cell.textContent =
+                                question.price;
+
+
+                            cell.onclick =
+                                () => {
+
+                                    selectQuestion(
+                                        category.name,
+                                        question.price
+                                    );
+                                };
+                        }
+
+
+                        column.appendChild(
+                            cell
                         );
 
-                    };
-                }
+                    }
+                );
 
 
-                column.appendChild(cell);
-
-            });
-
-
-            board.appendChild(column);
-
-        });
+                board.appendChild(
+                    column
+                );
+            }
+        );
 
 
         renderTurn(game);
@@ -747,6 +921,10 @@
         renderPlayers(game);
     }
 
+
+    /* =========================
+       TURN
+       ========================= */
 
     function renderTurn(game) {
 
@@ -756,7 +934,9 @@
             );
 
 
-        if (!game.turnPlayer) {
+        if (
+            !game.turnPlayer
+        ) {
 
             turnInfo.textContent =
                 "Ход ещё не определён";
@@ -770,6 +950,10 @@
     }
 
 
+    /* =========================
+       PLAYERS
+       ========================= */
+
     function renderPlayers(game) {
 
         const players =
@@ -777,45 +961,94 @@
                 "players"
             );
 
+
         players.innerHTML = "";
 
 
-        game.players.forEach(player => {
+        (
+            game.players || []
+        ).forEach(
+            player => {
 
-            const card =
-                document.createElement("div");
+                const card =
+                    document.createElement(
+                        "div"
+                    );
 
-            card.className =
-                "player-card";
+
+                card.className =
+                    "player-card";
 
 
-            if (
-                game.turnPlayer &&
-                game.turnPlayer.id === player.id
-            ) {
+                if (
+                    game.turnPlayer &&
+                    game.turnPlayer.id ===
+                    player.id
+                ) {
 
-                card.classList.add(
-                    "active"
+                    card.classList.add(
+                        "active"
+                    );
+                }
+
+
+                card.innerHTML = `
+                    <div class="player-name">
+                        ${escapeHtml(player.name)}
+                    </div>
+
+                    <div class="player-score">
+                        ${player.score}
+                    </div>
+                `;
+
+
+                players.appendChild(
+                    card
                 );
             }
-
-
-            card.innerHTML = `
-                <div class="player-name">
-                    ${player.name}
-                </div>
-
-                <div class="player-score">
-                    ${player.score}
-                </div>
-            `;
-
-
-            players.appendChild(card);
-
-        });
+        );
     }
 
+
+    /* =========================
+       HTML ESCAPE
+       ========================= */
+
+    function escapeHtml(value) {
+
+        return String(value)
+
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
+    }
+
+
+    /* =========================
+       SELECT QUESTION
+       ========================= */
 
     async function selectQuestion(
         category,
@@ -835,25 +1068,11 @@
 
             if (!response.ok) {
 
-                const message =
-                    await response.text();
-
                 console.error(
                     "Question selection failed:",
-                    message
+                    await response.text()
                 );
-
-                return;
             }
-
-
-            const question =
-                await response.json();
-
-            console.log(
-                "Selected question:",
-                question
-            );
 
 
         } catch (error) {
@@ -863,39 +1082,51 @@
     }
 
 
+    /* =========================
+       SHOW QUESTION
+       ========================= */
+
     function showQuestion(game) {
 
-        const screen =
-            document.getElementById(
-                "questionScreen"
-            );
+        const question =
+            game.currentQuestion;
 
-        screen.style.display =
+
+        if (!question) {
+            return;
+        }
+
+
+        document
+            .getElementById(
+                "questionScreen"
+            )
+            .style.display =
             "flex";
 
 
         document
-            .getElementById("questionCategory")
+            .getElementById(
+                "questionPrice"
+            )
             .textContent =
-            game.currentQuestion
-                ? ""
-                : "";
+            question.price;
 
 
         document
-            .getElementById("questionPrice")
+            .getElementById(
+                "questionText"
+            )
             .textContent =
-            game.currentQuestion
-                ? `${game.currentQuestion.price}`
-                : "";
+            question.text;
 
 
         document
-            .getElementById("questionText")
+            .getElementById(
+                "answerText"
+            )
             .textContent =
-            game.currentQuestion
-                ? game.currentQuestion.text
-                : "";
+            question.answer ?? "—";
 
 
         const status =
@@ -904,17 +1135,34 @@
             );
 
 
-        if (game.state === "QUESTION") {
+        const startButton =
+            document.getElementById(
+                "startAnsweringButton"
+            );
+
+
+        if (
+            game.state === "QUESTION"
+        ) {
 
             status.textContent =
                 "Ведущий показывает вопрос";
 
-        }
+
+            startButton.classList.remove(
+                "hidden"
+            );
+
+        } else {
+
+            startButton.classList.add(
+                "hidden"
+            );
 
 
-        if (game.state === "ANSWERING") {
-
-            if (game.buzzedPlayer) {
+            if (
+                game.buzzedPlayer
+            ) {
 
                 status.textContent =
                     `${game.buzzedPlayer.name} отвечает`;
@@ -924,10 +1172,13 @@
                 status.textContent =
                     "Игроки могут нажимать кнопку";
             }
-
         }
     }
 
+
+    /* =========================
+       HIDE QUESTION
+       ========================= */
 
     function hideQuestion() {
 
@@ -940,6 +1191,9 @@
     }
 
 
+    /* =========================
+       START ANSWERING
+       ========================= */
 
     async function startAnswering() {
 
@@ -953,13 +1207,14 @@
                     }
                 );
 
+
             if (!response.ok) {
 
                 console.error(
-                    "Failed to start answering"
+                    await response.text()
                 );
-
             }
+
 
         } catch (error) {
 
@@ -967,17 +1222,31 @@
         }
     }
 
+
+    /* =========================
+       CORRECT
+       ========================= */
 
     async function answerCorrect() {
 
         try {
 
-            await fetch(
-                "/api/game/answer/correct",
-                {
-                    method: "POST"
-                }
-            );
+            const response =
+                await fetch(
+                    "/api/game/answer/correct",
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                console.error(
+                    await response.text()
+                );
+            }
+
 
         } catch (error) {
 
@@ -986,16 +1255,30 @@
     }
 
 
+    /* =========================
+       INCORRECT
+       ========================= */
+
     async function answerIncorrect() {
 
         try {
 
-            await fetch(
-                "/api/game/answer/incorrect",
-                {
-                    method: "POST"
-                }
-            );
+            const response =
+                await fetch(
+                    "/api/game/answer/incorrect",
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                console.error(
+                    await response.text()
+                );
+            }
+
 
         } catch (error) {
 
@@ -1012,66 +1295,124 @@
         new StompJs.Client({
 
             brokerURL:
-                `ws://${window.location.host}/ws`,
+                `${
+                    location.protocol === "https:"
+                        ? "wss"
+                        : "ws"
+                }://${window.location.host}/ws`,
+
+
+            reconnectDelay: 2000,
+
+
+            heartbeatIncoming: 10000,
+
+
+            heartbeatOutgoing: 10000,
+
 
             onConnect: () => {
 
                 console.log(
-                    "WebSocket connected"
+                    "Host WebSocket connected"
                 );
 
 
                 socket.subscribe(
-                    "/topic/game",
+                    "/topic/host",
                     message => {
 
-                        const event =
-                            JSON.parse(
-                                message.body
-                            );
+                        try {
 
-                        console.log(
-                            "Game event:",
-                            event
-                        );
+                            const event =
+                                JSON.parse(
+                                    message.body
+                                );
 
 
-                        if (
-                            event.game
-                        ) {
-
-                            updateGame(
+                            if (
                                 event.game
+                            ) {
+
+                                updateGame(
+                                    event.game
+                                );
+                            }
+
+
+                        } catch (e) {
+
+                            console.error(
+                                "Host WS message error:",
+                                e
                             );
                         }
-
                     }
                 );
 
+
+                loadGame();
             },
 
-            onWebSocketError:
-                error => {
 
-                    console.error(
-                        "WebSocket error:",
-                        error
-                    );
-                },
+            onDisconnect: () => {
 
-            onStompError:
-                frame => {
+                console.log(
+                    "Host WebSocket disconnected"
+                );
+            },
 
-                    console.error(
-                        "STOMP error:",
-                        frame
-                    );
-                }
+
+            onWebSocketClose: () => {
+
+                console.log(
+                    "Host WebSocket closed"
+                );
+            },
+
+
+            onWebSocketError: error => {
+
+                console.error(
+                    "Host WebSocket error:",
+                    error
+                );
+            },
+
+
+            onStompError: frame => {
+
+                console.error(
+                    "Host STOMP error:",
+                    frame
+                );
+            }
 
         });
 
 
     socket.activate();
+
+
+    /*
+     * Дополнительная синхронизация.
+     *
+     * В норме состояние приходит
+     * через WebSocket мгновенно.
+     *
+     * Если WebSocket временно пропадёт,
+     * REST автоматически восстановит состояние.
+     */
+
+    setInterval(
+        loadGame,
+        1000
+    );
+
+
+    /* =========================
+       START
+       ========================= */
 
     restoreHost();
 
