@@ -12,7 +12,22 @@ POST http://localhost:8080/api/game/start
 GET http://localhost:8080/api/game
 
 ### Become host
-POST http://localhost:8080/api/host?name=Максим
+POST http://localhost:8080/api/host?name=Maksim
 
 ### Get game again
+GET http://localhost:8080/api/game
+
+### Open test question
+POST http://localhost:8080/api/game/question
+
+### Check game
+GET http://localhost:8080/api/game
+
+### Start answering
+POST http://localhost:8080/api/game/answering
+
+### Player 1 buzz
+POST http://localhost:8080/api/game/buzz/ID_adad
+
+### Game state
 GET http://localhost:8080/api/game

@@ -8,6 +8,8 @@ public class Game {
     private GameState state;
     private Host host;
     private final List<Player> players;
+    private Question currentQuestion;
+    private Player buzzedPlayer;
 
     public Game() {
         this.state = GameState.WAITING;
@@ -32,5 +34,21 @@ public class Game {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public Question getCurrentQuestion() {
+        return currentQuestion;
+    }
+
+    public void setCurrentQuestion(Question currentQuestion) {
+        this.currentQuestion = currentQuestion;
+    }
+
+    public Player getBuzzedPlayer() {
+        return buzzedPlayer;
+    }
+
+    public void setBuzzedPlayer(Player buzzedPlayer) {
+        this.buzzedPlayer = buzzedPlayer;
     }
 }

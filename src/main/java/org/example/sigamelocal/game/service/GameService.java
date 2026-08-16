@@ -3,7 +3,8 @@ package org.example.sigamelocal.game.service;
 import org.example.sigamelocal.game.model.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-
+import org.example.sigamelocal.game.model.Question;
+import org.example.sigamelocal.game.model.GameEvent;
 
 import java.util.UUID;
 
@@ -93,5 +94,57 @@ public class GameService {
                 player,
                 getSnapshot()
         );
+    }
+
+    public void openTestQuestion() {
+        Question question = new Question(
+                "Столица Франции?",
+                "Париж",
+                100
+        );
+
+        game.setCurrentQuestion(question);
+        game.setBuzzedPlayer(null);
+        game.setState(GameState.QUESTION);
+
+        broadcastGameUpdate("GAME_UPDATED");
+    }
+
+    public void startAnswering() {
+        if (game.getCurrentQuestion() == null) {
+            throw new IllegalStateException("No question currently exists");
+        }
+        game.setState(GameState.ANSWERING);
+
+        broadcastGameUpdate("GAME_UPDATED");
+    }
+
+    public synchronized Player buzz(String playerId) {
+
+        if (game.getState() != GameState.ANSWERING) {
+            return null;
+        }
+
+        if (game.getBuzzedPlayer() != null) {
+            return game.getBuzzedPlayer();
+        }
+
+        Player player = getPlayerById(playerId);
+
+        if (player == null) {
+            return null;
+        }
+
+        game.setBuzzedPlayer(player);
+
+        broadcastGameUpdate("PLAYER_BUZZED");
+
+        return player;
+    }
+
+    private void broadcastGameUpdate(String type) {
+        GameEvent event = new GameEvent(type, game);
+
+        messagingTemplate.convertAndSend("/topic/game", event);
     }
 }

@@ -375,29 +375,35 @@
                 );
 
 
-                socket.subscribe(
-                    "/topic/game",
-                    message => {
+                socket.subscribe("/topic/game", message => {
 
-                        const event =
-                            JSON.parse(message.body);
+                    const event = JSON.parse(message.body);
+
+                    console.log("Game event:", event);
+
+                    if (event.type === "PLAYER_JOINED") {
+                        loadPlayers();
+                    }
+
+                    if (event.type === "GAME_UPDATED") {
+                        console.log(
+                            "Game state:",
+                            event.game.state
+                        );
+                    }
+
+                    if (event.type === "PLAYER_BUZZED") {
+
+                        const player =
+                            event.game.buzzedPlayer;
 
                         console.log(
-                            "Game event:",
-                            event
+                            "First player:",
+                            player.name
                         );
-
-
-                        if (
-                            event.type ===
-                            "PLAYER_JOINED"
-                        ) {
-
-                            loadPlayers();
-                        }
-
                     }
-                );
+
+                });
 
             },
 

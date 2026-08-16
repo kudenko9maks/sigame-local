@@ -59,6 +59,28 @@
             color: red;
         }
 
+        #gameArea {
+            margin-top: 30px;
+        }
+
+        #questionText {
+            font-size: 24px;
+            margin: 25px 0;
+        }
+
+        #buzzButton {
+            width: 100%;
+            min-height: 150px;
+            font-size: 32px;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+
+        #buzzButton:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
     </style>
 
 </head>
@@ -109,6 +131,24 @@
             <strong id="score">0</strong>
         </p>
 
+        <div id="gameArea">
+
+            <p id="gameStatus">
+                Ждём начала игры...
+            </p>
+
+            <h2 id="questionText"></h2>
+
+            <button
+                    id="buzzButton"
+                    class="hidden"
+                    onclick="buzz()"
+            >
+                Я ЗНАЮ!
+            </button>
+
+        </div>
+
     </div>
 
 </div>
@@ -118,13 +158,12 @@
 
 <script>
 
-    /*
-     * Показываем экран игрока.
-     *
-     * Эта функция находится ВНЕ joinGame(),
-     * чтобы её могла использовать restorePlayer().
-     */
+    let currentPlayer = null;
+    let currentGame = null
+
     function showPlayerScreen(player) {
+
+        currentPlayer = player;
 
         document
             .getElementById("nameDisplay")
@@ -222,9 +261,6 @@
         const playerId =
             localStorage.getItem("playerId");
 
-        /*
-         * Если ID нет — это новый игрок.
-         */
         if (!playerId) {
             return;
         }
@@ -232,36 +268,30 @@
         try {
 
             const response =
-                await fetch(`/api/players/${playerId}/snapshot`);
+                await fetch(
+                    `/api/players/${playerId}/snapshot`
+                );
 
-            const snapshot =
-                await response.json();
-
-            /*
-             * Игрок больше не существует.
-             * Например, сервер был перезапущен.
-             */
             if (!response.ok) {
 
-                localStorage.removeItem("playerId");
+                localStorage.removeItem(
+                    "playerId"
+                );
 
                 return;
             }
+
+            const snapshot =
+                await response.json();
 
             const player =
                 snapshot.player;
 
             showPlayerScreen(player);
 
-            console.log(
-                "Game state:",
-                snapshot.game.state
+            updateGameState(
+                snapshot.game
             );
-
-            /*
-             * Возвращаем игрока в игру.
-             */
-            showPlayerScreen(player);
 
         } catch (error) {
 
@@ -269,6 +299,177 @@
                 "Failed to restore player:",
                 error
             );
+        }
+    }
+
+    function updateGameState(game) {
+
+        currentGame = game;
+
+        const status =
+            document.getElementById("gameStatus");
+
+        const question =
+            document.getElementById("questionText");
+
+        const button =
+            document.getElementById("buzzButton");
+
+
+        /*
+         * Игра ждёт начала.
+         */
+        if (game.state === "WAITING") {
+
+            status.textContent =
+                "Ждём начала игры...";
+
+            question.textContent = "";
+
+            button.classList.add("hidden");
+
+            return;
+        }
+
+
+        /*
+         * Ведущий открыл вопрос.
+         */
+        if (game.state === "QUESTION") {
+
+            status.textContent =
+                "Вопрос";
+
+            question.textContent =
+                game.currentQuestion.text;
+
+            button.classList.add("hidden");
+
+            return;
+        }
+
+
+        /*
+         * Можно нажимать кнопку.
+         */
+        if (game.state === "ANSWERING") {
+
+            question.textContent =
+                game.currentQuestion.text;
+
+            /*
+             * Если уже кто-то нажал,
+             * кнопка больше недоступна.
+             */
+            if (game.buzzedPlayer) {
+
+                button.classList.remove("hidden");
+                button.disabled = true;
+
+                if (
+                    game.buzzedPlayer.id ===
+                    currentPlayer.id
+                ) {
+
+                    status.textContent =
+                        "Вы первый! Отвечайте!";
+
+                } else {
+
+                    status.textContent =
+                        `${game.buzzedPlayer.name} отвечает`;
+
+                }
+
+            } else {
+
+                status.textContent =
+                    "Нажмите кнопку, если знаете ответ";
+
+                button.classList.remove("hidden");
+                button.disabled = false;
+            }
+
+            return;
+        }
+
+
+        /*
+         * Игра закончилась.
+         */
+        if (game.state === "FINISHED") {
+
+            status.textContent =
+                "Игра закончена";
+
+            button.classList.add("hidden");
+        }
+    }
+
+    async function buzz() {
+
+        if (!currentPlayer) {
+            return;
+        }
+
+        if (!currentGame) {
+            return;
+        }
+
+        if (currentGame.state !== "ANSWERING") {
+            return;
+        }
+
+        const button =
+            document.getElementById("buzzButton");
+
+        /*
+         * Сразу визуально блокируем кнопку.
+         *
+         * Это не обеспечивает безопасность —
+         * безопасность обеспечивает сервер.
+         *
+         * Это просто улучшает UX.
+         */
+        button.disabled = true;
+
+        try {
+
+            const response = await fetch(
+                `/api/game/buzz/${currentPlayer.id}`,
+                {
+                    method: "POST"
+                }
+            );
+
+            if (!response.ok) {
+
+                button.disabled = false;
+
+                console.error(
+                    "Buzz failed:",
+                    response.status
+                );
+
+                return;
+            }
+
+            const player =
+                await response.json();
+
+            console.log(
+                "Buzz result:",
+                player
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Buzz error:",
+                error
+            );
+
+            button.disabled = false;
         }
     }
 
@@ -283,9 +484,24 @@
 
         onConnect: () => {
 
-            console.log(
-                "WebSocket connected"
+            console.log("WebSocket connected");
+
+            socket.subscribe(
+                "/topic/game",
+                message => {
+
+                    const event =
+                        JSON.parse(message.body);
+
+                    console.log(
+                        "Game event:",
+                        event
+                    );
+
+                    handleGameEvent(event);
+                }
             );
+
         },
 
         onWebSocketError: error => {
@@ -304,6 +520,20 @@
             );
         }
     });
+
+    function handleGameEvent(event) {
+
+        if (
+            event.type === "GAME_UPDATED" ||
+            event.type === "PLAYER_BUZZED"
+        ) {
+
+            updateGameState(
+                event.game
+            );
+        }
+
+    }
 
 
     socket.activate();

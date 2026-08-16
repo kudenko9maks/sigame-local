@@ -76,4 +76,21 @@ public class GameController {
     public PlayerSnapshot getSnapshot(@PathVariable String id) {
         return gameService.getPlayerSnapshot(id);
     }
+
+    @PostMapping("/game/question")
+    public Game openQuestion() {
+        gameService.openTestQuestion();
+        return gameService.getGame();
+    }
+
+    @PostMapping("/game/answering")
+    public Game startAnswering() {
+        gameService.startAnswering();
+        return gameService.getGame();
+    }
+
+    @PostMapping("/game/buzz/{playerId}")
+    public Player buzz(@PathVariable String playerId) {
+        return gameService.buzz(playerId);
+    }
 }
