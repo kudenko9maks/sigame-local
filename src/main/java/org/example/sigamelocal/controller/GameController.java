@@ -63,7 +63,7 @@ public class GameController {
     }
 
     @GetMapping("/host")
-    public Host getHost() {
+    public Host getHost() { 
         return gameService.getGame().getHost();
     }
 
