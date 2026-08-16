@@ -10,10 +10,13 @@ public class Game {
     private final List<Player> players;
     private Question currentQuestion;
     private Player buzzedPlayer;
+    private Player turnPlayer;
+    private final List<Category> categories;
 
     public Game() {
-        this.state = GameState.WAITING;
+        this.state = GameState.LOBBY;
         this.players = new ArrayList<>();
+        this.categories = new ArrayList<>();
     }
 
     public GameState getState() {
@@ -50,5 +53,17 @@ public class Game {
 
     public void setBuzzedPlayer(Player buzzedPlayer) {
         this.buzzedPlayer = buzzedPlayer;
+    }
+
+    public Player getTurnPlayer() {
+        return turnPlayer;
+    }
+
+    public void setTurnPlayer(Player turnPlayer) {
+        this.turnPlayer = turnPlayer;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
     }
 }

@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0"
     >
 
-    <title>SiGame Local — Ведущий</title>
+    <title>SiGame Local</title>
 
     <style>
 
@@ -18,111 +18,439 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-        }
-
-        h1 {
-            margin-top: 0;
-        }
-
-        input {
             width: 100%;
-            padding: 14px;
-            font-size: 18px;
-            margin: 10px 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: #050b3d;
+            color: white;
         }
 
-        button {
-            padding: 14px 20px;
-            font-size: 18px;
+        body {
+            overflow: hidden;
+        }
+
+
+        /* =========================
+           LOBBY
+           ========================= */
+
+        #hostSetup {
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 20px;
+        }
+
+        #hostSetup input {
+
+            width: 300px;
+
+            padding: 15px;
+
+            font-size: 20px;
+        }
+
+        #hostSetup button {
+
+            width: 300px;
+
+            padding: 15px;
+
+            font-size: 20px;
+
             cursor: pointer;
         }
 
-        .players {
-            margin-top: 30px;
+
+
+        #gameScreen {
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
         }
 
-        .player {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
+
+
+        .game-header {
+
+            height: 70px;
+
             display: flex;
-            justify-content: space-between;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 32px;
+            font-weight: bold;
+
+            background: #070d52;
+
+            border-bottom: 2px solid #6972c7;
         }
+
+
+        /* =========================
+           BOARD
+           ========================= */
+
+        #board {
+
+            flex: 1;
+
+            display: grid;
+
+            gap: 2px;
+
+            padding: 10px;
+
+            overflow: auto;
+        }
+
+
+        .category {
+
+            display: flex;
+
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+
+        .category-name {
+
+            min-height: 70px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 10px;
+
+            font-size: 24px;
+            font-weight: bold;
+
+            background: #080f66;
+
+            border: 1px solid #9aa2ff;
+        }
+
+
+        .question-cell {
+
+            flex: 1;
+
+            min-height: 70px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 32px;
+            font-weight: bold;
+
+            color: #f5f5ff;
+
+            background: #070d58;
+
+            border: 1px solid #737bd3;
+
+            cursor: pointer;
+
+            transition:
+                    background 0.15s,
+                    transform 0.1s;
+        }
+
+
+        .question-cell:hover {
+
+            background: #111a82;
+
+            transform: scale(1.01);
+        }
+
+
+        .question-cell.used {
+
+            color: transparent;
+
+            background: #03072d;
+
+            cursor: default;
+        }
+
+
+        .question-cell.used:hover {
+
+            transform: none;
+        }
+
+
+        /* =========================
+           TURN
+           ========================= */
+
+        #turnInfo {
+
+            min-height: 70px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 26px;
+            font-weight: bold;
+
+            background: #070d52;
+
+            border-top: 2px solid #6972c7;
+        }
+
+
+        /* =========================
+           PLAYERS
+           ========================= */
+
+        #players {
+
+            min-height: 100px;
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 8px;
+
+            background: #03062b;
+        }
+
+
+        .player-card {
+
+            min-width: 150px;
+
+            padding: 8px 15px;
+
+            text-align: center;
+
+            border: 1px solid #4e58bd;
+
+            background: #080f52;
+        }
+
+
+        .player-card.active {
+
+            border: 3px solid white;
+        }
+
+
+        .player-name {
+
+            font-size: 18px;
+        }
+
+
+        .player-score {
+
+            margin-top: 5px;
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+
+        #questionScreen {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 100;
+
+            display: none;
+
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 60px;
+
+            background: #050b3d;
+        }
+
+
+        #questionCategory {
+
+            font-size: 30px;
+
+            margin-bottom: 20px;
+        }
+
+
+        #questionPrice {
+
+            font-size: 28px;
+
+            margin-bottom: 40px;
+        }
+
+
+        #questionText {
+
+            max-width: 1000px;
+
+            font-size: 48px;
+
+            line-height: 1.2;
+        }
+
+
+        #answeringStatus {
+
+            margin-top: 50px;
+
+            font-size: 30px;
+
+            font-weight: bold;
+        }
+
+
+        #questionControls {
+
+            margin-top: 40px;
+        }
+
+
+        #questionControls button {
+
+            padding: 15px 30px;
+
+            margin: 5px;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
 
         .hidden {
-            display: none;
-        }
-
-        #error {
-            color: red;
+            display: none !important;
         }
 
     </style>
 
 </head>
 
+
 <body>
 
-<div class="container">
 
-    <!-- Создание ведущего -->
+<div id="hostSetup">
 
-    <div id="hostSetup">
+    <h1>SiGame Local</h1>
 
-        <h1>SiGame Local</h1>
+    <p>Вы ведущий</p>
 
-        <p>Вы первый участник.</p>
+    <input
+            id="hostName"
+            type="text"
+            placeholder="Имя ведущего"
+            maxlength="20"
+    >
 
-        <p>Введите имя ведущего:</p>
+    <button onclick="becomeHost()">
+        Стать ведущим
+    </button>
 
-        <input
-                id="hostName"
-                type="text"
-                placeholder="Например, Максим"
-                maxlength="20"
-        >
+    <p id="error"></p>
 
-        <button onclick="becomeHost()">
-            Стать ведущим
-        </button>
+</div>
 
-        <p id="error"></p>
+
+
+<div id="gameScreen" class="hidden">
+
+    <div class="game-header">
+
+        <span id="gameTitle">
+            SiGame
+        </span>
 
     </div>
 
 
-    <!-- Панель ведущего -->
+    <div id="board">
+    </div>
 
-    <div id="hostPanel" class="hidden">
 
-        <h1>Панель ведущего</h1>
+    <div id="turnInfo">
+        Игра ещё не началась
+    </div>
 
-        <p>
-            Ведущий:
-            <strong id="hostNameDisplay"></strong>
-        </p>
 
-        <div class="players">
+    <div id="players">
+    </div>
 
-            <h2>
-                Игроки:
-                <span id="playerCount">0</span>
-            </h2>
+</div>
 
-            <div id="playersList"></div>
 
-        </div>
+<div id="questionScreen">
+
+    <div id="questionCategory"></div>
+
+    <div id="questionPrice"></div>
+
+    <div id="questionText"></div>
+
+    <div id="answeringStatus"></div>
+
+    <div id="questionControls">
+
+        <button
+                id="startAnsweringButton"
+                onclick="startAnswering()"
+        >
+            Разрешить отвечать
+        </button>
+
+        <button
+                onclick="answerCorrect()"
+        >
+            ✓ Правильно
+        </button>
+
+        <button
+                onclick="answerIncorrect()"
+        >
+            ✗ Неправильно
+        </button>
 
     </div>
 
@@ -131,32 +459,24 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 
+
 <script>
 
-    /*
-     * Показываем панель ведущего.
-     */
-    function showHostPanel(host) {
+    let currentGame = null;
+
+
+    function showGameScreen() {
 
         document
             .getElementById("hostSetup")
             .classList.add("hidden");
 
         document
-            .getElementById("hostPanel")
+            .getElementById("gameScreen")
             .classList.remove("hidden");
-
-        document
-            .getElementById("hostNameDisplay")
-            .textContent = host.name;
-
-        loadPlayers();
     }
 
 
-    /*
-     * Создание ведущего.
-     */
     async function becomeHost() {
 
         const name =
@@ -171,82 +491,56 @@
         if (!name) {
 
             error.textContent =
-                "Введите имя ведущего";
+                "Введите имя";
 
             return;
         }
 
         try {
 
-            const response = await fetch(
-                `/api/host?name=${encodeURIComponent(name)}`,
-                {
-                    method: "POST"
-                }
-            );
+            const response =
+                await fetch(
+                    `/api/host?name=${encodeURIComponent(name)}`,
+                    {
+                        method: "POST"
+                    }
+                );
 
             if (!response.ok) {
 
-                const message =
-                    await response.text();
-
                 error.textContent =
-                    `Ошибка сервера: ${message}`;
-
-                console.error(
-                    "Host creation failed:",
-                    response.status,
-                    message
-                );
+                    await response.text();
 
                 return;
             }
 
-
-            /*
-             * Получаем созданного ведущего.
-             */
             const host =
                 await response.json();
 
-
-            /*
-             * Сохраняем ID ведущего.
-             */
             localStorage.setItem(
                 "hostId",
                 host.id
             );
 
+            showGameScreen();
 
-            /*
-             * Показываем панель.
-             */
-            showHostPanel(host);
+            loadGame();
 
         } catch (error) {
 
             console.error(error);
 
-            document
-                .getElementById("error")
-                .textContent =
-                "Ошибка подключения к серверу";
+            error.textContent =
+                "Ошибка подключения";
         }
     }
 
 
-    /*
-     * Восстановление ведущего после F5.
-     */
     async function restoreHost() {
 
         const hostId =
             localStorage.getItem("hostId");
 
-        /*
-         * Это новый браузер/новый пользователь.
-         */
         if (!hostId) {
             return;
         }
@@ -256,41 +550,33 @@
             const response =
                 await fetch("/api/host");
 
-
-            /*
-             * Сервер не знает такого ведущего.
-             *
-             * Например, Spring Boot был
-             * полностью перезапущен.
-             */
             if (!response.ok) {
 
-                localStorage.removeItem("hostId");
+                localStorage.removeItem(
+                    "hostId"
+                );
 
                 return;
             }
-
 
             const host =
                 await response.json();
 
+            if (
+                !host ||
+                host.id !== hostId
+            ) {
 
-            /*
-             * Проверяем, что это именно
-             * наш ведущий.
-             */
-            if (!host || host.id !== hostId) {
-
-                localStorage.removeItem("hostId");
+                localStorage.removeItem(
+                    "hostId"
+                );
 
                 return;
             }
 
+            showGameScreen();
 
-            /*
-             * Восстанавливаем панель.
-             */
-            showHostPanel(host);
+            loadGame();
 
         } catch (error) {
 
@@ -302,66 +588,426 @@
     }
 
 
-    /*
-     * Загружаем список игроков.
-     */
-    async function loadPlayers() {
+
+    async function loadGame() {
 
         try {
 
             const response =
-                await fetch("/api/players");
+                await fetch("/api/game");
 
             if (!response.ok) {
                 return;
             }
 
-            const players =
+            const game =
                 await response.json();
 
-            const list =
-                document.getElementById("playersList");
-
-            const count =
-                document.getElementById("playerCount");
-
-
-            count.textContent =
-                players.length;
-
-            list.innerHTML = "";
-
-
-            players.forEach(player => {
-
-                const element =
-                    document.createElement("div");
-
-                element.className =
-                    "player";
-
-                element.innerHTML = `
-                    <span>${player.name}</span>
-                    <span>${player.score} очков</span>
-                `;
-
-                list.appendChild(element);
-
-            });
+            updateGame(game);
 
         } catch (error) {
 
             console.error(
-                "Failed to load players:",
+                "Failed to load game:",
                 error
             );
         }
     }
 
 
-    /*
-     * WebSocket.
-     */
+
+    function updateGame(game) {
+
+        currentGame = game;
+
+        if (game.state === "LOBBY") {
+
+            renderLobby(game);
+
+            return;
+        }
+
+        if (game.state === "BOARD") {
+
+            renderBoard(game);
+
+            return;
+        }
+
+        if (
+            game.state === "QUESTION" ||
+            game.state === "ANSWERING"
+        ) {
+
+            renderBoard(game);
+
+            showQuestion(game);
+
+            return;
+        }
+    }
+
+
+    /* =========================
+       LOBBY
+       ========================= */
+
+    function renderLobby(game) {
+
+        document
+            .getElementById("turnInfo")
+            .textContent =
+            `Игроков подключено: ${game.players.length}`;
+
+        renderPlayers(game);
+
+    }
+
+
+
+
+    function renderBoard(game) {
+
+        const board =
+            document.getElementById("board");
+
+        board.innerHTML = "";
+
+        const categories =
+            game.categories || [];
+
+        board.style.gridTemplateColumns =
+            `repeat(${categories.length}, 1fr)`;
+
+
+        categories.forEach(category => {
+
+            const column =
+                document.createElement("div");
+
+            column.className =
+                "category";
+
+
+            const title =
+                document.createElement("div");
+
+            title.className =
+                "category-name";
+
+            title.textContent =
+                category.name;
+
+            column.appendChild(title);
+
+
+            category.questions.forEach(question => {
+
+                const cell =
+                    document.createElement("div");
+
+                cell.className =
+                    "question-cell";
+
+
+                if (question.used) {
+
+                    cell.classList.add(
+                        "used"
+                    );
+
+                } else {
+
+                    cell.textContent =
+                        question.price;
+
+                    cell.onclick = () => {
+
+                        selectQuestion(
+                            category.name,
+                            question.price
+                        );
+
+                    };
+                }
+
+
+                column.appendChild(cell);
+
+            });
+
+
+            board.appendChild(column);
+
+        });
+
+
+        renderTurn(game);
+
+        renderPlayers(game);
+    }
+
+
+    function renderTurn(game) {
+
+        const turnInfo =
+            document.getElementById(
+                "turnInfo"
+            );
+
+
+        if (!game.turnPlayer) {
+
+            turnInfo.textContent =
+                "Ход ещё не определён";
+
+            return;
+        }
+
+
+        turnInfo.textContent =
+            `Ходит: ${game.turnPlayer.name}`;
+    }
+
+
+    function renderPlayers(game) {
+
+        const players =
+            document.getElementById(
+                "players"
+            );
+
+        players.innerHTML = "";
+
+
+        game.players.forEach(player => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "player-card";
+
+
+            if (
+                game.turnPlayer &&
+                game.turnPlayer.id === player.id
+            ) {
+
+                card.classList.add(
+                    "active"
+                );
+            }
+
+
+            card.innerHTML = `
+                <div class="player-name">
+                    ${player.name}
+                </div>
+
+                <div class="player-score">
+                    ${player.score}
+                </div>
+            `;
+
+
+            players.appendChild(card);
+
+        });
+    }
+
+
+    async function selectQuestion(
+        category,
+        price
+    ) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/game/question/select?category=${encodeURIComponent(category)}&price=${price}`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                const message =
+                    await response.text();
+
+                console.error(
+                    "Question selection failed:",
+                    message
+                );
+
+                return;
+            }
+
+
+            const question =
+                await response.json();
+
+            console.log(
+                "Selected question:",
+                question
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+        }
+    }
+
+
+    function showQuestion(game) {
+
+        const screen =
+            document.getElementById(
+                "questionScreen"
+            );
+
+        screen.style.display =
+            "flex";
+
+
+        document
+            .getElementById("questionCategory")
+            .textContent =
+            game.currentQuestion
+                ? ""
+                : "";
+
+
+        document
+            .getElementById("questionPrice")
+            .textContent =
+            game.currentQuestion
+                ? `${game.currentQuestion.price}`
+                : "";
+
+
+        document
+            .getElementById("questionText")
+            .textContent =
+            game.currentQuestion
+                ? game.currentQuestion.text
+                : "";
+
+
+        const status =
+            document.getElementById(
+                "answeringStatus"
+            );
+
+
+        if (game.state === "QUESTION") {
+
+            status.textContent =
+                "Ведущий показывает вопрос";
+
+        }
+
+
+        if (game.state === "ANSWERING") {
+
+            if (game.buzzedPlayer) {
+
+                status.textContent =
+                    `${game.buzzedPlayer.name} отвечает`;
+
+            } else {
+
+                status.textContent =
+                    "Игроки могут нажимать кнопку";
+            }
+
+        }
+    }
+
+
+    function hideQuestion() {
+
+        document
+            .getElementById(
+                "questionScreen"
+            )
+            .style.display =
+            "none";
+    }
+
+
+
+    async function startAnswering() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/game/answering",
+                    {
+                        method: "POST"
+                    }
+                );
+
+            if (!response.ok) {
+
+                console.error(
+                    "Failed to start answering"
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+        }
+    }
+
+
+    async function answerCorrect() {
+
+        try {
+
+            await fetch(
+                "/api/game/answer/correct",
+                {
+                    method: "POST"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(error);
+        }
+    }
+
+
+    async function answerIncorrect() {
+
+        try {
+
+            await fetch(
+                "/api/game/answer/incorrect",
+                {
+                    method: "POST"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(error);
+        }
+    }
+
+
+    /* =========================
+       WEBSOCKET
+       ========================= */
+
     const socket =
         new StompJs.Client({
 
@@ -375,35 +1021,32 @@
                 );
 
 
-                socket.subscribe("/topic/game", message => {
+                socket.subscribe(
+                    "/topic/game",
+                    message => {
 
-                    const event = JSON.parse(message.body);
-
-                    console.log("Game event:", event);
-
-                    if (event.type === "PLAYER_JOINED") {
-                        loadPlayers();
-                    }
-
-                    if (event.type === "GAME_UPDATED") {
-                        console.log(
-                            "Game state:",
-                            event.game.state
-                        );
-                    }
-
-                    if (event.type === "PLAYER_BUZZED") {
-
-                        const player =
-                            event.game.buzzedPlayer;
+                        const event =
+                            JSON.parse(
+                                message.body
+                            );
 
                         console.log(
-                            "First player:",
-                            player.name
+                            "Game event:",
+                            event
                         );
-                    }
 
-                });
+
+                        if (
+                            event.game
+                        ) {
+
+                            updateGame(
+                                event.game
+                            );
+                        }
+
+                    }
+                );
 
             },
 
@@ -424,16 +1067,12 @@
                         frame
                     );
                 }
+
         });
 
 
     socket.activate();
 
-
-    /*
-     * При загрузке страницы
-     * пытаемся восстановить ведущего.
-     */
     restoreHost();
 
 </script>

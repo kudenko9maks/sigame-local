@@ -27,7 +27,8 @@ GET http://localhost:8080/api/game
 POST http://localhost:8080/api/game/answering
 
 ### Player 1 buzz
-POST http://localhost:8080/api/game/buzz/ID_adad
+POST http://localhost:8080/api/game/question/select?category=История&price=300
 
 ### Game state
 GET http://localhost:8080/api/game
+

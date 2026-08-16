@@ -183,9 +183,6 @@
     }
 
 
-    /*
-     * Первичное подключение игрока.
-     */
     async function joinGame() {
 
         const name =
@@ -226,18 +223,11 @@
                 await response.json();
 
 
-            /*
-             * Запоминаем ID игрока.
-             */
             localStorage.setItem(
                 "playerId",
                 player.id
             );
 
-
-            /*
-             * Показываем экран игрока.
-             */
             showPlayerScreen(player);
 
         } catch (error) {
@@ -252,10 +242,7 @@
     }
 
 
-    /*
-     * Восстановление игрока после
-     * обновления страницы.
-     */
+
     async function restorePlayer() {
 
         const playerId =
@@ -316,9 +303,7 @@
             document.getElementById("buzzButton");
 
 
-        /*
-         * Игра ждёт начала.
-         */
+
         if (game.state === "WAITING") {
 
             status.textContent =
@@ -332,9 +317,6 @@
         }
 
 
-        /*
-         * Ведущий открыл вопрос.
-         */
         if (game.state === "QUESTION") {
 
             status.textContent =
@@ -349,18 +331,11 @@
         }
 
 
-        /*
-         * Можно нажимать кнопку.
-         */
         if (game.state === "ANSWERING") {
 
             question.textContent =
                 game.currentQuestion.text;
 
-            /*
-             * Если уже кто-то нажал,
-             * кнопка больше недоступна.
-             */
             if (game.buzzedPlayer) {
 
                 button.classList.remove("hidden");
@@ -394,9 +369,6 @@
         }
 
 
-        /*
-         * Игра закончилась.
-         */
         if (game.state === "FINISHED") {
 
             status.textContent =
@@ -423,14 +395,7 @@
         const button =
             document.getElementById("buzzButton");
 
-        /*
-         * Сразу визуально блокируем кнопку.
-         *
-         * Это не обеспечивает безопасность —
-         * безопасность обеспечивает сервер.
-         *
-         * Это просто улучшает UX.
-         */
+
         button.disabled = true;
 
         try {
@@ -474,9 +439,6 @@
     }
 
 
-    /*
-     * WebSocket.
-     */
     const socket = new StompJs.Client({
 
         brokerURL:
@@ -539,10 +501,6 @@
     socket.activate();
 
 
-    /*
-     * При открытии страницы
-     * пытаемся восстановить игрока.
-     */
     restorePlayer();
 
 </script>

@@ -53,7 +53,9 @@ public class GameController {
 
     @PostMapping("/game/start")
     public Game startGame() {
+
         gameService.startGame();
+
         return gameService.getGame();
     }
 
@@ -92,5 +94,27 @@ public class GameController {
     @PostMapping("/game/buzz/{playerId}")
     public Player buzz(@PathVariable String playerId) {
         return gameService.buzz(playerId);
+    }
+
+    @PostMapping("/game/answer/correct")
+    public Player answerCorrectly() {
+        return gameService.answerCorrectly();
+    }
+
+    @PostMapping("/game/answer/incorrect")
+    public Player answerIncorrectly() {
+        return gameService.answerIncorrectly();
+    }
+
+    @PostMapping("/game/question/select")
+    public Question selectQuestion(
+            @RequestParam String category,
+            @RequestParam int price
+    ) {
+
+        return gameService.selectQuestion(
+                category,
+                price
+        );
     }
 }
