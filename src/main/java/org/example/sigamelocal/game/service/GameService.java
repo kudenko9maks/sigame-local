@@ -5,6 +5,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.example.sigamelocal.game.model.Question;
 import org.example.sigamelocal.game.model.GameEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import java.util.UUID;
 
@@ -13,6 +16,8 @@ public class GameService {
 
     private final Game game;
     private final SimpMessagingTemplate messagingTemplate;
+    private final ScheduledExecutorService scheduler =
+            Executors.newSingleThreadScheduledExecutor();
 
     public GameService(SimpMessagingTemplate messagingTemplate) {
         this.game = new Game();
@@ -138,6 +143,82 @@ public class GameService {
 
         broadcastPlayerUpdate(
                 "GAME_STARTED"
+        );
+
+        startInitialPresentation();
+    }
+
+    private void startInitialPresentation() {
+
+        if (game.getPack() == null) {
+            throw new IllegalStateException(
+                    "No pack loaded"
+            );
+        }
+
+        game.setCurrentRound(0);
+
+        loadCurrentRoundCategories();
+
+        game.setCurrentQuestion(null);
+        game.setBuzzedPlayer(null);
+
+        game.setPresentationType("INITIAL");
+        game.setPresentationStartedAt(
+                System.currentTimeMillis()
+        );
+        game.setPresentationDuration(10000);
+
+        game.setState(
+                GameState.PRESENTATION
+        );
+
+        broadcastGameUpdate(
+                "INITIAL_PRESENTATION_STARTED"
+        );
+
+        broadcastPlayerUpdate(
+                "INITIAL_PRESENTATION_STARTED"
+        );
+
+        scheduler.schedule(
+                this::finishInitialPresentation,
+                10,
+                TimeUnit.SECONDS
+        );
+    }
+
+    private void finishInitialPresentation() {
+
+        if (
+                game.getState()
+                        != GameState.PRESENTATION
+        ) {
+            return;
+        }
+
+        if (
+                !"INITIAL".equals(
+                        game.getPresentationType()
+                )
+        ) {
+            return;
+        }
+
+        game.setPresentationType(null);
+        game.setPresentationStartedAt(0);
+        game.setPresentationDuration(0);
+
+        game.setState(
+                GameState.BOARD
+        );
+
+        broadcastGameUpdate(
+                "INITIAL_PRESENTATION_FINISHED"
+        );
+
+        broadcastPlayerUpdate(
+                "INITIAL_PRESENTATION_FINISHED"
         );
     }
 

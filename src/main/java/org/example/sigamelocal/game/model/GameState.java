@@ -6,5 +6,6 @@ public enum GameState {
     BOARD,
     QUESTION,
     ANSWERING,
-    FINISHED
+    FINISHED,
+    PRESENTATION
 }

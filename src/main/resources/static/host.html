@@ -5,10 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>SiGame Local — Ведущий</title>
 
@@ -32,408 +29,350 @@
             overflow: hidden;
         }
 
-        #hostSetup {
+        .hidden {
+            display: none !important;
+        }
 
+        #hostSetup {
             width: 100%;
             height: 100%;
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
             justify-content: center;
-
             gap: 20px;
         }
 
         #hostSetup input {
-
             width: 300px;
-
             padding: 15px;
-
             font-size: 20px;
         }
 
         #hostSetup button {
-
             width: 300px;
-
             padding: 15px;
-
             font-size: 20px;
-
             cursor: pointer;
         }
 
         #gameScreen {
-
             width: 100%;
             height: 100%;
-
             display: flex;
-
             flex-direction: column;
         }
 
         .game-header {
-
             height: 70px;
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             font-size: 32px;
-
             font-weight: bold;
-
             background: #070d52;
-
             border-bottom: 2px solid #6972c7;
         }
 
         #packPanel {
-
             min-height: 90px;
-
             padding: 12px 20px;
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             gap: 12px;
-
             flex-wrap: wrap;
-
             background: #080f52;
-
             border-bottom: 1px solid #4e58bd;
         }
 
         #packInfo {
-
             min-width: 300px;
-
             padding: 10px 15px;
-
             text-align: center;
-
             background: #050b3d;
-
             border-radius: 6px;
-
             font-size: 16px;
         }
 
         #packFile {
-
             max-width: 300px;
-
             padding: 8px;
-
             font-size: 15px;
-
             color: white;
         }
 
         #packPanel button {
-
             padding: 10px 18px;
-
             font-size: 16px;
-
             cursor: pointer;
-
             border: none;
-
             border-radius: 4px;
         }
 
         #startGameButton {
-
             font-weight: bold;
         }
 
         #startGameButton:disabled {
-
             opacity: 0.4;
-
             cursor: not-allowed;
         }
 
         #packError {
-
             width: 100%;
-
             margin: 0;
-
             text-align: center;
-
             color: #ff7777;
-
             font-size: 16px;
         }
 
         #board {
-
             flex: 1;
-
             display: grid;
-
             gap: 2px;
-
             padding: 10px;
-
             overflow: auto;
         }
 
         .category {
-
             display: flex;
-
             flex-direction: column;
-
             min-width: 0;
         }
 
         .category-name {
-
             min-height: 70px;
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             text-align: center;
-
             padding: 10px;
-
             font-size: 24px;
-
             font-weight: bold;
-
             background: #080f66;
-
             border: 1px solid #9aa2ff;
         }
 
         .question-cell {
-
             flex: 1;
-
             min-height: 70px;
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             font-size: 32px;
-
             font-weight: bold;
-
             color: #f5f5ff;
-
             background: #070d58;
-
             border: 1px solid #737bd3;
-
             cursor: pointer;
-
-            transition:
-                    background 0.15s,
-                    transform 0.1s;
+            transition: background 0.15s, transform 0.1s;
         }
 
         .question-cell:hover {
-
             background: #111a82;
-
             transform: scale(1.01);
         }
 
         .question-cell.used {
-
             color: transparent;
-
             background: #03072d;
-
             cursor: default;
         }
 
         .question-cell.used:hover {
-
             transform: none;
         }
 
         #turnInfo {
-
             min-height: 70px;
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             font-size: 26px;
-
             font-weight: bold;
-
             background: #070d52;
-
             border-top: 2px solid #6972c7;
         }
 
         #players {
-
             min-height: 100px;
-
             display: flex;
-
             justify-content: center;
-
             gap: 8px;
-
             padding: 8px;
-
             background: #03062b;
-
             overflow-x: auto;
         }
 
         .player-card {
-
             min-width: 150px;
-
             padding: 8px 15px;
-
             text-align: center;
-
             border: 1px solid #4e58bd;
-
             background: #080f52;
         }
 
         .player-card.active {
-
             border: 3px solid white;
         }
 
         .player-name {
-
             font-size: 18px;
         }
 
         .player-score {
-
             margin-top: 5px;
-
             font-size: 24px;
-
             font-weight: bold;
         }
 
         #questionScreen {
-
             position: fixed;
-
             inset: 0;
-
             z-index: 100;
-
             display: none;
-
             flex-direction: column;
-
             align-items: center;
             justify-content: center;
-
             text-align: center;
-
             padding: 40px;
-
             background: #050b3d;
         }
 
         #questionPrice {
-
             font-size: 30px;
-
             margin-bottom: 25px;
         }
 
         #questionText {
-
             max-width: 1000px;
-
             font-size: 48px;
-
             line-height: 1.2;
         }
 
         #answerBox {
-
             margin-top: 25px;
-
             padding: 15px 25px;
-
             background: #e8f5e9;
-
             color: #1b5e20;
-
             border-radius: 10px;
-
             font-size: 24px;
         }
 
         #answerText {
-
             font-weight: bold;
         }
 
         #answeringStatus {
-
             margin-top: 25px;
-
             font-size: 30px;
-
             font-weight: bold;
         }
 
         #questionControls {
-
             margin-top: 30px;
         }
 
         #questionControls button {
-
             padding: 15px 30px;
-
             margin: 5px;
-
             font-size: 20px;
-
             cursor: pointer;
         }
 
-        .hidden {
+        #presentationScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #050b3d;
+            color: white;
+        }
 
-            display: none !important;
+        #presentationRound {
+            position: absolute;
+            top: 35px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 38px;
+            font-weight: bold;
+            opacity: 0.85;
+            z-index: 5;
+        }
+
+        #presentationCategories {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            font-size: 58px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .presentation-category {
+            flex-shrink: 0;
+            white-space: nowrap;
+            text-shadow: 0 0 25px rgba(120, 130, 255, .6);
+        }
+
+        .initial-presentation {
+            animation: initialPresentationMove 10s linear forwards;
+        }
+
+        @keyframes initialPresentationMove {
+
+            from {
+                transform: translateY(-100vh);
+            }
+
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .round-presentation {
+            animation: roundCategoryAnimation 2s ease-in-out forwards;
+        }
+
+        @keyframes roundCategoryAnimation {
+
+            0% {
+                opacity: 0;
+                transform: translateY(100px);
+            }
+
+            20% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            80% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
         }
 
     </style>
 
 </head>
 
-
 <body>
-
 
 <div id="hostSetup">
 
@@ -457,12 +396,20 @@
 </div>
 
 
+<div id="presentationScreen" class="hidden">
+
+    <div id="presentationRound"></div>
+
+    <div id="presentationCategories"></div>
+
+</div>
+
+
 <div id="gameScreen" class="hidden">
 
     <div class="game-header">
         SiGame
     </div>
-
 
     <div id="packPanel">
 
@@ -470,13 +417,11 @@
             Пак не загружен
         </div>
 
-
         <input
                 id="packFile"
                 type="file"
                 accept=".json,application/json"
         >
-
 
         <button
                 id="uploadPackButton"
@@ -484,7 +429,6 @@
         >
             Загрузить пак
         </button>
-
 
         <button
                 id="startGameButton"
@@ -494,23 +438,17 @@
             НАЧАТЬ ИГРУ
         </button>
 
-
         <p id="packError"></p>
 
     </div>
 
-
-    <div id="board">
-    </div>
-
+    <div id="board"></div>
 
     <div id="turnInfo">
         Игра ещё не началась
     </div>
 
-
-    <div id="players">
-    </div>
+    <div id="players"></div>
 
 </div>
 
@@ -520,7 +458,6 @@
     <div id="questionPrice"></div>
 
     <div id="questionText"></div>
-
 
     <div id="answerBox">
 
@@ -532,9 +469,7 @@
 
     </div>
 
-
     <div id="answeringStatus"></div>
-
 
     <div id="questionControls">
 
@@ -545,17 +480,11 @@
             Разрешить отвечать
         </button>
 
-
-        <button
-                onclick="answerCorrect()"
-        >
+        <button onclick="answerCorrect()">
             ✓ Правильно
         </button>
 
-
-        <button
-                onclick="answerIncorrect()"
-        >
+        <button onclick="answerIncorrect()">
             ✗ Неправильно
         </button>
 
@@ -566,12 +495,15 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 
-
 <script>
 
     let currentGame = null;
-
     let currentPack = null;
+
+    let presentationTimer = null;
+
+    let initialPresentationPlayed = false;
+    let presentationRunning = false;
 
 
     function showGameScreen() {
@@ -579,7 +511,6 @@
         document
             .getElementById("hostSetup")
             .classList.add("hidden");
-
 
         document
             .getElementById("gameScreen")
@@ -595,20 +526,15 @@
                 .value
                 .trim();
 
-
         const error =
-            document
-                .getElementById("error");
-
+            document.getElementById("error");
 
         if (!name) {
 
-            error.textContent =
-                "Введите имя";
+            error.textContent = "Введите имя";
 
             return;
         }
-
 
         try {
 
@@ -620,7 +546,6 @@
                     }
                 );
 
-
             if (!response.ok) {
 
                 error.textContent =
@@ -629,16 +554,13 @@
                 return;
             }
 
-
             const host =
                 await response.json();
-
 
             localStorage.setItem(
                 "hostId",
                 host.id
             );
-
 
             showGameScreen();
 
@@ -657,16 +579,11 @@
     async function restoreHost() {
 
         const hostId =
-            localStorage.getItem(
-                "hostId"
-            );
-
+            localStorage.getItem("hostId");
 
         if (!hostId) {
-
             return;
         }
-
 
         try {
 
@@ -678,7 +595,6 @@
                     }
                 );
 
-
             if (!response.ok) {
 
                 localStorage.removeItem(
@@ -688,10 +604,8 @@
                 return;
             }
 
-
             const host =
                 await response.json();
-
 
             if (
                 !host ||
@@ -705,17 +619,13 @@
                 return;
             }
 
-
             showGameScreen();
 
             loadGame();
 
         } catch (e) {
 
-            console.error(
-                "Failed to restore host:",
-                e
-            );
+            console.error(e);
         }
     }
 
@@ -723,29 +633,17 @@
     async function uploadPack() {
 
         const fileInput =
-            document.getElementById(
-                "packFile"
-            );
-
+            document.getElementById("packFile");
 
         const error =
-            document.getElementById(
-                "packError"
-            );
-
+            document.getElementById("packError");
 
         const startButton =
-            document.getElementById(
-                "startGameButton"
-            );
-
+            document.getElementById("startGameButton");
 
         error.textContent = "";
 
-
-        if (
-            !fileInput.files.length
-        ) {
+        if (!fileInput.files.length) {
 
             error.textContent =
                 "Выберите JSON-файл";
@@ -753,10 +651,8 @@
             return;
         }
 
-
         const file =
             fileInput.files[0];
-
 
         if (
             !file.name
@@ -770,16 +666,13 @@
             return;
         }
 
-
         const formData =
             new FormData();
-
 
         formData.append(
             "file",
             file
         );
-
 
         try {
 
@@ -792,7 +685,6 @@
                     }
                 );
 
-
             if (!response.ok) {
 
                 error.textContent =
@@ -801,29 +693,20 @@
                 return;
             }
 
-
             const pack =
                 await response.json();
-
 
             currentPack =
                 pack;
 
-
-            updatePackInfo(
-                pack
-            );
-
+            updatePackInfo(pack);
 
             startButton.disabled =
                 false;
 
+        } catch (e) {
 
-        } catch (errorObject) {
-
-            console.error(
-                errorObject
-            );
+            console.error(e);
 
             error.textContent =
                 "Ошибка загрузки пака";
@@ -834,65 +717,237 @@
     function updatePackInfo(pack) {
 
         const packInfo =
-            document.getElementById(
-                "packInfo"
-            );
-
+            document.getElementById("packInfo");
 
         let categoryCount = 0;
-
         let questionCount = 0;
 
-
-        (
-            pack.rounds || []
-        ).forEach(
+        (pack.rounds || []).forEach(
             round => {
 
                 categoryCount +=
-                    (
-                        round.categories ||
-                        []
-                    ).length;
+                    (round.categories || []).length;
 
-
-                (
-                    round.categories ||
-                    []
-                ).forEach(
+                (round.categories || []).forEach(
                     category => {
 
                         questionCount +=
-                            (
-                                category.questions ||
-                                []
-                            ).length;
+                            (category.questions || []).length;
                     }
                 );
             }
         );
 
-
         packInfo.innerHTML = `
-            <strong>
-                ${escapeHtml(pack.name)}
-            </strong>
-
+            <strong>${escapeHtml(pack.name)}</strong>
             <br><br>
-
-            Раундов:
-            ${pack.rounds.length}
-
+            Раундов: ${pack.rounds.length}
             <br>
-
-            Тем:
-            ${categoryCount}
-
+            Тем: ${categoryCount}
             <br>
-
-            Вопросов:
-            ${questionCount}
+            Вопросов: ${questionCount}
         `;
+    }
+
+
+    function startInitialPresentation(game) {
+
+        if (initialPresentationPlayed) {
+            return;
+        }
+
+        initialPresentationPlayed = true;
+        presentationRunning = true;
+
+        clearTimeout(presentationTimer);
+
+        const screen =
+            document.getElementById(
+                "presentationScreen"
+            );
+
+        const container =
+            document.getElementById(
+                "presentationCategories"
+            );
+
+        const title =
+            document.getElementById(
+                "presentationRound"
+            );
+
+        container.innerHTML = "";
+        container.className =
+            "initial-presentation";
+
+        title.textContent =
+            "ИГРА НАЧИНАЕТСЯ";
+
+        const categories = [];
+
+        (game.pack?.rounds || []).forEach(
+            round => {
+
+                (round.categories || []).forEach(
+                    category => {
+
+                        categories.push(
+                            category.name
+                        );
+                    }
+                );
+            }
+        );
+
+        categories.forEach(
+            name => {
+
+                const element =
+                    document.createElement("div");
+
+                element.className =
+                    "presentation-category";
+
+                element.textContent =
+                    name;
+
+                container.appendChild(
+                    element
+                );
+            }
+        );
+
+        screen.classList.remove("hidden");
+
+        document
+            .getElementById("gameScreen")
+            .classList.add("hidden");
+
+        hideQuestion();
+
+        presentationTimer =
+            setTimeout(
+                () => {
+                    startFirstRoundPresentation(game);
+                },
+                10000
+            );
+    }
+
+
+    function startFirstRoundPresentation(game) {
+
+        clearTimeout(presentationTimer);
+
+        const screen =
+            document.getElementById(
+                "presentationScreen"
+            );
+
+        const container =
+            document.getElementById(
+                "presentationCategories"
+            );
+
+        const title =
+            document.getElementById(
+                "presentationRound"
+            );
+
+        container.innerHTML = "";
+        container.className = "";
+
+        title.textContent =
+            "РАУНД 1";
+
+        screen.classList.remove("hidden");
+
+        document
+            .getElementById("gameScreen")
+            .classList.add("hidden");
+
+        const round =
+            game.pack?.rounds?.[0];
+
+        const categories =
+            round?.categories || [];
+
+        showRoundCategory(
+            categories,
+            0
+        );
+    }
+
+
+    function showRoundCategory(
+        categories,
+        index
+    ) {
+
+        const container =
+            document.getElementById(
+                "presentationCategories"
+            );
+
+        if (
+            index >= categories.length
+        ) {
+
+            finishPresentation();
+
+            return;
+        }
+
+        container.innerHTML = "";
+        container.className = "";
+
+        const element =
+            document.createElement("div");
+
+        element.className =
+            "presentation-category round-presentation";
+
+        element.textContent =
+            categories[index].name;
+
+        container.appendChild(
+            element
+        );
+
+        presentationTimer =
+            setTimeout(
+                () => {
+
+                    showRoundCategory(
+                        categories,
+                        index + 1
+                    );
+
+                },
+                2000
+            );
+    }
+
+
+    function finishPresentation() {
+
+        clearTimeout(presentationTimer);
+
+        presentationRunning = false;
+
+        document
+            .getElementById(
+                "presentationScreen"
+            )
+            .classList.add("hidden");
+
+        document
+            .getElementById(
+                "gameScreen"
+            )
+            .classList.remove("hidden");
+
+        loadGame();
     }
 
 
@@ -903,7 +958,6 @@
                 "packError"
             );
 
-
         if (!currentPack) {
 
             error.textContent =
@@ -912,6 +966,8 @@
             return;
         }
 
+        initialPresentationPlayed = false;
+        presentationRunning = false;
 
         try {
 
@@ -923,7 +979,6 @@
                     }
                 );
 
-
             if (!response.ok) {
 
                 error.textContent =
@@ -932,14 +987,14 @@
                 return;
             }
 
+            const game =
+                await response.json();
 
-            loadGame();
+            updateGame(game);
 
-        } catch (errorObject) {
+        } catch (e) {
 
-            console.error(
-                errorObject
-            );
+            console.error(e);
 
             error.textContent =
                 "Не удалось начать игру";
@@ -959,66 +1014,49 @@
                     }
                 );
 
-
             if (!response.ok) {
-
                 return;
             }
-
 
             const game =
                 await response.json();
 
-
-            updateGame(
-                game
-            );
+            updateGame(game);
 
         } catch (e) {
 
-            console.error(
-                "Failed to load game:",
-                e
-            );
+            console.error(e);
         }
     }
 
 
     function updateGame(game) {
 
-        currentGame =
-            game;
-
+        currentGame = game;
 
         if (
-            game.pack
+            !initialPresentationPlayed &&
+            game.pack &&
+            game.currentRound === 0 &&
+            game.state === "BOARD"
         ) {
 
-            currentPack =
-                game.pack;
+            startInitialPresentation(game);
 
-
-            updatePackInfo(
-                game.pack
-            );
+            return;
         }
 
-
-        const startButton =
-            document.getElementById(
-                "startGameButton"
-            );
-
+        if (presentationRunning) {
+            return;
+        }
 
         if (
-            startButton
+            game.state === "PRESENTATION"
         ) {
-
-            startButton.disabled =
-                !game.pack ||
-                game.state !== "LOBBY";
+            return;
         }
 
+        hidePresentation();
 
         if (
             game.state === "LOBBY"
@@ -1026,13 +1064,10 @@
 
             hideQuestion();
 
-            renderLobby(
-                game
-            );
+            renderLobby(game);
 
             return;
         }
-
 
         if (
             game.state === "BOARD"
@@ -1040,30 +1075,22 @@
 
             hideQuestion();
 
-            renderBoard(
-                game
-            );
+            renderBoard(game);
 
             return;
         }
-
 
         if (
             game.state === "QUESTION" ||
             game.state === "ANSWERING"
         ) {
 
-            renderBoard(
-                game
-            );
+            renderBoard(game);
 
-            showQuestion(
-                game
-            );
+            showQuestion(game);
 
             return;
         }
-
 
         if (
             game.state === "FINISHED"
@@ -1071,9 +1098,7 @@
 
             hideQuestion();
 
-            renderBoard(
-                game
-            );
+            renderBoard(game);
         }
     }
 
@@ -1081,107 +1106,68 @@
     function renderLobby(game) {
 
         document
-            .getElementById(
-                "turnInfo"
-            )
+            .getElementById("turnInfo")
             .textContent =
             `Игроков подключено: ${(game.players || []).length}`;
 
-
-        renderPlayers(
-            game
-        );
+        renderPlayers(game);
     }
 
 
     function renderBoard(game) {
 
         const board =
-            document.getElementById(
-                "board"
-            );
-
+            document.getElementById("board");
 
         board.innerHTML = "";
-
 
         const categories =
             game.categories || [];
 
-
-        if (
-            categories.length === 0
-        ) {
-
+        if (!categories.length) {
             return;
         }
 
-
         board.style.gridTemplateColumns =
             `repeat(${categories.length}, 1fr)`;
-
 
         categories.forEach(
             category => {
 
                 const column =
-                    document.createElement(
-                        "div"
-                    );
-
+                    document.createElement("div");
 
                 column.className =
                     "category";
 
-
                 const title =
-                    document.createElement(
-                        "div"
-                    );
-
+                    document.createElement("div");
 
                 title.className =
                     "category-name";
 
-
                 title.textContent =
                     category.name;
 
+                column.appendChild(title);
 
-                column.appendChild(
-                    title
-                );
-
-
-                (
-                    category.questions ||
-                    []
-                ).forEach(
+                (category.questions || []).forEach(
                     question => {
 
                         const cell =
-                            document.createElement(
-                                "div"
-                            );
-
+                            document.createElement("div");
 
                         cell.className =
                             "question-cell";
 
+                        if (question.used) {
 
-                        if (
-                            question.used
-                        ) {
-
-                            cell.classList.add(
-                                "used"
-                            );
+                            cell.classList.add("used");
 
                         } else {
 
                             cell.textContent =
                                 question.price;
-
 
                             cell.onclick =
                                 () => {
@@ -1193,51 +1179,31 @@
                                 };
                         }
 
-
-                        column.appendChild(
-                            cell
-                        );
-
+                        column.appendChild(cell);
                     }
                 );
 
-
-                board.appendChild(
-                    column
-                );
+                board.appendChild(column);
             }
         );
 
-
-        renderTurn(
-            game
-        );
-
-
-        renderPlayers(
-            game
-        );
+        renderTurn(game);
+        renderPlayers(game);
     }
 
 
     function renderTurn(game) {
 
         const turnInfo =
-            document.getElementById(
-                "turnInfo"
-            );
+            document.getElementById("turnInfo");
 
-
-        if (
-            !game.turnPlayer
-        ) {
+        if (!game.turnPlayer) {
 
             turnInfo.textContent =
                 "Ход ещё не определён";
 
             return;
         }
-
 
         turnInfo.textContent =
             `Ходит: ${game.turnPlayer.name}`;
@@ -1247,28 +1213,18 @@
     function renderPlayers(game) {
 
         const players =
-            document.getElementById(
-                "players"
-            );
-
+            document.getElementById("players");
 
         players.innerHTML = "";
 
-
-        (
-            game.players || []
-        ).forEach(
+        (game.players || []).forEach(
             player => {
 
                 const card =
-                    document.createElement(
-                        "div"
-                    );
-
+                    document.createElement("div");
 
                 card.className =
                     "player-card";
-
 
                 if (
                     game.turnPlayer &&
@@ -1276,11 +1232,8 @@
                     player.id
                 ) {
 
-                    card.classList.add(
-                        "active"
-                    );
+                    card.classList.add("active");
                 }
-
 
                 card.innerHTML = `
                     <div class="player-name">
@@ -1292,56 +1245,9 @@
                     </div>
                 `;
 
-
-                players.appendChild(
-                    card
-                );
+                players.appendChild(card);
             }
         );
-    }
-
-
-    function escapeHtml(value) {
-
-        return String(value)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
-    }
-
-
-    async function selectQuestion(
-        category,
-        price
-    ) {
-
-        try {
-
-            const response =
-                await fetch(
-                    `/api/game/question/select?category=${encodeURIComponent(category)}&price=${price}`,
-                    {
-                        method: "POST"
-                    }
-                );
-
-
-            if (!response.ok) {
-
-                console.error(
-                    "Question selection failed:",
-                    await response.text()
-                );
-            }
-
-        } catch (error) {
-
-            console.error(
-                error
-            );
-        }
     }
 
 
@@ -1350,56 +1256,38 @@
         const question =
             game.currentQuestion;
 
-
         if (!question) {
-
             return;
         }
 
+        document
+            .getElementById("questionScreen")
+            .style.display = "flex";
 
         document
-            .getElementById(
-                "questionScreen"
-            )
-            .style.display =
-            "flex";
-
-
-        document
-            .getElementById(
-                "questionPrice"
-            )
+            .getElementById("questionPrice")
             .textContent =
             question.price;
 
-
         document
-            .getElementById(
-                "questionText"
-            )
+            .getElementById("questionText")
             .textContent =
             question.text;
 
-
         document
-            .getElementById(
-                "answerText"
-            )
+            .getElementById("answerText")
             .textContent =
             question.answer ?? "—";
-
 
         const status =
             document.getElementById(
                 "answeringStatus"
             );
 
-
         const startButton =
             document.getElementById(
                 "startAnsweringButton"
             );
-
 
         if (
             game.state === "QUESTION"
@@ -1407,7 +1295,6 @@
 
             status.textContent =
                 "Ведущий показывает вопрос";
-
 
             startButton.classList.remove(
                 "hidden"
@@ -1419,10 +1306,7 @@
                 "hidden"
             );
 
-
-            if (
-                game.buzzedPlayer
-            ) {
+            if (game.buzzedPlayer) {
 
                 status.textContent =
                     `${game.buzzedPlayer.name} отвечает`;
@@ -1439,11 +1323,29 @@
     function hideQuestion() {
 
         document
-            .getElementById(
-                "questionScreen"
-            )
-            .style.display =
-            "none";
+            .getElementById("questionScreen")
+            .style.display = "none";
+    }
+
+
+    async function selectQuestion(
+        category,
+        price
+    ) {
+
+        try {
+
+            await fetch(
+                `/api/game/question/select?category=${encodeURIComponent(category)}&price=${price}`,
+                {
+                    method: "POST"
+                }
+            );
+
+        } catch (e) {
+
+            console.error(e);
+        }
     }
 
 
@@ -1451,27 +1353,16 @@
 
         try {
 
-            const response =
-                await fetch(
-                    "/api/game/answering",
-                    {
-                        method: "POST"
-                    }
-                );
-
-
-            if (!response.ok) {
-
-                console.error(
-                    await response.text()
-                );
-            }
-
-        } catch (error) {
-
-            console.error(
-                error
+            await fetch(
+                "/api/game/answering",
+                {
+                    method: "POST"
+                }
             );
+
+        } catch (e) {
+
+            console.error(e);
         }
     }
 
@@ -1480,27 +1371,16 @@
 
         try {
 
-            const response =
-                await fetch(
-                    "/api/game/answer/correct",
-                    {
-                        method: "POST"
-                    }
-                );
-
-
-            if (!response.ok) {
-
-                console.error(
-                    await response.text()
-                );
-            }
-
-        } catch (error) {
-
-            console.error(
-                error
+            await fetch(
+                "/api/game/answer/correct",
+                {
+                    method: "POST"
+                }
             );
+
+        } catch (e) {
+
+            console.error(e);
         }
     }
 
@@ -1509,28 +1389,48 @@
 
         try {
 
-            const response =
-                await fetch(
-                    "/api/game/answer/incorrect",
-                    {
-                        method: "POST"
-                    }
-                );
-
-
-            if (!response.ok) {
-
-                console.error(
-                    await response.text()
-                );
-            }
-
-        } catch (error) {
-
-            console.error(
-                error
+            await fetch(
+                "/api/game/answer/incorrect",
+                {
+                    method: "POST"
+                }
             );
+
+        } catch (e) {
+
+            console.error(e);
         }
+    }
+
+
+    function hidePresentation() {
+
+        if (presentationRunning) {
+            return;
+        }
+
+        document
+            .getElementById(
+                "presentationScreen"
+            )
+            .classList.add("hidden");
+
+        document
+            .getElementById(
+                "gameScreen"
+            )
+            .classList.remove("hidden");
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
     }
 
 
@@ -1556,7 +1456,6 @@
                     "Host WebSocket connected"
                 );
 
-
                 socket.subscribe(
                     "/topic/host",
                     message => {
@@ -1568,10 +1467,7 @@
                                     message.body
                                 );
 
-
-                            if (
-                                event.game
-                            ) {
+                            if (event.game) {
 
                                 updateGame(
                                     event.game
@@ -1580,50 +1476,12 @@
 
                         } catch (e) {
 
-                            console.error(
-                                "Host WS message error:",
-                                e
-                            );
+                            console.error(e);
                         }
                     }
                 );
 
-
                 loadGame();
-            },
-
-
-            onDisconnect: () => {
-
-                console.log(
-                    "Host WebSocket disconnected"
-                );
-            },
-
-
-            onWebSocketClose: () => {
-
-                console.log(
-                    "Host WebSocket closed"
-                );
-            },
-
-
-            onWebSocketError: error => {
-
-                console.error(
-                    "Host WebSocket error:",
-                    error
-                );
-            },
-
-
-            onStompError: frame => {
-
-                console.error(
-                    "Host STOMP error:",
-                    frame
-                );
             }
 
         });

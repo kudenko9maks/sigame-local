@@ -14,6 +14,9 @@ public class Game {
     private final List<Category> categories;
     private Pack pack;
     private int currentRound;
+    private String presentationType;
+    private long presentationStartedAt;
+    private long presentationDuration;
 
 
     public Game() {
@@ -84,5 +87,29 @@ public class Game {
 
     public void setCurrentRound(int currentRound) {
         this.currentRound = currentRound;
+    }
+
+    public String getPresentationType() {
+        return presentationType;
+    }
+
+    public void setPresentationType(String presentationType) {
+        this.presentationType = presentationType;
+    }
+
+    public long getPresentationStartedAt() {
+        return presentationStartedAt;
+    }
+
+    public void setPresentationStartedAt(long presentationStartedAt) {
+        this.presentationStartedAt = presentationStartedAt;
+    }
+
+    public long getPresentationDuration() {
+        return presentationDuration;
+    }
+
+    public void setPresentationDuration(long presentationDuration) {
+        this.presentationDuration = presentationDuration;
     }
 }
