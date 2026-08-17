@@ -12,6 +12,9 @@ public class Game {
     private Player buzzedPlayer;
     private Player turnPlayer;
     private final List<Category> categories;
+    private Pack pack;
+    private int currentRound;
+
 
     public Game() {
         this.state = GameState.LOBBY;
@@ -65,5 +68,21 @@ public class Game {
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    public Pack getPack() {
+        return pack;
+    }
+
+    public void setPack(Pack pack) {
+        this.pack = pack;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
     }
 }

@@ -17,11 +17,56 @@ public class GameService {
     public GameService(SimpMessagingTemplate messagingTemplate) {
         this.game = new Game();
         this.messagingTemplate = messagingTemplate;
-        createTestPack();
     }
 
     public Game getGame() {
         return game;
+    }
+
+    public void loadPack(Pack pack) {
+        if (pack == null) {
+            throw new IllegalArgumentException("Pack cannot be null");
+        }
+
+        if (pack.getRounds() == null || pack.getRounds().isEmpty()) {
+            throw new IllegalArgumentException("Rounds cannot be null");
+        }
+
+        if (game.getState() != GameState.LOBBY) {
+            throw new IllegalArgumentException("Game is not in lobby");
+        }
+
+        game.setPack(pack);
+        game.setCurrentRound(0);
+        game.getCategories().clear();
+        game.getCategories().addAll(pack.getRounds().get(0).getCategories());
+        game.setCurrentQuestion(null);
+        game.setBuzzedPlayer(null);
+        game.setTurnPlayer(null);
+        game.setState(GameState.LOBBY);
+        broadcastGameUpdate("PACK_LOADED");
+    }
+
+    public Pack getPack() {
+        return game.getPack();
+    }
+
+    public int  getCurrentRound() {
+        return game.getCurrentRound();
+    }
+
+    public  Round getCurrentRoundData() {
+        Pack pack = game .getPack();
+
+        if (pack == null) {
+            return null;
+        }
+        int roundIndex = game.getCurrentRound();
+
+        if (roundIndex < 0 || roundIndex >= pack.getRounds().size()) {
+            return null;
+        }
+        return pack.getRounds().get(roundIndex);
     }
 
     public Host becomeHost(String name) {
@@ -57,10 +102,16 @@ public class GameService {
                 event
         );
 
+        broadcastGameUpdate("PLAYER_JOINED");
+
         return player;
     }
 
     public void startGame() {
+
+        if (game.getPack() == null) {
+            throw new IllegalArgumentException("Pack cannot be null");
+        }
 
         if (game.getPlayers().isEmpty()) {
             throw new IllegalStateException(
@@ -68,15 +119,103 @@ public class GameService {
             );
         }
 
+        game.setCurrentRound(0);
+
+        loadCurrentRoundCategories();
+
         Player firstPlayer =
                 game.getPlayers().get(0);
 
         game.setTurnPlayer(firstPlayer);
 
+        game.setCurrentQuestion(null);
+
+        game.setBuzzedPlayer(null);
+
         game.setState(GameState.BOARD);
 
         broadcastGameUpdate("GAME_STARTED");
+
+        broadcastPlayerUpdate(
+                "GAME_STARTED"
+        );
     }
+
+    private void loadCurrentRoundCategories() {
+        Pack pack = game.getPack();
+
+        if (pack == null) {
+            throw new IllegalArgumentException("Pack cannot be null");
+        }
+
+        int roundIndex = game.getCurrentRound();
+
+        if (roundIndex < 0 || roundIndex >= pack.getRounds().size()) {
+            throw new IllegalArgumentException("Round index out of bounds");
+        }
+
+        Round round = pack.getRounds().get(roundIndex);
+        game.getCategories().clear();
+        game.getCategories().addAll(round.getCategories());
+    }
+
+    private boolean currentRoundFinished() {
+        return game.getCategories()
+                .stream()
+                .allMatch(
+                        category ->
+                                category.getQuestions()
+                                        .stream()
+                                        .allMatch(
+                                                Question::isUsed
+                                        )
+                );
+    }
+
+    private boolean hasNextRound() {
+        Pack pack = game.getPack();
+
+        return pack != null && game.getCurrentRound() + 1 < pack.getRounds().size();
+    }
+
+    private void startNextRound() {
+        if (!hasNextRound()) {
+
+            game.setState(
+                    GameState.FINISHED
+            );
+
+            game.setCurrentQuestion(
+                    null
+            );
+
+            game.setBuzzedPlayer(
+                    null
+            );
+
+
+            broadcastGameUpdate(
+                    "GAME_FINISHED"
+            );
+
+
+            broadcastPlayerUpdate(
+                    "GAME_FINISHED"
+            );
+
+
+            return;
+        }
+
+        game.setCurrentRound(game.getCurrentRound() + 1);
+        loadCurrentRoundCategories();
+        game.setCurrentQuestion(null);
+        game.setBuzzedPlayer(null);
+        game.setState(GameState.BOARD);
+        broadcastGameUpdate("ROUND_STARTED");
+        broadcastPlayerUpdate("ROUND_STARTED");
+    }
+
 
     public Player getPlayerById(String id) {
         return game.getPlayers().stream()
@@ -198,6 +337,10 @@ public class GameService {
         Question question =
                 game.getCurrentQuestion();
 
+        if (question == null) {
+            throw new IllegalStateException("No question is currently open");
+        }
+
         player.setScore(
                 player.getScore()
                         + question.getPrice()
@@ -208,6 +351,11 @@ public class GameService {
         game.setBuzzedPlayer(null);
 
         game.setCurrentQuestion(null);
+
+        if (currentRoundFinished()) {
+            startNextRound();
+            return player;
+        }
 
         game.setState(GameState.BOARD);
 
@@ -236,109 +384,6 @@ public class GameService {
         broadcastPlayerUpdate("ANSWER_INCORRECT");
 
         return player;
-    }
-
-    private void createTestPack() {
-
-        Category history = new Category(
-                "История",
-                java.util.List.of(
-                        new Question(
-                                "В каком году началась Вторая мировая война?",
-                                "1939",
-                                100
-                        ),
-                        new Question(
-                                "Кто был первым императором Рима?",
-                                "Октавиан Август",
-                                200
-                        ),
-                        new Question(
-                                "В каком году произошло Крещение Руси?",
-                                "988",
-                                300
-                        ),
-                        new Question(
-                                "Кто основал Санкт-Петербург?",
-                                "Пётр I",
-                                400
-                        ),
-                        new Question(
-                                "В каком году пала Римская империя?",
-                                "476",
-                                500
-                        )
-                )
-        );
-
-
-        Category geography = new Category(
-                "География",
-                java.util.List.of(
-                        new Question(
-                                "Столица Франции?",
-                                "Париж",
-                                100
-                        ),
-                        new Question(
-                                "Самая большая страна мира?",
-                                "Россия",
-                                200
-                        ),
-                        new Question(
-                                "Какая река самая длинная в мире?",
-                                "Нил",
-                                300
-                        ),
-                        new Question(
-                                "Столица Австралии?",
-                                "Канберра",
-                                400
-                        ),
-                        new Question(
-                                "Самая высокая гора мира?",
-                                "Эверест",
-                                500
-                        )
-                )
-        );
-
-
-        Category cinema = new Category(
-                "Кино",
-                java.util.List.of(
-                        new Question(
-                                "Кто сыграл Джека в «Титанике»?",
-                                "Леонардо ДиКаприо",
-                                100
-                        ),
-                        new Question(
-                                "Как называется школа Гарри Поттера?",
-                                "Хогвартс",
-                                200
-                        ),
-                        new Question(
-                                "Кто режиссёр фильма «Аватар»?",
-                                "Джеймс Кэмерон",
-                                300
-                        ),
-                        new Question(
-                                "Как называется вымышленная страна Чёрной Пантеры?",
-                                "Ваканда",
-                                400
-                        ),
-                        new Question(
-                                "Какой фильм получил «Оскар» за лучший фильм в 1998 году?",
-                                "Титаник",
-                                500
-                        )
-                )
-        );
-
-
-        game.getCategories().add(history);
-        game.getCategories().add(geography);
-        game.getCategories().add(cinema);
     }
 
     public Question selectQuestion(
@@ -395,6 +440,7 @@ public class GameService {
         game.setState(GameState.QUESTION);
 
         broadcastGameUpdate("QUESTION_SELECTED");
+        broadcastPlayerUpdate("QUESTION_SELECTED");
 
         return question;
     }

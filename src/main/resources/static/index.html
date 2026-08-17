@@ -2,52 +2,63 @@
 <html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>SiGame Local</title>
+  <meta charset="UTF-8">
+  <title>SiGame Local</title>
 </head>
 
 <body>
-
-<h1>SiGame Local</h1>
 
 <p>Подключение к игре...</p>
 
 <script>
 
-    async function checkRole() {
+  async function checkRole() {
 
-        try {
+    try {
 
-            const response = await fetch("/api/role");
+      const response =
+              await fetch(
+                      "/api/role",
+                      {
+                        cache: "no-store"
+                      }
+              );
 
-            if (!response.ok) {
-                throw new Error("Failed to get role");
-            }
+      if (!response.ok) {
+        throw new Error(
+                "Ошибка API: " + response.status
+        );
+      }
 
-            const role = await response.text();
+      const role =
+              await response.text();
 
-            console.log("Role:", role);
 
-            if (role.trim() === "HOST") {
-                window.location.href = "/host.html";
-            } else {
-                window.location.href = "/player.html";
-            }
+      if (role.trim() === "HOST") {
 
-        } catch (error) {
+        window.location.href =
+                "/host.html";
 
-            console.error(error);
+      } else {
 
-            document.body.innerHTML = `
-                <h1>Ошибка подключения</h1>
-                <p>Не удалось определить роль.</p>
+        window.location.href =
+                "/player.html";
+      }
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      document.body.innerHTML = `
+                <h2>Ошибка подключения к серверу</h2>
+                <p>${error.message}</p>
             `;
-        }
     }
+  }
 
-    checkRole();
+
+  checkRole();
 
 </script>
 

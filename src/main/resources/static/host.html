@@ -32,11 +32,6 @@
             overflow: hidden;
         }
 
-
-        /* =========================
-           LOBBY
-           ========================= */
-
         #hostSetup {
 
             width: 100%;
@@ -52,7 +47,6 @@
             gap: 20px;
         }
 
-
         #hostSetup input {
 
             width: 300px;
@@ -61,7 +55,6 @@
 
             font-size: 20px;
         }
-
 
         #hostSetup button {
 
@@ -74,11 +67,6 @@
             cursor: pointer;
         }
 
-
-        /* =========================
-           GAME
-           ========================= */
-
         #gameScreen {
 
             width: 100%;
@@ -88,7 +76,6 @@
 
             flex-direction: column;
         }
-
 
         .game-header {
 
@@ -108,10 +95,89 @@
             border-bottom: 2px solid #6972c7;
         }
 
+        #packPanel {
 
-        /* =========================
-           BOARD
-           ========================= */
+            min-height: 90px;
+
+            padding: 12px 20px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            background: #080f52;
+
+            border-bottom: 1px solid #4e58bd;
+        }
+
+        #packInfo {
+
+            min-width: 300px;
+
+            padding: 10px 15px;
+
+            text-align: center;
+
+            background: #050b3d;
+
+            border-radius: 6px;
+
+            font-size: 16px;
+        }
+
+        #packFile {
+
+            max-width: 300px;
+
+            padding: 8px;
+
+            font-size: 15px;
+
+            color: white;
+        }
+
+        #packPanel button {
+
+            padding: 10px 18px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            border: none;
+
+            border-radius: 4px;
+        }
+
+        #startGameButton {
+
+            font-weight: bold;
+        }
+
+        #startGameButton:disabled {
+
+            opacity: 0.4;
+
+            cursor: not-allowed;
+        }
+
+        #packError {
+
+            width: 100%;
+
+            margin: 0;
+
+            text-align: center;
+
+            color: #ff7777;
+
+            font-size: 16px;
+        }
 
         #board {
 
@@ -126,7 +192,6 @@
             overflow: auto;
         }
 
-
         .category {
 
             display: flex;
@@ -135,7 +200,6 @@
 
             min-width: 0;
         }
-
 
         .category-name {
 
@@ -158,7 +222,6 @@
 
             border: 1px solid #9aa2ff;
         }
-
 
         .question-cell {
 
@@ -188,14 +251,12 @@
                     transform 0.1s;
         }
 
-
         .question-cell:hover {
 
             background: #111a82;
 
             transform: scale(1.01);
         }
-
 
         .question-cell.used {
 
@@ -206,16 +267,10 @@
             cursor: default;
         }
 
-
         .question-cell.used:hover {
 
             transform: none;
         }
-
-
-        /* =========================
-           TURN
-           ========================= */
 
         #turnInfo {
 
@@ -235,11 +290,6 @@
             border-top: 2px solid #6972c7;
         }
 
-
-        /* =========================
-           PLAYERS
-           ========================= */
-
         #players {
 
             min-height: 100px;
@@ -253,8 +303,9 @@
             padding: 8px;
 
             background: #03062b;
-        }
 
+            overflow-x: auto;
+        }
 
         .player-card {
 
@@ -269,18 +320,15 @@
             background: #080f52;
         }
 
-
         .player-card.active {
 
             border: 3px solid white;
         }
 
-
         .player-name {
 
             font-size: 18px;
         }
-
 
         .player-score {
 
@@ -290,11 +338,6 @@
 
             font-weight: bold;
         }
-
-
-        /* =========================
-           QUESTION
-           ========================= */
 
         #questionScreen {
 
@@ -318,14 +361,12 @@
             background: #050b3d;
         }
 
-
         #questionPrice {
 
             font-size: 30px;
 
             margin-bottom: 25px;
         }
-
 
         #questionText {
 
@@ -335,11 +376,6 @@
 
             line-height: 1.2;
         }
-
-
-        /* =========================
-           ANSWER
-           ========================= */
 
         #answerBox {
 
@@ -356,16 +392,10 @@
             font-size: 24px;
         }
 
-
         #answerText {
 
             font-weight: bold;
         }
-
-
-        /* =========================
-           STATUS
-           ========================= */
 
         #answeringStatus {
 
@@ -376,16 +406,10 @@
             font-weight: bold;
         }
 
-
-        /* =========================
-           CONTROLS
-           ========================= */
-
         #questionControls {
 
             margin-top: 30px;
         }
-
 
         #questionControls button {
 
@@ -397,7 +421,6 @@
 
             cursor: pointer;
         }
-
 
         .hidden {
 
@@ -411,10 +434,6 @@
 
 <body>
 
-
-<!-- =========================
-     HOST SETUP
-     ========================= -->
 
 <div id="hostSetup">
 
@@ -438,15 +457,45 @@
 </div>
 
 
-<!-- =========================
-     GAME
-     ========================= -->
-
 <div id="gameScreen" class="hidden">
 
     <div class="game-header">
-
         SiGame
+    </div>
+
+
+    <div id="packPanel">
+
+        <div id="packInfo">
+            Пак не загружен
+        </div>
+
+
+        <input
+                id="packFile"
+                type="file"
+                accept=".json,application/json"
+        >
+
+
+        <button
+                id="uploadPackButton"
+                onclick="uploadPack()"
+        >
+            Загрузить пак
+        </button>
+
+
+        <button
+                id="startGameButton"
+                onclick="startGame()"
+                disabled
+        >
+            НАЧАТЬ ИГРУ
+        </button>
+
+
+        <p id="packError"></p>
 
     </div>
 
@@ -465,10 +514,6 @@
 
 </div>
 
-
-<!-- =========================
-     QUESTION
-     ========================= -->
 
 <div id="questionScreen">
 
@@ -526,10 +571,8 @@
 
     let currentGame = null;
 
+    let currentPack = null;
 
-    /* =========================
-       SHOW GAME
-       ========================= */
 
     function showGameScreen() {
 
@@ -543,10 +586,6 @@
             .classList.remove("hidden");
     }
 
-
-    /* =========================
-       BECOME HOST
-       ========================= */
 
     async function becomeHost() {
 
@@ -605,7 +644,6 @@
 
             loadGame();
 
-
         } catch (e) {
 
             console.error(e);
@@ -616,10 +654,6 @@
     }
 
 
-    /* =========================
-       RESTORE HOST
-       ========================= */
-
     async function restoreHost() {
 
         const hostId =
@@ -629,6 +663,7 @@
 
 
         if (!hostId) {
+
             return;
         }
 
@@ -675,7 +710,6 @@
 
             loadGame();
 
-
         } catch (e) {
 
             console.error(
@@ -686,9 +720,232 @@
     }
 
 
-    /* =========================
-       LOAD GAME
-       ========================= */
+    async function uploadPack() {
+
+        const fileInput =
+            document.getElementById(
+                "packFile"
+            );
+
+
+        const error =
+            document.getElementById(
+                "packError"
+            );
+
+
+        const startButton =
+            document.getElementById(
+                "startGameButton"
+            );
+
+
+        error.textContent = "";
+
+
+        if (
+            !fileInput.files.length
+        ) {
+
+            error.textContent =
+                "Выберите JSON-файл";
+
+            return;
+        }
+
+
+        const file =
+            fileInput.files[0];
+
+
+        if (
+            !file.name
+                .toLowerCase()
+                .endsWith(".json")
+        ) {
+
+            error.textContent =
+                "Можно загружать только JSON-файлы";
+
+            return;
+        }
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "file",
+            file
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/pack/upload",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                error.textContent =
+                    await response.text();
+
+                return;
+            }
+
+
+            const pack =
+                await response.json();
+
+
+            currentPack =
+                pack;
+
+
+            updatePackInfo(
+                pack
+            );
+
+
+            startButton.disabled =
+                false;
+
+
+        } catch (errorObject) {
+
+            console.error(
+                errorObject
+            );
+
+            error.textContent =
+                "Ошибка загрузки пака";
+        }
+    }
+
+
+    function updatePackInfo(pack) {
+
+        const packInfo =
+            document.getElementById(
+                "packInfo"
+            );
+
+
+        let categoryCount = 0;
+
+        let questionCount = 0;
+
+
+        (
+            pack.rounds || []
+        ).forEach(
+            round => {
+
+                categoryCount +=
+                    (
+                        round.categories ||
+                        []
+                    ).length;
+
+
+                (
+                    round.categories ||
+                    []
+                ).forEach(
+                    category => {
+
+                        questionCount +=
+                            (
+                                category.questions ||
+                                []
+                            ).length;
+                    }
+                );
+            }
+        );
+
+
+        packInfo.innerHTML = `
+            <strong>
+                ${escapeHtml(pack.name)}
+            </strong>
+
+            <br><br>
+
+            Раундов:
+            ${pack.rounds.length}
+
+            <br>
+
+            Тем:
+            ${categoryCount}
+
+            <br>
+
+            Вопросов:
+            ${questionCount}
+        `;
+    }
+
+
+    async function startGame() {
+
+        const error =
+            document.getElementById(
+                "packError"
+            );
+
+
+        if (!currentPack) {
+
+            error.textContent =
+                "Сначала загрузите игровой пак";
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/game/start",
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                error.textContent =
+                    await response.text();
+
+                return;
+            }
+
+
+            loadGame();
+
+        } catch (errorObject) {
+
+            console.error(
+                errorObject
+            );
+
+            error.textContent =
+                "Не удалось начать игру";
+        }
+    }
+
 
     async function loadGame() {
 
@@ -704,6 +961,7 @@
 
 
             if (!response.ok) {
+
                 return;
             }
 
@@ -712,8 +970,9 @@
                 await response.json();
 
 
-            updateGame(game);
-
+            updateGame(
+                game
+            );
 
         } catch (e) {
 
@@ -725,13 +984,40 @@
     }
 
 
-    /* =========================
-       UPDATE GAME
-       ========================= */
-
     function updateGame(game) {
 
-        currentGame = game;
+        currentGame =
+            game;
+
+
+        if (
+            game.pack
+        ) {
+
+            currentPack =
+                game.pack;
+
+
+            updatePackInfo(
+                game.pack
+            );
+        }
+
+
+        const startButton =
+            document.getElementById(
+                "startGameButton"
+            );
+
+
+        if (
+            startButton
+        ) {
+
+            startButton.disabled =
+                !game.pack ||
+                game.state !== "LOBBY";
+        }
 
 
         if (
@@ -740,7 +1026,9 @@
 
             hideQuestion();
 
-            renderLobby(game);
+            renderLobby(
+                game
+            );
 
             return;
         }
@@ -752,7 +1040,9 @@
 
             hideQuestion();
 
-            renderBoard(game);
+            renderBoard(
+                game
+            );
 
             return;
         }
@@ -763,9 +1053,13 @@
             game.state === "ANSWERING"
         ) {
 
-            renderBoard(game);
+            renderBoard(
+                game
+            );
 
-            showQuestion(game);
+            showQuestion(
+                game
+            );
 
             return;
         }
@@ -777,30 +1071,28 @@
 
             hideQuestion();
 
-            renderBoard(game);
+            renderBoard(
+                game
+            );
         }
     }
 
 
-    /* =========================
-       LOBBY
-       ========================= */
-
     function renderLobby(game) {
 
         document
-            .getElementById("turnInfo")
+            .getElementById(
+                "turnInfo"
+            )
             .textContent =
             `Игроков подключено: ${(game.players || []).length}`;
 
 
-        renderPlayers(game);
+        renderPlayers(
+            game
+        );
     }
 
-
-    /* =========================
-       BOARD
-       ========================= */
 
     function renderBoard(game) {
 
@@ -862,7 +1154,8 @@
 
 
                 (
-                    category.questions || []
+                    category.questions ||
+                    []
                 ).forEach(
                     question => {
 
@@ -916,15 +1209,16 @@
         );
 
 
-        renderTurn(game);
+        renderTurn(
+            game
+        );
 
-        renderPlayers(game);
+
+        renderPlayers(
+            game
+        );
     }
 
-
-    /* =========================
-       TURN
-       ========================= */
 
     function renderTurn(game) {
 
@@ -949,10 +1243,6 @@
             `Ходит: ${game.turnPlayer.name}`;
     }
 
-
-    /* =========================
-       PLAYERS
-       ========================= */
 
     function renderPlayers(game) {
 
@@ -1011,44 +1301,16 @@
     }
 
 
-    /* =========================
-       HTML ESCAPE
-       ========================= */
-
     function escapeHtml(value) {
 
         return String(value)
-
-            .replaceAll(
-                "&",
-                "&amp;"
-            )
-
-            .replaceAll(
-                "<",
-                "&lt;"
-            )
-
-            .replaceAll(
-                ">",
-                "&gt;"
-            )
-
-            .replaceAll(
-                '"',
-                "&quot;"
-            )
-
-            .replaceAll(
-                "'",
-                "&#039;"
-            );
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
     }
 
-
-    /* =========================
-       SELECT QUESTION
-       ========================= */
 
     async function selectQuestion(
         category,
@@ -1074,17 +1336,14 @@
                 );
             }
 
-
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
         }
     }
 
-
-    /* =========================
-       SHOW QUESTION
-       ========================= */
 
     function showQuestion(game) {
 
@@ -1093,6 +1352,7 @@
 
 
         if (!question) {
+
             return;
         }
 
@@ -1176,10 +1436,6 @@
     }
 
 
-    /* =========================
-       HIDE QUESTION
-       ========================= */
-
     function hideQuestion() {
 
         document
@@ -1190,10 +1446,6 @@
             "none";
     }
 
-
-    /* =========================
-       START ANSWERING
-       ========================= */
 
     async function startAnswering() {
 
@@ -1215,17 +1467,14 @@
                 );
             }
 
-
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
         }
     }
 
-
-    /* =========================
-       CORRECT
-       ========================= */
 
     async function answerCorrect() {
 
@@ -1247,17 +1496,14 @@
                 );
             }
 
-
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
         }
     }
 
-
-    /* =========================
-       INCORRECT
-       ========================= */
 
     async function answerIncorrect() {
 
@@ -1279,17 +1525,14 @@
                 );
             }
 
-
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
         }
     }
 
-
-    /* =========================
-       WEBSOCKET
-       ========================= */
 
     const socket =
         new StompJs.Client({
@@ -1301,15 +1544,11 @@
                         : "ws"
                 }://${window.location.host}/ws`,
 
-
             reconnectDelay: 2000,
-
 
             heartbeatIncoming: 10000,
 
-
             heartbeatOutgoing: 10000,
-
 
             onConnect: () => {
 
@@ -1338,7 +1577,6 @@
                                     event.game
                                 );
                             }
-
 
                         } catch (e) {
 
@@ -1394,25 +1632,11 @@
     socket.activate();
 
 
-    /*
-     * Дополнительная синхронизация.
-     *
-     * В норме состояние приходит
-     * через WebSocket мгновенно.
-     *
-     * Если WebSocket временно пропадёт,
-     * REST автоматически восстановит состояние.
-     */
-
     setInterval(
         loadGame,
         1000
     );
 
-
-    /* =========================
-       START
-       ========================= */
 
     restoreHost();
 
