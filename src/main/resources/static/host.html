@@ -965,7 +965,16 @@
                 );
             }
 
-            await response.json();
+            const pack =
+                await response.json();
+
+            currentPack = pack;
+
+            updatePackInfo(pack);
+
+            document.getElementById(
+                "startGameButton"
+            ).disabled = false;
 
             error.textContent = "";
 
@@ -1120,6 +1129,19 @@
     function updateGame(game) {
 
         currentGame = game;
+
+        currentPack = game.pack || null;
+
+        const startGameButton =
+            document.getElementById(
+                "startGameButton"
+            );
+
+        startGameButton.disabled = !currentPack;
+
+        if (currentPack) {
+            updatePackInfo(currentPack);
+        }
 
         if (
             game.state ===

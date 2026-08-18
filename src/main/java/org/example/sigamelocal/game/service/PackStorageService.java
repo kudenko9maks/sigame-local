@@ -9,13 +9,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 @Service
 public class PackStorageService {
+
+    private static final int MAX_ENTRIES = 1_000;
+
+    private static final long MAX_ENTRY_SIZE =
+            25L * 1024 * 1024;
+
+    private static final long MAX_TOTAL_SIZE =
+            100L * 1024 * 1024;
 
     private Path activePackDirectory;
 
@@ -45,9 +51,21 @@ public class PackStorageService {
 
             ZipEntry entry;
 
+            int entryCount = 0;
+
+            long extractedSize = 0;
+
             while (
                     (entry = zip.getNextEntry()) != null
             ) {
+
+                entryCount++;
+
+                if (entryCount > MAX_ENTRIES) {
+                    throw new IllegalArgumentException(
+                            "В ZIP слишком много файлов"
+                    );
+                }
 
                 String name =
                         entry.getName()
@@ -80,10 +98,10 @@ public class PackStorageService {
                         Files.createDirectories(parent);
                     }
 
-                    Files.copy(
+                    extractedSize = copyEntry(
                             zip,
                             target,
-                            StandardCopyOption.REPLACE_EXISTING
+                            extractedSize
                     );
                 }
 
@@ -201,6 +219,51 @@ public class PackStorageService {
                             name
             );
         }
+    }
+
+    private long copyEntry(
+            ZipInputStream zip,
+            Path target,
+            long extractedSize
+    ) throws IOException {
+
+        long entrySize = 0;
+
+        byte[] buffer = new byte[8192];
+
+        try (
+                var output =
+                        Files.newOutputStream(target)
+        ) {
+
+            int read;
+
+            while ((read = zip.read(buffer)) != -1) {
+
+                if (
+                        entrySize > MAX_ENTRY_SIZE - read
+                ) {
+                    throw new IllegalArgumentException(
+                            "Файл в ZIP слишком большой"
+                    );
+                }
+
+                if (
+                        extractedSize > MAX_TOTAL_SIZE - read
+                ) {
+                    throw new IllegalArgumentException(
+                            "Распакованный ZIP слишком большой"
+                    );
+                }
+
+                output.write(buffer, 0, read);
+
+                entrySize += read;
+                extractedSize += read;
+            }
+        }
+
+        return extractedSize;
     }
 
     public synchronized void delete(
