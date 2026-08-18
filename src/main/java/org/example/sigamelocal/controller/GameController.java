@@ -23,17 +23,19 @@ public class GameController {
 
     @GetMapping("/role")
     public String getRole() {
-
-        if (gameService.getGame().getHost() == null) {
-            return "HOST";
-        }
-
-        return "PLAYER";
+        return gameService.getGame().getHost() == null
+                ? "HOST"
+                : "PLAYER";
     }
 
     @PostMapping("/host")
     public Host becomeHost(@RequestParam String name) {
         return gameService.becomeHost(name);
+    }
+
+    @GetMapping("/host")
+    public Host getHost() {
+        return gameService.getGame().getHost();
     }
 
     @PostMapping("/players")
@@ -46,6 +48,11 @@ public class GameController {
         return gameService.getGame().getPlayers();
     }
 
+    @GetMapping("/players/{id}")
+    public Player getPlayer(@PathVariable String id) {
+        return gameService.getPlayerById(id);
+    }
+
     @GetMapping("/game")
     public Game getGame() {
         return gameService.getGame();
@@ -53,20 +60,13 @@ public class GameController {
 
     @PostMapping("/game/start")
     public Game startGame() {
-
         gameService.startGame();
-
         return gameService.getGame();
     }
 
-    @GetMapping("/players/{id}")
-    public Player getPlayer(@PathVariable String id) {
-        return gameService.getPlayerById(id);
-    }
-
-    @GetMapping("/host")
-    public Host getHost() { 
-        return gameService.getGame().getHost();
+    @PostMapping("/game/next-round")
+    public Game nextRound() {
+        return gameService.nextRoundForTest();
     }
 
     @GetMapping("/game/snapshot")
@@ -75,7 +75,9 @@ public class GameController {
     }
 
     @GetMapping("/players/{id}/snapshot")
-    public PlayerSnapshot getSnapshot(@PathVariable String id) {
+    public PlayerSnapshot getSnapshot(
+            @PathVariable String id
+    ) {
         return gameService.getPlayerSnapshot(id);
     }
 
@@ -111,7 +113,6 @@ public class GameController {
             @RequestParam String category,
             @RequestParam int price
     ) {
-
         return gameService.selectQuestion(
                 category,
                 price

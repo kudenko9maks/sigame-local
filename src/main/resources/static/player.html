@@ -18,7 +18,6 @@
             box-sizing: border-box;
         }
 
-
         html,
         body {
 
@@ -45,9 +44,10 @@
         }
 
 
-        /* =========================
-           LOGIN
-           ========================= */
+        .hidden {
+            display: none !important;
+        }
+
 
         #login {
 
@@ -59,6 +59,7 @@
             flex-direction: column;
 
             align-items: center;
+
             justify-content: center;
 
             padding: 25px;
@@ -77,6 +78,7 @@
         #joinButton {
 
             width: 100%;
+
             max-width: 400px;
         }
 
@@ -125,10 +127,6 @@
         }
 
 
-        /* =========================
-           PLAYER SCREEN
-           ========================= */
-
         #playerScreen {
 
             width: 100%;
@@ -140,10 +138,6 @@
         }
 
 
-        /* =========================
-           HEADER
-           ========================= */
-
         #playerHeader {
 
             min-height: 100px;
@@ -153,6 +147,7 @@
             display: flex;
 
             align-items: center;
+
             justify-content: space-between;
 
             background: #070d52;
@@ -193,13 +188,9 @@
 
             font-size: 14px;
 
-            opacity: 0.7;
+            opacity: .7;
         }
 
-
-        /* =========================
-           MAIN
-           ========================= */
 
         #playerMain {
 
@@ -210,6 +201,7 @@
             flex-direction: column;
 
             align-items: center;
+
             justify-content: center;
 
             padding: 20px;
@@ -228,15 +220,11 @@
         }
 
 
-        /* =========================
-           BUZZ BUTTON
-           ========================= */
-
         #buzzButton {
 
-            width: min(80vw, 420px);
+            width: min(80vw,420px);
 
-            height: min(80vw, 420px);
+            height: min(80vw,420px);
 
             max-height: 55vh;
 
@@ -248,11 +236,12 @@
 
             color: white;
 
-            font-size: clamp(
-                    32px,
-                    8vw,
-                    64px
-            );
+            font-size:
+                    clamp(
+                            32px,
+                            8vw,
+                            64px
+                    );
 
             font-weight: 900;
 
@@ -264,25 +253,24 @@
                             100,
                             110,
                             255,
-                            0.3
+                            .3
                     );
 
             transition:
-                    transform 0.08s;
+                    transform .08s;
         }
 
 
         #buzzButton:active {
 
-            transform: scale(
-                    0.94
-            );
+            transform:
+                    scale(.94);
         }
 
 
         #buzzButton:disabled {
 
-            opacity: 0.35;
+            opacity: .35;
 
             cursor: default;
 
@@ -290,23 +278,15 @@
         }
 
 
-        /* =========================
-           WAITING
-           ========================= */
-
         #waitingMessage {
 
             text-align: center;
 
             font-size: 22px;
 
-            opacity: 0.8;
+            opacity: .8;
         }
 
-
-        /* =========================
-           FOOTER
-           ========================= */
 
         #playerFooter {
 
@@ -315,35 +295,74 @@
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
             font-size: 14px;
 
-            opacity: 0.5;
+            opacity: .5;
         }
 
 
-        .hidden {
+        /* =====================================================
+           ANSWER REVEAL
+           ===================================================== */
 
-            display: none !important;
+        #answerReveal {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 100;
+
+            display: none;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 30px;
+
+            background: #050b3d;
+        }
+
+
+        #answerRevealTitle {
+
+            font-size: 32px;
+
+            margin-bottom: 25px;
+
+            opacity: .8;
+        }
+
+
+        #answerRevealText {
+
+            max-width: 90vw;
+
+            font-size: 42px;
+
+            font-weight: bold;
+
+            line-height: 1.2;
         }
 
     </style>
 
 </head>
 
-
 <body>
 
-
-<!-- =========================
-     LOGIN
-     ========================= -->
 
 <div id="login">
 
     <h1>SiGame</h1>
-
 
     <input
             id="name"
@@ -353,7 +372,6 @@
             autocomplete="off"
     >
 
-
     <button
             id="joinButton"
             onclick="joinGame()"
@@ -361,15 +379,10 @@
         Войти в игру
     </button>
 
-
     <div id="error"></div>
 
 </div>
 
-
-<!-- =========================
-     PLAYER
-     ========================= -->
 
 <div
         id="playerScreen"
@@ -382,13 +395,11 @@
             Игрок
         </div>
 
-
         <div id="scoreContainer">
 
             <div id="score">
                 0
             </div>
-
 
             <div id="scoreLabel">
                 очков
@@ -426,31 +437,29 @@
 
 
     <footer id="playerFooter">
-
         SiGame Local
-
     </footer>
+
+</div>
+
+
+<div id="answerReveal">
+
+    <div id="answerRevealTitle">
+        ПРАВИЛЬНЫЙ ОТВЕТ
+    </div>
+
+    <div id="answerRevealText"></div>
 
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 
-
 <script>
 
     let currentPlayer = null;
 
-
-    /*
-     * Этот флаг означает:
-     *
-     * "Я уже нажимал кнопку в текущем вопросе".
-     *
-     * Он НЕ сбрасывается после неправильного ответа.
-     *
-     * Сбрасывается только после окончания вопроса.
-     */
 
     let answeredThisQuestion =
         sessionStorage.getItem(
@@ -461,9 +470,11 @@
     let lastState = null;
 
 
-    /* =========================
-       SHOW PLAYER
-       ========================= */
+    /*
+     * ============================================================
+     * PLAYER
+     * ============================================================
+     */
 
     function showPlayerScreen(player) {
 
@@ -506,9 +517,11 @@
     }
 
 
-    /* =========================
-       JOIN
-       ========================= */
+    /*
+     * ============================================================
+     * JOIN
+     * ============================================================
+     */
 
     async function joinGame() {
 
@@ -522,10 +535,9 @@
 
 
         const error =
-            document
-                .getElementById(
-                    "error"
-                );
+            document.getElementById(
+                "error"
+            );
 
 
         if (!name) {
@@ -567,10 +579,6 @@
             );
 
 
-            /*
-             * Новый игрок / новый вход.
-             */
-
             sessionStorage.removeItem(
                 "sigameAnsweredThisQuestion"
             );
@@ -587,7 +595,6 @@
 
             await restorePlayer();
 
-
         } catch (e) {
 
             console.error(e);
@@ -598,9 +605,11 @@
     }
 
 
-    /* =========================
-       RESTORE
-       ========================= */
+    /*
+     * ============================================================
+     * RESTORE
+     * ============================================================
+     */
 
     async function restorePlayer() {
 
@@ -611,7 +620,6 @@
 
 
         if (!playerId) {
-
             return;
         }
 
@@ -633,16 +641,6 @@
                     "playerId"
                 );
 
-
-                sessionStorage.removeItem(
-                    "sigameAnsweredThisQuestion"
-                );
-
-
-                answeredThisQuestion =
-                    false;
-
-
                 return;
             }
 
@@ -660,7 +658,6 @@
                 snapshot
             );
 
-
         } catch (error) {
 
             console.error(
@@ -671,9 +668,11 @@
     }
 
 
-    /* =========================
-       PLAYER STATE
-       ========================= */
+    /*
+     * ============================================================
+     * STATE
+     * ============================================================
+     */
 
     function updatePlayerState(
         snapshot
@@ -710,18 +709,46 @@
 
 
         /*
-         * =========================
-         * BOARD / LOBBY
-         * =========================
-         *
-         * Вопрос закончился.
-         * Снимаем блокировку.
+         * =====================================================
+         * ANSWER REVEAL
+         * =====================================================
          */
 
         if (
-            snapshot.state === "BOARD" ||
-            snapshot.state === "LOBBY" ||
-            snapshot.state === "WAITING"
+            snapshot.state ===
+            "ANSWER_REVEAL"
+        ) {
+
+            showAnswerReveal(
+                snapshot
+            );
+
+            button.classList.add(
+                "hidden"
+            );
+
+            waiting.classList.add(
+                "hidden"
+            );
+
+            return;
+        }
+
+
+        hideAnswerReveal();
+
+
+        /*
+         * =====================================================
+         * BOARD
+         * =====================================================
+         */
+
+        if (
+            snapshot.state ===
+            "BOARD" ||
+            snapshot.state ===
+            "LOBBY"
         ) {
 
             answeredThisQuestion =
@@ -748,12 +775,14 @@
 
             waiting.classList.toggle(
                 "hidden",
-                snapshot.state !== "BOARD"
+                snapshot.state !==
+                "BOARD"
             );
 
 
             status.textContent =
-                snapshot.state === "BOARD"
+                snapshot.state ===
+                "BOARD"
                     ? "Ждём следующий вопрос..."
                     : "Ждём начала игры...";
 
@@ -763,24 +792,25 @@
 
 
         /*
-         * =========================
+         * =====================================================
          * QUESTION
-         * =========================
+         * =====================================================
          */
 
         if (
-            snapshot.state === "QUESTION"
+            snapshot.state ===
+            "QUESTION"
         ) {
 
             /*
-             * Если это переход
-             * к новому вопросу —
-             * сбрасываем предыдущую блокировку.
+             * Новый вопрос.
              */
 
             if (
-                lastState !== "QUESTION" &&
-                lastState !== "ANSWERING"
+                lastState !==
+                "QUESTION" &&
+                lastState !==
+                "ANSWERING"
             ) {
 
                 answeredThisQuestion =
@@ -820,13 +850,14 @@
 
 
         /*
-         * =========================
+         * =====================================================
          * ANSWERING
-         * =========================
+         * =====================================================
          */
 
         if (
-            snapshot.state === "ANSWERING"
+            snapshot.state ===
+            "ANSWERING"
         ) {
 
             lastState =
@@ -839,11 +870,7 @@
 
 
             /*
-             * Я уже отвечал.
-             *
-             * Даже если ведущий нажал
-             * "Неправильно", кнопку
-             * НЕ возвращаем.
+             * Этот игрок уже отвечал.
              */
 
             if (
@@ -859,20 +886,12 @@
                     true;
 
 
-                if (
+                status.textContent =
                     snapshot.buzzedPlayer &&
                     snapshot.buzzedPlayer.id ===
                     currentPlayer.id
-                ) {
-
-                    status.textContent =
-                        "ВЫ ПЕРВЫЙ!";
-
-                } else {
-
-                    status.textContent =
-                        "Вы уже отвечали";
-                }
+                        ? "ВЫ ПЕРВЫЙ!"
+                        : "Вы уже отвечали";
 
 
                 return;
@@ -880,7 +899,7 @@
 
 
             /*
-             * Кто-то сейчас отвечает.
+             * Кто-то отвечает.
              */
 
             if (
@@ -947,9 +966,9 @@
 
 
         /*
-         * =========================
+         * =====================================================
          * FINISHED
-         * =========================
+         * =====================================================
          */
 
         if (
@@ -977,9 +996,104 @@
     }
 
 
-    /* =========================
-       BUZZ
-       ========================= */
+    /*
+     * ============================================================
+     * ANSWER REVEAL
+     * ============================================================
+     */
+
+    let answerRevealTimer =
+        null;
+
+
+    function showAnswerReveal(
+        snapshot
+    ) {
+
+        const question =
+            snapshot.currentQuestion;
+
+
+        const title =
+            document.getElementById(
+                "answerRevealTitle"
+            );
+
+
+        const text =
+            document.getElementById(
+                "answerRevealText"
+            );
+
+
+        if (
+            snapshot.eventType ===
+            "ANSWER_CORRECT"
+        ) {
+
+            title.textContent =
+                "ПРАВИЛЬНО!";
+
+        } else {
+
+            title.textContent =
+                "ВРЕМЯ ВЫШЛО";
+        }
+
+
+        text.textContent =
+            question &&
+            question.answer
+                ? question.answer
+                : "—";
+
+
+        document
+            .getElementById(
+                "answerReveal"
+            )
+            .style.display =
+            "flex";
+
+
+        clearTimeout(
+            answerRevealTimer
+        );
+
+
+        answerRevealTimer =
+            setTimeout(
+                hideAnswerReveal,
+                5000
+            );
+    }
+
+
+    function hideAnswerReveal() {
+
+        clearTimeout(
+            answerRevealTimer
+        );
+
+
+        answerRevealTimer =
+            null;
+
+
+        document
+            .getElementById(
+                "answerReveal"
+            )
+            .style.display =
+            "none";
+    }
+
+
+    /*
+     * ============================================================
+     * BUZZ
+     * ============================================================
+     */
 
     async function buzz() {
 
@@ -997,11 +1111,6 @@
                 "buzzButton"
             );
 
-
-        /*
-         * Сразу фиксируем,
-         * что игрок уже нажал.
-         */
 
         answeredThisQuestion =
             true;
@@ -1034,28 +1143,7 @@
                     "Buzz failed:",
                     await response.text()
                 );
-
-
-                /*
-                 * Специально НЕ разблокируем.
-                 *
-                 * Серверное состояние
-                 * будет источником истины.
-                 */
-
-                return;
             }
-
-
-            const player =
-                await response.json();
-
-
-            console.log(
-                "Buzz result:",
-                player
-            );
-
 
         } catch (error) {
 
@@ -1067,26 +1155,26 @@
     }
 
 
-    /* =========================
-       WEBSOCKET
-       ========================= */
+    /*
+     * ============================================================
+     * WEBSOCKET
+     * ============================================================
+     */
 
     const socket =
         new StompJs.Client({
 
             brokerURL:
                 `${
-                    location.protocol === "https:"
+                    location.protocol ===
+                    "https:"
                         ? "wss"
                         : "ws"
                 }://${window.location.host}/ws`,
 
-
             reconnectDelay: 2000,
 
-
             heartbeatIncoming: 10000,
-
 
             heartbeatOutgoing: 10000,
 
@@ -1119,11 +1207,10 @@
                                 );
                             }
 
-
                         } catch (e) {
 
                             console.error(
-                                "Player WS message error:",
+                                "Player WS error:",
                                 e
                             );
                         }
@@ -1132,40 +1219,6 @@
 
 
                 restorePlayer();
-            },
-
-
-            onDisconnect: () => {
-
-                console.log(
-                    "Player WebSocket disconnected"
-                );
-            },
-
-
-            onWebSocketClose: () => {
-
-                console.log(
-                    "Player WebSocket closed"
-                );
-            },
-
-
-            onWebSocketError: error => {
-
-                console.error(
-                    "Player WebSocket error:",
-                    error
-                );
-            },
-
-
-            onStompError: frame => {
-
-                console.error(
-                    "Player STOMP error:",
-                    frame
-                );
             }
 
         });
@@ -1174,26 +1227,11 @@
     socket.activate();
 
 
-    /*
-     * Дополнительная синхронизация.
-     *
-     * В норме WebSocket обновляет
-     * состояние мгновенно.
-     *
-     * Если WebSocket временно
-     * отвалится — REST восстановит
-     * состояние автоматически.
-     */
-
     setInterval(
         restorePlayer,
         1000
     );
 
-
-    /* =========================
-       START
-       ========================= */
 
     restorePlayer();
 

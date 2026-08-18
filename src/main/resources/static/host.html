@@ -5,7 +5,10 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
 
     <title>SiGame Local — Ведущий</title>
 
@@ -34,338 +37,591 @@
         }
 
         #hostSetup {
+
             width: 100%;
             height: 100%;
+
             display: flex;
             flex-direction: column;
+
             align-items: center;
             justify-content: center;
+
             gap: 20px;
         }
 
         #hostSetup input {
+
             width: 300px;
+
             padding: 15px;
+
             font-size: 20px;
         }
 
         #hostSetup button {
+
             width: 300px;
+
             padding: 15px;
+
             font-size: 20px;
+
             cursor: pointer;
         }
 
         #gameScreen {
+
             width: 100%;
             height: 100%;
+
             display: flex;
             flex-direction: column;
         }
 
         .game-header {
+
             height: 70px;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
             font-size: 32px;
             font-weight: bold;
+
             background: #070d52;
+
             border-bottom: 2px solid #6972c7;
         }
 
         #packPanel {
+
             min-height: 90px;
+
             padding: 12px 20px;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
             gap: 12px;
+
             flex-wrap: wrap;
+
             background: #080f52;
+
             border-bottom: 1px solid #4e58bd;
         }
 
         #packInfo {
+
             min-width: 300px;
+
             padding: 10px 15px;
+
             text-align: center;
+
             background: #050b3d;
+
             border-radius: 6px;
+
             font-size: 16px;
         }
 
         #packFile {
+
             max-width: 300px;
+
             padding: 8px;
+
             font-size: 15px;
+
             color: white;
         }
 
         #packPanel button {
+
             padding: 10px 18px;
+
             font-size: 16px;
+
             cursor: pointer;
+
             border: none;
+
             border-radius: 4px;
         }
 
         #startGameButton {
+
             font-weight: bold;
         }
 
         #startGameButton:disabled {
+
             opacity: 0.4;
+
             cursor: not-allowed;
         }
 
         #packError {
+
             width: 100%;
+
             margin: 0;
+
             text-align: center;
+
             color: #ff7777;
+
             font-size: 16px;
         }
 
         #board {
+
             flex: 1;
+
             display: grid;
+
             gap: 2px;
+
             padding: 10px;
+
             overflow: auto;
         }
 
         .category {
+
             display: flex;
+
             flex-direction: column;
+
             min-width: 0;
         }
 
         .category-name {
+
             min-height: 70px;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
             text-align: center;
+
             padding: 10px;
+
             font-size: 24px;
+
             font-weight: bold;
+
             background: #080f66;
+
             border: 1px solid #9aa2ff;
         }
 
         .question-cell {
+
             flex: 1;
+
             min-height: 70px;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
             font-size: 32px;
+
             font-weight: bold;
+
             color: #f5f5ff;
+
             background: #070d58;
+
             border: 1px solid #737bd3;
+
             cursor: pointer;
-            transition: background 0.15s, transform 0.1s;
+
+            transition:
+                    background 0.15s,
+                    transform 0.1s;
         }
 
         .question-cell:hover {
+
             background: #111a82;
+
             transform: scale(1.01);
         }
 
         .question-cell.used {
+
             color: transparent;
+
             background: #03072d;
+
             cursor: default;
         }
 
         .question-cell.used:hover {
+
             transform: none;
         }
 
         #turnInfo {
+
             min-height: 70px;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
             font-size: 26px;
+
             font-weight: bold;
+
             background: #070d52;
+
             border-top: 2px solid #6972c7;
         }
 
         #players {
+
             min-height: 100px;
+
             display: flex;
+
             justify-content: center;
+
             gap: 8px;
+
             padding: 8px;
+
             background: #03062b;
+
             overflow-x: auto;
         }
 
         .player-card {
+
             min-width: 150px;
+
             padding: 8px 15px;
+
             text-align: center;
+
             border: 1px solid #4e58bd;
+
             background: #080f52;
         }
 
         .player-card.active {
+
             border: 3px solid white;
         }
 
         .player-name {
+
             font-size: 18px;
         }
 
         .player-score {
+
             margin-top: 5px;
+
             font-size: 24px;
+
             font-weight: bold;
         }
 
         #questionScreen {
+
             position: fixed;
+
             inset: 0;
+
             z-index: 100;
+
             display: none;
+
             flex-direction: column;
+
             align-items: center;
             justify-content: center;
+
             text-align: center;
+
             padding: 40px;
+
             background: #050b3d;
         }
 
         #questionPrice {
+
             font-size: 30px;
+
             margin-bottom: 25px;
         }
 
-        #questionText {
+        #questionContent {
+
             max-width: 1000px;
+
             font-size: 48px;
+
             line-height: 1.2;
         }
 
+        .question-image {
+            display: block;
+            max-width: 100%;
+            max-height: 60vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .answer-image {
+            display: block;
+            max-width: 100%;
+            max-height: 28vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            margin: 10px auto 0;
+        }
+
+        .question-image-error {
+            font-size: 30px;
+            color: #ff7777;
+        }
+
         #answerBox {
+
             margin-top: 25px;
+
             padding: 15px 25px;
+
             background: #e8f5e9;
+
             color: #1b5e20;
+
             border-radius: 10px;
+
             font-size: 24px;
         }
 
-        #answerText {
+        #answeringStatus {
+
+            margin-top: 25px;
+
+            font-size: 30px;
+
             font-weight: bold;
         }
 
-        #answeringStatus {
-            margin-top: 25px;
-            font-size: 30px;
+        #answerTimerText {
+
+            margin-top: 15px;
+
+            font-size: 28px;
+
             font-weight: bold;
         }
 
         #questionControls {
+
             margin-top: 30px;
         }
 
         #questionControls button {
+
             padding: 15px 30px;
+
             margin: 5px;
+
             font-size: 20px;
+
             cursor: pointer;
         }
 
         #presentationScreen {
+
             position: fixed;
+
             inset: 0;
+
             z-index: 200;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
             overflow: hidden;
+
             background: #050b3d;
+
             color: white;
         }
 
         #presentationRound {
+
             position: absolute;
+
             top: 35px;
+
             left: 0;
+
             width: 100%;
+
             text-align: center;
+
             font-size: 38px;
+
             font-weight: bold;
+
             opacity: 0.85;
+
             z-index: 5;
         }
 
         #presentationCategories {
+
             position: absolute;
-            inset: 0;
+
+            left: 0;
+
             width: 100%;
-            height: 100%;
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
-            justify-content: center;
+
             gap: 18px;
+
             font-size: 58px;
+
             font-weight: bold;
+
             text-align: center;
+
+            will-change: transform;
         }
 
         .presentation-category {
+
             flex-shrink: 0;
+
             white-space: nowrap;
-            text-shadow: 0 0 25px rgba(120, 130, 255, .6);
+
+            text-shadow:
+                    0 0 25px
+                    rgba(
+                            120,
+                            130,
+                            255,
+                            .6
+                    );
         }
 
-        .initial-presentation {
-            animation: initialPresentationMove 10s linear forwards;
-        }
+        .round-category-animation {
 
-        @keyframes initialPresentationMove {
-
-            from {
-                transform: translateY(-100vh);
-            }
-
-            to {
-                transform: translateY(100vh);
-            }
-        }
-
-        .round-presentation {
-            animation: roundCategoryAnimation 2s ease-in-out forwards;
+            animation:
+                    roundCategoryAnimation
+                    2000ms
+                    ease-in-out
+                    forwards;
         }
 
         @keyframes roundCategoryAnimation {
 
             0% {
+
                 opacity: 0;
-                transform: translateY(100px);
+
+                transform:
+                        translateY(130px)
+                        scale(.90);
             }
 
             20% {
+
                 opacity: 1;
-                transform: translateY(0);
+
+                transform:
+                        translateY(0)
+                        scale(1);
             }
 
-            80% {
+            75% {
+
                 opacity: 1;
-                transform: translateY(0);
+
+                transform:
+                        translateY(0)
+                        scale(1);
             }
 
             100% {
+
                 opacity: 0;
-                transform: translateY(-100px);
+
+                transform:
+                        translateY(-130px)
+                        scale(.90);
             }
+        }
+
+        #answerRevealScreen {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 300;
+
+            display: none;
+
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 50px;
+
+            background: #050b3d;
+        }
+
+        #answerRevealLabel {
+
+            font-size: 34px;
+
+            opacity: .8;
+
+            margin-bottom: 30px;
+        }
+
+        #answerRevealText {
+
+            max-width: 1100px;
+
+            font-size: 58px;
+
+            line-height: 1.2;
+
+            font-weight: bold;
         }
 
     </style>
@@ -395,8 +651,10 @@
 
 </div>
 
-
-<div id="presentationScreen" class="hidden">
+<div
+        id="presentationScreen"
+        class="hidden"
+>
 
     <div id="presentationRound"></div>
 
@@ -404,8 +662,10 @@
 
 </div>
 
-
-<div id="gameScreen" class="hidden">
+<div
+        id="gameScreen"
+        class="hidden"
+>
 
     <div class="game-header">
         SiGame
@@ -420,7 +680,7 @@
         <input
                 id="packFile"
                 type="file"
-                accept=".json,application/json"
+                accept=".zip,.json,application/zip,application/json"
         >
 
         <button
@@ -452,12 +712,11 @@
 
 </div>
 
-
 <div id="questionScreen">
 
     <div id="questionPrice"></div>
 
-    <div id="questionText"></div>
+    <div id="questionContent"></div>
 
     <div id="answerBox">
 
@@ -465,11 +724,13 @@
             Правильный ответ:
         </strong>
 
-        <span id="answerText"></span>
+        <div id="answerText"></div>
 
     </div>
 
     <div id="answeringStatus"></div>
+
+    <div id="answerTimerText"></div>
 
     <div id="questionControls">
 
@@ -492,6 +753,15 @@
 
 </div>
 
+<div id="answerRevealScreen">
+
+    <div id="answerRevealLabel">
+        ПРАВИЛЬНЫЙ ОТВЕТ
+    </div>
+
+    <div id="answerRevealText"></div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 
@@ -500,11 +770,17 @@
     let currentGame = null;
     let currentPack = null;
 
-    let presentationTimer = null;
+    let presentationMode = null;
 
-    let initialPresentationPlayed = false;
-    let presentationRunning = false;
+    let presentationStartedAt = 0;
 
+    let presentationFrame = null;
+
+    let roundPresentationIndex = -1;
+
+    let roundPresentationTimer = null;
+
+    let answerTimerInterval = null;
 
     function showGameScreen() {
 
@@ -516,7 +792,6 @@
             .getElementById("gameScreen")
             .classList.remove("hidden");
     }
-
 
     async function becomeHost() {
 
@@ -531,7 +806,8 @@
 
         if (!name) {
 
-            error.textContent = "Введите имя";
+            error.textContent =
+                "Введите имя";
 
             return;
         }
@@ -574,7 +850,6 @@
                 "Ошибка подключения";
         }
     }
-
 
     async function restoreHost() {
 
@@ -625,44 +900,40 @@
 
         } catch (e) {
 
-            console.error(e);
+            console.error(
+                "Failed to restore host:",
+                e
+            );
         }
     }
 
-
     async function uploadPack() {
-
-        const fileInput =
+        const input =
             document.getElementById("packFile");
 
         const error =
             document.getElementById("packError");
 
-        const startButton =
-            document.getElementById("startGameButton");
+        const file =
+            input.files[0];
 
         error.textContent = "";
 
-        if (!fileInput.files.length) {
-
+        if (!file) {
             error.textContent =
-                "Выберите JSON-файл";
-
+                "Выберите ZIP-пак или JSON-файл";
             return;
         }
 
-        const file =
-            fileInput.files[0];
+        const fileName =
+            file.name.toLowerCase();
 
         if (
-            !file.name
-                .toLowerCase()
-                .endsWith(".json")
+            !fileName.endsWith(".zip") &&
+            !fileName.endsWith(".json")
         ) {
-
             error.textContent =
-                "Можно загружать только JSON-файлы";
-
+                "Можно загружать ZIP-пак или JSON-файл";
             return;
         }
 
@@ -675,7 +946,6 @@
         );
 
         try {
-
             const response =
                 await fetch(
                     "/api/pack/upload",
@@ -686,270 +956,88 @@
                 );
 
             if (!response.ok) {
-
-                error.textContent =
+                const message =
                     await response.text();
 
-                return;
+                throw new Error(
+                    message ||
+                    "Не удалось загрузить пак"
+                );
             }
 
-            const pack =
-                await response.json();
+            await response.json();
 
-            currentPack =
-                pack;
+            error.textContent = "";
 
-            updatePackInfo(pack);
+            input.value = "";
 
-            startButton.disabled =
-                false;
+            if (typeof loadGame === "function") {
+                await loadGame();
+            }
 
         } catch (e) {
-
             console.error(e);
 
             error.textContent =
+                e.message ||
                 "Ошибка загрузки пака";
         }
     }
 
-
     function updatePackInfo(pack) {
 
         const packInfo =
-            document.getElementById("packInfo");
+            document.getElementById(
+                "packInfo"
+            );
 
         let categoryCount = 0;
         let questionCount = 0;
 
-        (pack.rounds || []).forEach(
-            round => {
+        (pack.rounds || [])
+            .forEach(
+                round => {
 
-                categoryCount +=
-                    (round.categories || []).length;
+                    categoryCount +=
+                        (round.categories || [])
+                            .length;
 
-                (round.categories || []).forEach(
-                    category => {
+                    (round.categories || [])
+                        .forEach(
+                            category => {
 
-                        questionCount +=
-                            (category.questions || []).length;
-                    }
-                );
-            }
-        );
+                                questionCount +=
+                                    (
+                                        category.questions ||
+                                        []
+                                    ).length;
+
+                            }
+                        );
+                }
+            );
 
         packInfo.innerHTML = `
-            <strong>${escapeHtml(pack.name)}</strong>
-            <br><br>
-            Раундов: ${pack.rounds.length}
-            <br>
-            Тем: ${categoryCount}
-            <br>
-            Вопросов: ${questionCount}
-        `;
+        <strong>
+            ${escapeHtml(pack.name)}
+        </strong>
+
+        <br><br>
+
+        Раундов:
+        ${(pack.rounds || []).length}
+
+        <br>
+
+        Тем:
+        ${categoryCount}
+
+        <br>
+
+        Вопросов:
+        ${questionCount}
+    `;
     }
-
-
-    function startInitialPresentation(game) {
-
-        if (initialPresentationPlayed) {
-            return;
-        }
-
-        initialPresentationPlayed = true;
-        presentationRunning = true;
-
-        clearTimeout(presentationTimer);
-
-        const screen =
-            document.getElementById(
-                "presentationScreen"
-            );
-
-        const container =
-            document.getElementById(
-                "presentationCategories"
-            );
-
-        const title =
-            document.getElementById(
-                "presentationRound"
-            );
-
-        container.innerHTML = "";
-        container.className =
-            "initial-presentation";
-
-        title.textContent =
-            "ИГРА НАЧИНАЕТСЯ";
-
-        const categories = [];
-
-        (game.pack?.rounds || []).forEach(
-            round => {
-
-                (round.categories || []).forEach(
-                    category => {
-
-                        categories.push(
-                            category.name
-                        );
-                    }
-                );
-            }
-        );
-
-        categories.forEach(
-            name => {
-
-                const element =
-                    document.createElement("div");
-
-                element.className =
-                    "presentation-category";
-
-                element.textContent =
-                    name;
-
-                container.appendChild(
-                    element
-                );
-            }
-        );
-
-        screen.classList.remove("hidden");
-
-        document
-            .getElementById("gameScreen")
-            .classList.add("hidden");
-
-        hideQuestion();
-
-        presentationTimer =
-            setTimeout(
-                () => {
-                    startFirstRoundPresentation(game);
-                },
-                10000
-            );
-    }
-
-
-    function startFirstRoundPresentation(game) {
-
-        clearTimeout(presentationTimer);
-
-        const screen =
-            document.getElementById(
-                "presentationScreen"
-            );
-
-        const container =
-            document.getElementById(
-                "presentationCategories"
-            );
-
-        const title =
-            document.getElementById(
-                "presentationRound"
-            );
-
-        container.innerHTML = "";
-        container.className = "";
-
-        title.textContent =
-            "РАУНД 1";
-
-        screen.classList.remove("hidden");
-
-        document
-            .getElementById("gameScreen")
-            .classList.add("hidden");
-
-        const round =
-            game.pack?.rounds?.[0];
-
-        const categories =
-            round?.categories || [];
-
-        showRoundCategory(
-            categories,
-            0
-        );
-    }
-
-
-    function showRoundCategory(
-        categories,
-        index
-    ) {
-
-        const container =
-            document.getElementById(
-                "presentationCategories"
-            );
-
-        if (
-            index >= categories.length
-        ) {
-
-            finishPresentation();
-
-            return;
-        }
-
-        container.innerHTML = "";
-        container.className = "";
-
-        const element =
-            document.createElement("div");
-
-        element.className =
-            "presentation-category round-presentation";
-
-        element.textContent =
-            categories[index].name;
-
-        container.appendChild(
-            element
-        );
-
-        presentationTimer =
-            setTimeout(
-                () => {
-
-                    showRoundCategory(
-                        categories,
-                        index + 1
-                    );
-
-                },
-                2000
-            );
-    }
-
-
-    function finishPresentation() {
-
-        clearTimeout(presentationTimer);
-
-        presentationRunning = false;
-
-        document
-            .getElementById(
-                "presentationScreen"
-            )
-            .classList.add("hidden");
-
-        document
-            .getElementById(
-                "gameScreen"
-            )
-            .classList.remove("hidden");
-
-        loadGame();
-    }
-
 
     async function startGame() {
 
@@ -966,8 +1054,7 @@
             return;
         }
 
-        initialPresentationPlayed = false;
-        presentationRunning = false;
+        resetPresentation();
 
         try {
 
@@ -1001,7 +1088,6 @@
         }
     }
 
-
     async function loadGame() {
 
         try {
@@ -1018,48 +1104,62 @@
                 return;
             }
 
-            const game =
-                await response.json();
-
-            updateGame(game);
+            updateGame(
+                await response.json()
+            );
 
         } catch (e) {
 
-            console.error(e);
+            console.error(
+                "Failed to load game:",
+                e
+            );
         }
     }
-
 
     function updateGame(game) {
 
         currentGame = game;
 
         if (
-            !initialPresentationPlayed &&
-            game.pack &&
-            game.currentRound === 0 &&
-            game.state === "BOARD"
+            game.state ===
+            "PRESENTATION"
         ) {
 
-            startInitialPresentation(game);
+            hideQuestion();
 
-            return;
-        }
+            hideAnswerReveal();
 
-        if (presentationRunning) {
+            showPresentation(
+                game
+            );
+
             return;
         }
 
         if (
-            game.state === "PRESENTATION"
+            game.state ===
+            "ANSWER_REVEAL"
         ) {
+
+            hidePresentation();
+
+            hideQuestion();
+
+            showAnswerReveal(
+                game
+            );
+
             return;
         }
 
         hidePresentation();
 
+        hideAnswerReveal();
+
         if (
-            game.state === "LOBBY"
+            game.state ===
+            "LOBBY"
         ) {
 
             hideQuestion();
@@ -1070,7 +1170,8 @@
         }
 
         if (
-            game.state === "BOARD"
+            game.state ===
+            "BOARD"
         ) {
 
             hideQuestion();
@@ -1081,8 +1182,10 @@
         }
 
         if (
-            game.state === "QUESTION" ||
-            game.state === "ANSWERING"
+            game.state ===
+            "QUESTION" ||
+            game.state ===
+            "ANSWERING"
         ) {
 
             renderBoard(game);
@@ -1093,7 +1196,8 @@
         }
 
         if (
-            game.state === "FINISHED"
+            game.state ===
+            "FINISHED"
         ) {
 
             hideQuestion();
@@ -1102,22 +1206,459 @@
         }
     }
 
+    function showPresentation(game) {
+
+        const screen =
+            document.getElementById(
+                "presentationScreen"
+            );
+
+        const gameScreen =
+            document.getElementById(
+                "gameScreen"
+            );
+
+        screen.classList.remove(
+            "hidden"
+        );
+
+        gameScreen.classList.add(
+            "hidden"
+        );
+
+        if (
+            presentationStartedAt ===
+            game.presentationStartedAt &&
+            presentationMode ===
+            game.presentationType
+        ) {
+
+            return;
+        }
+
+        resetPresentation();
+
+        presentationMode =
+            game.presentationType;
+
+        presentationStartedAt =
+            game.presentationStartedAt;
+
+        if (
+            game.presentationType ===
+            "INITIAL"
+        ) {
+
+            startInitialPresentation(
+                game
+            );
+
+            return;
+        }
+
+        if (
+            game.presentationType ===
+            "ROUND"
+        ) {
+
+            startRoundPresentation(
+                game
+            );
+        }
+    }
+
+    function startInitialPresentation(game) {
+
+        const container =
+            document.getElementById(
+                "presentationCategories"
+            );
+
+        const title =
+            document.getElementById(
+                "presentationRound"
+            );
+
+        title.textContent =
+            "ИГРА НАЧИНАЕТСЯ";
+
+        container.innerHTML = "";
+
+        const categories = [];
+
+        (game.pack?.rounds || [])
+            .forEach(
+                round => {
+
+                    (round.categories || [])
+                        .forEach(
+                            category => {
+
+                                categories.push(
+                                    category.name
+                                );
+                            }
+                        );
+                }
+            );
+
+        categories.forEach(
+            name => {
+
+                const element =
+                    document.createElement(
+                        "div"
+                    );
+
+                element.className =
+                    "presentation-category";
+
+                element.textContent =
+                    name;
+
+                container.appendChild(
+                    element
+                );
+            }
+        );
+
+        const totalHeight =
+            container.scrollHeight;
+
+        const startY =
+            -totalHeight;
+
+        const endY =
+            window.innerHeight;
+
+        animateInitialPresentation(
+            game,
+            container,
+            startY,
+            endY
+        );
+    }
+
+    function animateInitialPresentation(
+        game,
+        container,
+        startY,
+        endY
+    ) {
+
+        cancelAnimationFrame(
+            presentationFrame
+        );
+
+        const now =
+            Date.now();
+
+        const elapsed =
+            Math.max(
+                0,
+                now -
+                game.presentationStartedAt
+            );
+
+        const duration =
+            game.presentationDuration ||
+            10000;
+
+        function frame() {
+
+            const currentTime =
+                Date.now();
+
+            const currentElapsed =
+                currentTime -
+                game.presentationStartedAt;
+
+            const progress =
+                Math.max(
+                    0,
+                    Math.min(
+                        1,
+                        currentElapsed /
+                        duration
+                    )
+                );
+
+            const y =
+                startY +
+                (endY - startY) *
+                progress;
+
+            container.style.transform =
+                `translate3d(0, ${y}px, 0)`;
+
+            if (
+                progress < 1 &&
+                currentGame &&
+                currentGame.state ===
+                "PRESENTATION"
+            ) {
+
+                presentationFrame =
+                    requestAnimationFrame(
+                        frame
+                    );
+            }
+        }
+
+        const initialProgress =
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    elapsed /
+                    duration
+                )
+            );
+
+        container.style.transform =
+            `translate3d(0, ${
+                startY +
+                (endY - startY) *
+                initialProgress
+            }px, 0)`;
+
+        presentationFrame =
+            requestAnimationFrame(
+                frame
+            );
+    }
+
+    function startRoundPresentation(game) {
+
+        const title =
+            document.getElementById(
+                "presentationRound"
+            );
+
+        const container =
+            document.getElementById(
+                "presentationCategories"
+            );
+
+        const round =
+            game.pack?.rounds?.[
+                game.currentRound
+                ];
+
+        if (!round) {
+            return;
+        }
+
+        const categories =
+            round.categories || [];
+
+        if (!categories.length) {
+            return;
+        }
+
+        title.textContent =
+            round.name ||
+            `РАУНД ${game.currentRound + 1}`;
+
+        container.innerHTML = "";
+
+        const elapsed =
+            Math.max(
+                0,
+                Date.now() -
+                game.presentationStartedAt
+            );
+
+        const index =
+            Math.min(
+                categories.length - 1,
+                Math.floor(
+                    elapsed / 2000
+                )
+            );
+
+        roundPresentationIndex =
+            index;
+
+        showRoundCategory(
+            container,
+            categories,
+            index
+        );
+
+        clearInterval(
+            roundPresentationTimer
+        );
+
+        roundPresentationTimer =
+            setInterval(
+                () => {
+
+                    if (
+                        !currentGame ||
+                        currentGame.state !==
+                        "PRESENTATION"
+                    ) {
+
+                        clearInterval(
+                            roundPresentationTimer
+                        );
+
+                        return;
+                    }
+
+                    const elapsedNow =
+                        Math.max(
+                            0,
+                            Date.now() -
+                            currentGame.presentationStartedAt
+                        );
+
+                    const newIndex =
+                        Math.floor(
+                            elapsedNow / 2000
+                        );
+
+                    if (
+                        newIndex !==
+                        roundPresentationIndex &&
+                        newIndex <
+                        categories.length
+                    ) {
+
+                        roundPresentationIndex =
+                            newIndex;
+
+                        showRoundCategory(
+                            container,
+                            categories,
+                            newIndex
+                        );
+                    }
+
+                },
+                50
+            );
+    }
+
+    function showRoundCategory(
+        container,
+        categories,
+        index
+    ) {
+
+        if (
+            index < 0 ||
+            index >= categories.length
+        ) {
+            return;
+        }
+
+        container.innerHTML = "";
+
+        container.style.transform =
+            "translate3d(0, 0, 0)";
+
+        const element =
+            document.createElement(
+                "div"
+            );
+
+        element.className =
+            "presentation-category round-category-animation";
+
+        element.textContent =
+            categories[index].name;
+
+        container.appendChild(
+            element
+        );
+    }
+
+    function resetPresentation() {
+
+        cancelAnimationFrame(
+            presentationFrame
+        );
+
+        presentationFrame =
+            null;
+
+        clearInterval(
+            roundPresentationTimer
+        );
+
+        roundPresentationTimer =
+            null;
+
+        presentationMode =
+            null;
+
+        presentationStartedAt =
+            0;
+
+        roundPresentationIndex =
+            -1;
+
+        const container =
+            document.getElementById(
+                "presentationCategories"
+            );
+
+        if (container) {
+
+            container.innerHTML = "";
+
+            container.style.transform =
+                "";
+        }
+    }
+
+    function hidePresentation() {
+
+        if (
+            currentGame &&
+            currentGame.state ===
+            "PRESENTATION"
+        ) {
+            return;
+        }
+
+        resetPresentation();
+
+        document
+            .getElementById(
+                "presentationScreen"
+            )
+            .classList.add("hidden");
+
+        document
+            .getElementById(
+                "gameScreen"
+            )
+            .classList.remove("hidden");
+    }
 
     function renderLobby(game) {
 
         document
-            .getElementById("turnInfo")
+            .getElementById(
+                "turnInfo"
+            )
             .textContent =
-            `Игроков подключено: ${(game.players || []).length}`;
+            `Игроков подключено: ${
+                (game.players || []).length
+            }`;
 
         renderPlayers(game);
     }
 
-
     function renderBoard(game) {
 
         const board =
-            document.getElementById("board");
+            document.getElementById(
+                "board"
+            );
 
         board.innerHTML = "";
 
@@ -1135,13 +1676,17 @@
             category => {
 
                 const column =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
                 column.className =
                     "category";
 
                 const title =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
                 title.className =
                     "category-name";
@@ -1149,53 +1694,68 @@
                 title.textContent =
                     category.name;
 
-                column.appendChild(title);
-
-                (category.questions || []).forEach(
-                    question => {
-
-                        const cell =
-                            document.createElement("div");
-
-                        cell.className =
-                            "question-cell";
-
-                        if (question.used) {
-
-                            cell.classList.add("used");
-
-                        } else {
-
-                            cell.textContent =
-                                question.price;
-
-                            cell.onclick =
-                                () => {
-
-                                    selectQuestion(
-                                        category.name,
-                                        question.price
-                                    );
-                                };
-                        }
-
-                        column.appendChild(cell);
-                    }
+                column.appendChild(
+                    title
                 );
 
-                board.appendChild(column);
+                (category.questions || [])
+                    .forEach(
+                        question => {
+
+                            const cell =
+                                document.createElement(
+                                    "div"
+                                );
+
+                            cell.className =
+                                "question-cell";
+
+                            if (
+                                question.used
+                            ) {
+
+                                cell.classList.add(
+                                    "used"
+                                );
+
+                            } else {
+
+                                cell.textContent =
+                                    question.price;
+
+                                cell.onclick =
+                                    () => {
+
+                                        selectQuestion(
+                                            category.name,
+                                            question.price
+                                        );
+                                    };
+                            }
+
+                            column.appendChild(
+                                cell
+                            );
+                        }
+                    );
+
+                board.appendChild(
+                    column
+                );
             }
         );
 
         renderTurn(game);
+
         renderPlayers(game);
     }
-
 
     function renderTurn(game) {
 
         const turnInfo =
-            document.getElementById("turnInfo");
+            document.getElementById(
+                "turnInfo"
+            );
 
         if (!game.turnPlayer) {
 
@@ -1209,33 +1769,39 @@
             `Ходит: ${game.turnPlayer.name}`;
     }
 
-
     function renderPlayers(game) {
 
         const players =
-            document.getElementById("players");
+            document.getElementById(
+                "players"
+            );
 
         players.innerHTML = "";
 
-        (game.players || []).forEach(
-            player => {
+        (game.players || [])
+            .forEach(
+                player => {
 
-                const card =
-                    document.createElement("div");
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
 
-                card.className =
-                    "player-card";
+                    card.className =
+                        "player-card";
 
-                if (
-                    game.turnPlayer &&
-                    game.turnPlayer.id ===
-                    player.id
-                ) {
+                    if (
+                        game.turnPlayer &&
+                        game.turnPlayer.id ===
+                        player.id
+                    ) {
 
-                    card.classList.add("active");
-                }
+                        card.classList.add(
+                            "active"
+                        );
+                    }
 
-                card.innerHTML = `
+                    card.innerHTML = `
                     <div class="player-name">
                         ${escapeHtml(player.name)}
                     </div>
@@ -1245,11 +1811,73 @@
                     </div>
                 `;
 
-                players.appendChild(card);
-            }
-        );
+                    players.appendChild(
+                        card
+                    );
+                }
+            );
     }
 
+    function resolveAssetUrl(content) {
+        if (
+            /^https?:\/\//i.test(
+                content
+            )
+        ) {
+            return content;
+        }
+
+        return `/api/pack/assets?path=${encodeURIComponent(content)}`;
+    }
+
+    function renderContent(container, content, imageClass) {
+        container.innerHTML = "";
+
+        if (!content) {
+            container.textContent = "—";
+            return;
+        }
+
+        if (typeof content === "string") {
+            container.textContent = content;
+            return;
+        }
+
+        const type =
+            content.type ||
+            "text";
+
+        const value =
+            content.content ??
+            content.text ??
+            content.value ??
+            "";
+
+        if (type === "image") {
+            const image =
+                document.createElement("img");
+
+            image.src =
+                resolveAssetUrl(value);
+
+            image.alt =
+                "Изображение";
+
+            image.className =
+                imageClass || "question-image";
+
+            image.onerror = () => {
+                container.innerHTML =
+                    "Не удалось загрузить изображение";
+            };
+
+            container.appendChild(image);
+            return;
+        }
+
+        container.textContent =
+            value;
+    }
 
     function showQuestion(game) {
 
@@ -1261,23 +1889,33 @@
         }
 
         document
-            .getElementById("questionScreen")
-            .style.display = "flex";
+            .getElementById(
+                "questionScreen"
+            )
+            .style.display =
+            "flex";
 
         document
-            .getElementById("questionPrice")
+            .getElementById(
+                "questionPrice"
+            )
             .textContent =
             question.price;
 
-        document
-            .getElementById("questionText")
-            .textContent =
-            question.text;
+        renderContent(
+            document.getElementById("questionContent"),
+            question.question || {
+                type: question.type || "text",
+                content: question.content ?? question.text ?? ""
+            },
+            "question-image"
+        );
 
-        document
-            .getElementById("answerText")
-            .textContent =
-            question.answer ?? "—";
+        renderContent(
+            document.getElementById("answerText"),
+            question.answer,
+            "answer-image"
+        );
 
         const status =
             document.getElementById(
@@ -1290,7 +1928,8 @@
             );
 
         if (
-            game.state === "QUESTION"
+            game.state ===
+            "QUESTION"
         ) {
 
             status.textContent =
@@ -1300,33 +1939,260 @@
                 "hidden"
             );
 
+            document
+                .getElementById(
+                    "answerTimerText"
+                )
+                .textContent = "";
+
+            stopAnswerTimer();
+
+            return;
+        }
+
+        startButton.classList.add(
+            "hidden"
+        );
+
+        if (
+            game.buzzedPlayer
+        ) {
+
+            status.textContent =
+                `${game.buzzedPlayer.name} отвечает`;
+
         } else {
 
-            startButton.classList.add(
-                "hidden"
+            status.textContent =
+                "Игроки могут нажимать кнопку";
+        }
+
+        if (
+            game.state ===
+            "ANSWERING"
+        ) {
+
+            startAnswerTimer(
+                game
             );
-
-            if (game.buzzedPlayer) {
-
-                status.textContent =
-                    `${game.buzzedPlayer.name} отвечает`;
-
-            } else {
-
-                status.textContent =
-                    "Игроки могут нажимать кнопку";
-            }
         }
     }
 
+    function startAnswerTimer(game) {
+
+        stopAnswerTimer();
+
+        updateAnswerTimer(
+            game
+        );
+
+        answerTimerInterval =
+            setInterval(
+                () => {
+
+                    if (
+                        !currentGame ||
+                        currentGame.state !==
+                        "ANSWERING"
+                    ) {
+
+                        stopAnswerTimer();
+
+                        return;
+                    }
+
+                    updateAnswerTimer(
+                        currentGame
+                    );
+
+                },
+                50
+            );
+    }
+
+    function updateAnswerTimer(game) {
+
+        let remaining = 0;
+
+        if (
+            game.answeringDeadline
+        ) {
+
+            remaining =
+                Math.max(
+                    0,
+                    game.answeringDeadline -
+                    Date.now()
+                );
+
+        } else {
+
+            remaining =
+                game.answeringTimeRemaining ||
+                0;
+        }
+
+        document
+            .getElementById(
+                "answerTimerText"
+            )
+            .textContent =
+            `Осталось: ${
+                (remaining / 1000)
+                    .toFixed(1)
+            } сек`;
+    }
+
+    function stopAnswerTimer() {
+
+        clearInterval(
+            answerTimerInterval
+        );
+
+        answerTimerInterval =
+            null;
+    }
 
     function hideQuestion() {
 
+        stopAnswerTimer();
+
         document
-            .getElementById("questionScreen")
-            .style.display = "none";
+            .getElementById(
+                "questionScreen"
+            )
+            .style.display =
+            "none";
     }
 
+    function showAnswerReveal(game) {
+
+        const question =
+            game.currentQuestion;
+
+        const container =
+            document.getElementById(
+                "answerRevealText"
+            );
+
+        container.innerHTML = "";
+
+        if (!question) {
+
+            container.textContent =
+                "Ответ отсутствует";
+
+            document
+                .getElementById(
+                    "answerRevealScreen"
+                )
+                .style.display =
+                "flex";
+
+            return;
+        }
+
+        let answer =
+            question.answer;
+
+        if (
+            answer == null &&
+            question.answerContent != null
+        ) {
+            answer =
+                question.answerContent;
+        }
+
+        if (
+            answer == null &&
+            question.answerText != null
+        ) {
+            answer =
+                question.answerText;
+        }
+
+        if (
+            typeof answer === "string"
+        ) {
+
+            container.textContent =
+                answer;
+
+        } else if (
+            answer &&
+            typeof answer === "object"
+        ) {
+
+            const type =
+                answer.type ||
+                "text";
+
+            const value =
+                answer.content ??
+                answer.text ??
+                answer.value ??
+                "";
+
+            if (
+                type === "image" &&
+                value
+            ) {
+
+                const image =
+                    document.createElement(
+                        "img"
+                    );
+
+                image.src =
+                    resolveAssetUrl(
+                        value
+                    );
+
+                image.alt =
+                    "Правильный ответ";
+
+                image.className =
+                    "answer-image";
+
+                image.onerror = () => {
+                    container.innerHTML =
+                        "Не удалось загрузить изображение";
+                };
+
+                container.appendChild(
+                    image
+                );
+
+            } else {
+
+                container.textContent =
+                    value || "Ответ отсутствует";
+            }
+
+        } else {
+
+            container.textContent =
+                "Ответ отсутствует";
+        }
+
+        document
+            .getElementById(
+                "answerRevealScreen"
+            )
+            .style.display =
+            "flex";
+    }
+
+
+    function hideAnswerReveal() {
+
+        document
+            .getElementById(
+                "answerRevealScreen"
+            )
+            .style.display =
+            "none";
+    }
 
     async function selectQuestion(
         category,
@@ -1335,66 +2201,96 @@
 
         try {
 
-            await fetch(
-                `/api/game/question/select?category=${encodeURIComponent(category)}&price=${price}`,
-                {
-                    method: "POST"
-                }
-            );
+            const response =
+                await fetch(
+                    `/api/game/question/select?category=${encodeURIComponent(category)}&price=${price}`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+            if (!response.ok) {
+
+                console.error(
+                    "Question selection failed:",
+                    await response.text()
+                );
+            }
 
         } catch (e) {
 
             console.error(e);
         }
     }
-
 
     async function startAnswering() {
 
         try {
 
-            await fetch(
-                "/api/game/answering",
-                {
-                    method: "POST"
-                }
-            );
+            const response =
+                await fetch(
+                    "/api/game/answering",
+                    {
+                        method: "POST"
+                    }
+                );
+
+            if (!response.ok) {
+
+                console.error(
+                    await response.text()
+                );
+            }
 
         } catch (e) {
 
             console.error(e);
         }
     }
-
 
     async function answerCorrect() {
 
         try {
 
-            await fetch(
-                "/api/game/answer/correct",
-                {
-                    method: "POST"
-                }
-            );
+            const response =
+                await fetch(
+                    "/api/game/answer/correct",
+                    {
+                        method: "POST"
+                    }
+                );
+
+            if (!response.ok) {
+
+                console.error(
+                    await response.text()
+                );
+            }
 
         } catch (e) {
 
             console.error(e);
         }
     }
-
 
     async function answerIncorrect() {
 
         try {
 
-            await fetch(
-                "/api/game/answer/incorrect",
-                {
-                    method: "POST"
-                }
-            );
+            const response =
+                await fetch(
+                    "/api/game/answer/incorrect",
+                    {
+                        method: "POST"
+                    }
+                );
+
+            if (!response.ok) {
+
+                console.error(
+                    await response.text()
+                );
+            }
 
         } catch (e) {
 
@@ -1402,37 +2298,35 @@
         }
     }
 
-
-    function hidePresentation() {
-
-        if (presentationRunning) {
-            return;
-        }
-
-        document
-            .getElementById(
-                "presentationScreen"
-            )
-            .classList.add("hidden");
-
-        document
-            .getElementById(
-                "gameScreen"
-            )
-            .classList.remove("hidden");
-    }
-
-
     function escapeHtml(value) {
 
         return String(value)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
-    }
 
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
+    }
 
     const socket =
         new StompJs.Client({
@@ -1467,7 +2361,9 @@
                                     message.body
                                 );
 
-                            if (event.game) {
+                            if (
+                                event.game
+                            ) {
 
                                 updateGame(
                                     event.game
@@ -1476,25 +2372,54 @@
 
                         } catch (e) {
 
-                            console.error(e);
+                            console.error(
+                                "Host WS message error:",
+                                e
+                            );
                         }
                     }
                 );
 
                 loadGame();
-            }
+            },
 
+            onDisconnect: () => {
+
+                console.log(
+                    "Host WebSocket disconnected"
+                );
+            },
+
+            onWebSocketClose: () => {
+
+                console.log(
+                    "Host WebSocket closed"
+                );
+            },
+
+            onWebSocketError: e => {
+
+                console.error(
+                    "Host WebSocket error:",
+                    e
+                );
+            },
+
+            onStompError: frame => {
+
+                console.error(
+                    "Host STOMP error:",
+                    frame
+                );
+            }
         });
 
-
     socket.activate();
-
 
     setInterval(
         loadGame,
         1000
     );
-
 
     restoreHost();
 

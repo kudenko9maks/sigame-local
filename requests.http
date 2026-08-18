@@ -32,3 +32,9 @@ POST http://localhost:8080/api/game/question/select?category=История&pric
 ### Game state
 GET http://localhost:8080/api/game
 
+### Force next round presentation
+POST http://localhost:8080/api/game/next-round
+
+### Check game after starting next round
+GET http://localhost:8080/api/game
+

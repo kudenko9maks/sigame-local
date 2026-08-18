@@ -2,8 +2,9 @@ package org.example.sigamelocal.game.model;
 
 public class Question {
 
-    private final String text;
-    private final String answer;
+    private final String type;
+    private final String content;
+    private final QuestionContent answer;
     private final int price;
 
     private boolean used;
@@ -13,17 +14,60 @@ public class Question {
             String answer,
             int price
     ) {
-        this.text = text;
+        this(
+                "text",
+                text,
+                new QuestionContent(
+                        "text",
+                        answer
+                ),
+                price
+        );
+    }
+
+    public Question(
+            String type,
+            String content,
+            String answer,
+            int price
+    ) {
+        this(
+                type,
+                content,
+                new QuestionContent(
+                        "text",
+                        answer
+                ),
+                price
+        );
+    }
+
+    public Question(
+            String type,
+            String content,
+            QuestionContent answer,
+            int price
+    ) {
+        this.type = type;
+        this.content = content;
         this.answer = answer;
         this.price = price;
         this.used = false;
     }
 
-    public String getText() {
-        return text;
+    public String getType() {
+        return type;
     }
 
-    public String getAnswer() {
+    public String getContent() {
+        return content;
+    }
+
+    public String getText() {
+        return content;
+    }
+
+    public QuestionContent getAnswer() {
         return answer;
     }
 
