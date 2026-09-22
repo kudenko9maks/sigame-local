@@ -23,27 +23,11 @@ public class Game {
 
     private int currentRound;
 
-    /*
-     * PRESENTATION
-     */
-
     private String presentationType;
 
     private long presentationStartedAt;
 
     private long presentationDuration;
-
-    /*
-     * ANSWERING TIMER
-     *
-     * answeringRemainingMillis — сколько времени осталось.
-     *
-     * answeringDeadline — абсолютное время окончания,
-     * когда таймер реально запущен.
-     *
-     * Если answeringDeadline == 0,
-     * таймер сейчас остановлен.
-     */
 
     private long answeringRemainingMillis;
 
@@ -151,14 +135,6 @@ public class Game {
         this.currentRound =
                 currentRound;
     }
-
-
-    /*
-     * =====================================================
-     * PRESENTATION
-     * =====================================================
-     */
-
     public String getPresentationType() {
         return presentationType;
     }
@@ -193,13 +169,6 @@ public class Game {
         this.presentationDuration =
                 presentationDuration;
     }
-
-
-    /*
-     * =====================================================
-     * ANSWERING TIMER
-     * =====================================================
-     */
 
     public long getAnsweringRemainingMillis() {
         return answeringRemainingMillis;

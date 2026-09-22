@@ -304,10 +304,6 @@
         }
 
 
-        /* =====================================================
-           ANSWER REVEAL
-           ===================================================== */
-
         #answerReveal {
 
             position: fixed;
@@ -470,11 +466,6 @@
     let lastState = null;
 
 
-    /*
-     * ============================================================
-     * PLAYER
-     * ============================================================
-     */
 
     function showPlayerScreen(player) {
 
@@ -517,11 +508,6 @@
     }
 
 
-    /*
-     * ============================================================
-     * JOIN
-     * ============================================================
-     */
 
     async function joinGame() {
 
@@ -605,12 +591,6 @@
     }
 
 
-    /*
-     * ============================================================
-     * RESTORE
-     * ============================================================
-     */
-
     async function restorePlayer() {
 
         const playerId =
@@ -668,12 +648,6 @@
     }
 
 
-    /*
-     * ============================================================
-     * STATE
-     * ============================================================
-     */
-
     function updatePlayerState(
         snapshot
     ) {
@@ -708,12 +682,6 @@
             );
 
 
-        /*
-         * =====================================================
-         * ANSWER REVEAL
-         * =====================================================
-         */
-
         if (
             snapshot.state ===
             "ANSWER_REVEAL"
@@ -738,11 +706,6 @@
         hideAnswerReveal();
 
 
-        /*
-         * =====================================================
-         * BOARD
-         * =====================================================
-         */
 
         if (
             snapshot.state ===
@@ -791,20 +754,13 @@
         }
 
 
-        /*
-         * =====================================================
-         * QUESTION
-         * =====================================================
-         */
 
         if (
             snapshot.state ===
             "QUESTION"
         ) {
 
-            /*
-             * Новый вопрос.
-             */
+
 
             if (
                 lastState !==
@@ -849,12 +805,6 @@
         }
 
 
-        /*
-         * =====================================================
-         * ANSWERING
-         * =====================================================
-         */
-
         if (
             snapshot.state ===
             "ANSWERING"
@@ -896,11 +846,6 @@
 
                 return;
             }
-
-
-            /*
-             * Кто-то отвечает.
-             */
 
             if (
                 snapshot.buzzedPlayer
@@ -944,10 +889,6 @@
             }
 
 
-            /*
-             * Никто не отвечает.
-             */
-
             status.textContent =
                 "ЖМИ!";
 
@@ -965,11 +906,6 @@
         }
 
 
-        /*
-         * =====================================================
-         * FINISHED
-         * =====================================================
-         */
 
         if (
             snapshot.state ===
@@ -996,14 +932,124 @@
     }
 
 
-    /*
-     * ============================================================
-     * ANSWER REVEAL
-     * ============================================================
-     */
-
     let answerRevealTimer =
         null;
+
+
+    function resolveAssetUrl(content) {
+
+        if (
+            typeof content !== "string"
+        ) {
+            return "";
+        }
+
+        if (
+            /^https?:\/\//i.test(content)
+        ) {
+            return content;
+        }
+
+        return `/api/pack/assets?path=${encodeURIComponent(content)}`;
+    }
+
+
+    function renderAnswerContent(
+        container,
+        content
+    ) {
+
+        container.innerHTML = "";
+
+        if (
+            content == null ||
+            content === ""
+        ) {
+
+            container.textContent = "—";
+            return;
+        }
+
+        /*
+         * Обычный текстовый ответ.
+         */
+        if (
+            typeof content === "string" ||
+            typeof content === "number" ||
+            typeof content === "boolean"
+        ) {
+
+            container.textContent =
+                String(content);
+
+            return;
+        }
+
+        if (
+            typeof content === "object"
+        ) {
+
+            const type =
+                content.type ||
+                "text";
+
+            const value =
+                content.content ??
+                content.text ??
+                content.value ??
+                "";
+
+            if (
+                type === "image" &&
+                value
+            ) {
+
+                const image =
+                    document.createElement("img");
+
+                image.src =
+                    resolveAssetUrl(value);
+
+                image.alt =
+                    "Правильный ответ";
+
+                image.style.maxWidth =
+                    "90vw";
+
+                image.style.maxHeight =
+                    "60vh";
+
+                image.style.objectFit =
+                    "contain";
+
+                image.onerror = () => {
+                    container.textContent =
+                        "Не удалось загрузить изображение";
+                };
+
+                container.appendChild(image);
+
+                return;
+            }
+
+            if (
+                value !== ""
+            ) {
+
+                /*
+                 * Важно: не используем textContent = object,
+                 * иначе браузер покажет [object Object].
+                 */
+                container.textContent =
+                    String(value);
+
+                return;
+            }
+        }
+
+        container.textContent =
+            "Ответ отсутствует";
+    }
 
 
     function showAnswerReveal(
@@ -1013,12 +1059,10 @@
         const question =
             snapshot.currentQuestion;
 
-
         const title =
             document.getElementById(
                 "answerRevealTitle"
             );
-
 
         const text =
             document.getElementById(
@@ -1041,11 +1085,19 @@
         }
 
 
-        text.textContent =
-            question &&
-            question.answer
-                ? question.answer
-                : "—";
+        const answer =
+            question
+                ? (
+                    question.answer ??
+                    question.answerContent ??
+                    question.answerText
+                )
+                : null;
+
+        renderAnswerContent(
+            text,
+            answer
+        );
 
 
         document
@@ -1068,7 +1120,6 @@
             );
     }
 
-
     function hideAnswerReveal() {
 
         clearTimeout(
@@ -1088,12 +1139,6 @@
             "none";
     }
 
-
-    /*
-     * ============================================================
-     * BUZZ
-     * ============================================================
-     */
 
     async function buzz() {
 
@@ -1153,13 +1198,6 @@
             );
         }
     }
-
-
-    /*
-     * ============================================================
-     * WEBSOCKET
-     * ============================================================
-     */
 
     const socket =
         new StompJs.Client({

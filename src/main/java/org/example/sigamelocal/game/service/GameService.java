@@ -855,11 +855,11 @@ public class GameService {
         );
 
         broadcastGameUpdate(
-                "ANSWER_REVEAL_STARTED"
+                "ANSWER_CORRECT"
         );
 
         broadcastPlayerUpdate(
-                "ANSWER_REVEAL_STARTED"
+                "ANSWER_CORRECT"
         );
 
         answerRevealFuture =
@@ -919,6 +919,20 @@ public class GameService {
                     "No player is answering"
             );
         }
+
+        Question question =
+                game.getCurrentQuestion();
+
+        if (question == null) {
+            throw new IllegalStateException(
+                    "No question is currently open"
+            );
+        }
+
+        player.setScore(
+                player.getScore()
+                        - question.getPrice()
+        );
 
         game.setBuzzedPlayer(
                 null
